@@ -50,6 +50,7 @@ android {
 }
 
 dependencies {
+    implementation("com.exyte:animated-navigation-bar:1.0.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

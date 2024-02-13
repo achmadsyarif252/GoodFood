@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
@@ -70,6 +71,9 @@ fun FoodApp(modifier: Modifier = Modifier) {
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
             TopBar()
+        },
+        bottomBar = {
+            BottomNavigation()
         }
     ) { innerPadding ->
         Body(
