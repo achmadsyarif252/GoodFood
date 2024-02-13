@@ -5,7 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -26,24 +29,28 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+// Membuat sebuah CompositionLocalOf<NavController>
+val LocalNavController = compositionLocalOf<NavController> { error("No NavController found") }
 @Composable
 fun MyApp(modifier: Modifier = Modifier) {
     // Membuat sebuah NavController
     val navController = rememberNavController()
     // Membuat sebuah NavHost dengan NavController dan startDestination
-    NavHost(navController = navController, startDestination = "home") {
-        // Menambahkan rute dan layar yang bisa dinavigasi ke dalam NavHost
 
-        // Menambahkan rute dan layar home
-        composable("home") {
-            HomeScreen(navController)
-        }
-        // Menambahkan rute dan layar detail
-        composable("detail") {
-            DetailScreen(navController, listFood[0])
+    CompositionLocalProvider(LocalNavController provides navController) {
+        NavHost(navController = navController, startDestination = "home") {
+            // Menambahkan rute dan layar yang bisa dinavigasi ke dalam NavHost
+            // Menambahkan rute dan layar home
+            composable("home") {
+                HomeScreen()
+            }
+            // Menambahkan rute dan layar detail
+            composable("detail") {
+                DetailScreen(navController, listFood[0])
+            }
         }
     }
+
 }
 
 

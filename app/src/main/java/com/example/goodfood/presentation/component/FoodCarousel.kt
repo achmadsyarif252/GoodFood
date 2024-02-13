@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Food
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,8 +33,9 @@ fun CardFoodCarousel(
     modifier: Modifier = Modifier,
     food: Food,
     cardColor: Color,
-    navController: NavController
 ) {
+    val navController = LocalNavController.current
+
     Card(
         onClick = {
             navController.navigate("detail")

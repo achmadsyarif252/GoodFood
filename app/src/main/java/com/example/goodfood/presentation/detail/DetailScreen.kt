@@ -88,6 +88,7 @@ fun DetailScreen(navController: NavController, food: Food) {
             })
         }
     ) {
+        val padding = it
         Column(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
