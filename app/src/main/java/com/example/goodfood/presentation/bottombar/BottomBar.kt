@@ -13,6 +13,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.BottomBarItem
 import com.exyte.animatednavbar.AnimatedNavigationBar
@@ -20,6 +21,7 @@ import com.exyte.animatednavbar.AnimatedNavigationBar
 
 @Composable
 fun BottomNavigation(modifier: Modifier = Modifier) {
+    val navController = LocalNavController.current
 
     NavigationBar {
         val bottomNavigation = listOf(
@@ -36,7 +38,7 @@ fun BottomNavigation(modifier: Modifier = Modifier) {
                 icon = Icons.Default.Home
             ), BottomBarItem(
                 title = stringResource(id = R.string.profile),
-                icon = Icons.Default.ShoppingCart
+                icon = Icons.Default.ShoppingCart,
             ),
             BottomBarItem(
                 title = stringResource(id = R.string.person),
@@ -46,8 +48,14 @@ fun BottomNavigation(modifier: Modifier = Modifier) {
 
         bottomNavigation.map {
             NavigationBarItem(
-                selected = it.title == bottomNavigation[0].title,
-                onClick = { },
+                selected = it.title == bottomNavigation[2].title,
+                onClick = {
+                    when (it) {
+                        bottomNavigation[3] -> {
+                            navController.navigate("cart")
+                        }
+                    }
+                },
                 icon = {
                     Icon(imageVector = it.icon, contentDescription = it.title)
                 },

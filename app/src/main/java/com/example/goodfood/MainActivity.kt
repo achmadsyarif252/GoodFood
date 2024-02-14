@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.home.HomeScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -52,6 +53,9 @@ fun MyApp(modifier: Modifier = Modifier) {
                 it.arguments?.getString("index")?.let { index ->
                     DetailScreen(navController, foodIndex = index)
                 }
+            }
+            composable("cart") {
+                CartScreen()
             }
         }
 

@@ -52,6 +52,7 @@ import androidx.navigation.NavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.component.AddMinQty
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,41 +119,9 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(text = food.name, fontSize = 42.sp, fontWeight = FontWeight.Bold)
-                Row(
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Card(
-                        onClick = {
-                            counter++
-                        },
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.Black,
-                            contentColor = Color.White
-                        ),
-                        shape = RoundedCornerShape(8.dp), modifier = Modifier.size(25.dp)
-                    ) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = null)
-                    }
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "$counter")
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Card(
-                        onClick = {
-                            if (counter > 0) counter--
-                        },
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.Black,
-                            contentColor = Color.White
-                        ),
-                        shape = RoundedCornerShape(8.dp), modifier = Modifier.size(25.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    }
-                }
+                AddMinQty(counter = counter, onAddCounter = { counter++ }, onMinCounter = {
+                    if (counter > 0) counter--
+                })
 
             }
             Spacer(modifier = Modifier.height(22.dp))
