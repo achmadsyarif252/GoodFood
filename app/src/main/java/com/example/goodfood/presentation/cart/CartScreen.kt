@@ -170,7 +170,7 @@ fun CartScreen(modifier: Modifier = Modifier) {
             OutlinedButton(
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,
-                    containerColor = Color.Blue
+                    containerColor = Gold
                 ),
                 modifier = Modifier
                     .padding(horizontal = 52.dp)

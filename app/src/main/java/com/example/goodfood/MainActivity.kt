@@ -16,6 +16,7 @@ import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
+import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
@@ -56,6 +57,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable("cart") {
                 CartScreen()
+            }
+            composable("favorite") {
+                FavoriteScreen()
             }
         }
 
