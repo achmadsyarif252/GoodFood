@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.home.HomeScreen
@@ -29,8 +30,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 // Membuat sebuah CompositionLocalOf<NavController>
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found") }
+
 @Composable
 fun MyApp(modifier: Modifier = Modifier) {
     // Membuat sebuah NavController
@@ -45,12 +48,14 @@ fun MyApp(modifier: Modifier = Modifier) {
                 HomeScreen()
             }
             // Menambahkan rute dan layar detail
-            composable("detail") {
-                DetailScreen(navController, listFood[0])
+            composable("detail/{index}") {
+                it.arguments?.getString("index")?.let { index ->
+                    DetailScreen(navController, foodIndex = index)
+                }
             }
         }
-    }
 
+    }
 }
 
 

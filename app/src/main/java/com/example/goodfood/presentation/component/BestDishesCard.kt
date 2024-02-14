@@ -2,6 +2,7 @@ package com.example.goodfood.presentation.component
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,12 +27,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.home.FoodDescription
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardBestDishes(modifier: Modifier = Modifier, food: Food) {
+fun CardBestDishes(modifier: Modifier = Modifier, foodIndex: Int) {
+    val navController = LocalNavController.current
+    val food = listFood[foodIndex.toInt()]
+
     val ctx = LocalContext.current
     Column {
         Box(contentAlignment = Alignment.BottomEnd) {
@@ -39,7 +45,10 @@ fun CardBestDishes(modifier: Modifier = Modifier, food: Food) {
                 modifier = Modifier
                     .padding(bottom = 16.dp, end = 16.dp)
                     .width(160.dp)
-                    .height(160.dp),
+                    .height(160.dp)
+                    .clickable {
+                        navController.navigate("detail/${foodIndex}")
+                    },
                 shape = RoundedCornerShape(24.dp),
                 elevation = CardDefaults.cardElevation(
                     8.dp

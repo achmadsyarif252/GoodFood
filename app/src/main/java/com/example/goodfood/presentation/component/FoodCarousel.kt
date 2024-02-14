@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.component
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,19 +27,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.listFood
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardFoodCarousel(
     modifier: Modifier = Modifier,
-    food: Food,
+    foodIndex: Int,
     cardColor: Color,
 ) {
     val navController = LocalNavController.current
-
+    val food = listFood[foodIndex]
     Card(
         onClick = {
-            navController.navigate("detail")
+            navController.navigate("detail/${foodIndex}")
+            Log.d("COBLOS", "$foodIndex")
         },
         modifier = modifier
             .width(170.dp)

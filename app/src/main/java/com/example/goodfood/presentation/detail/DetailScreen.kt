@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.detail
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -50,10 +51,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.listFood
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, food: Food) {
+fun DetailScreen(navController: NavController, foodIndex: String) {
+    Log.d("GANJAR GAN", foodIndex)
+    val food = listFood[foodIndex.toInt()]
+    Log.d("Food Index", foodIndex)
     var isExpanded by remember {
         mutableStateOf(false)
     }

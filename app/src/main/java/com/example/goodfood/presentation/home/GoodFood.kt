@@ -1,6 +1,7 @@
 package com.example.goodfood.presentation.home
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,9 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.bottombar.BottomNavigation
@@ -81,8 +80,9 @@ fun FoodCarouselSection(modifier: Modifier = Modifier) {
     LazyRow(
     ) {
         items(listFood.size) {
+            Log.d("Food Index", "${listFood.indexOf(listFood[it])}")
             CardFoodCarousel(
-                food = listFood[it],
+                foodIndex = listFood.indexOf(listFood[it]),
                 cardColor = CardFood,
             )
         }
@@ -99,7 +99,7 @@ fun BestDishes(modifier: Modifier = Modifier) {
             columns = GridCells.Fixed(2)
         ) {
             items(listFood.size) {
-                CardBestDishes(food = listFood[it])
+                CardBestDishes(foodIndex = listFood.indexOf(listFood[it]))
             }
         }
     }
