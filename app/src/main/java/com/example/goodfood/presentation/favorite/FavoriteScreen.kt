@@ -50,6 +50,7 @@ import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -63,24 +64,7 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = { controller.popBackStack() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                },
-                title = {
-                    Box(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "Favorite",
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 20.sp,
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .offset((-8).dp)
-                        )
-                    }
-                })
+            TopBar(text = "Favorite")
         }
     ) {
         val padding = it

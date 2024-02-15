@@ -175,7 +175,9 @@ fun CartScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .padding(horizontal = 52.dp)
                     .fillMaxWidth(),
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    navController.navigate("payment")
+                }) {
                 Text(text = "Payment")
             }
 

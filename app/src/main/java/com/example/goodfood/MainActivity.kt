@@ -18,6 +18,7 @@ import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
+import com.example.goodfood.presentation.payment.PaymentScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 
@@ -60,6 +61,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable("favorite") {
                 FavoriteScreen()
+            }
+            composable("payment") {
+                PaymentScreen()
             }
 
         }
