@@ -19,6 +19,7 @@ import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
 import com.example.goodfood.presentation.payment.PaymentScreen
+import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 
@@ -64,6 +65,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable("payment") {
                 PaymentScreen()
+            }
+            composable("review"){
+                ReviewScreen()
             }
 
         }

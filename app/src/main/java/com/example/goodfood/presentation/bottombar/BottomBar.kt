@@ -55,11 +55,16 @@ fun BottomNavigation(modifier: Modifier = Modifier) {
                 selected = it.title == bottomNavigation[2].title,
                 onClick = {
                     when (it) {
+                        bottomNavigation[1] -> {
+                            navController.navigate("favorite")
+                        }
+
                         bottomNavigation[3] -> {
                             navController.navigate("cart")
                         }
-                        bottomNavigation[1]->{
-                            navController.navigate("favorite")
+
+                        bottomNavigation[4] -> {
+                            navController.navigate("review")
                         }
                     }
                 },
