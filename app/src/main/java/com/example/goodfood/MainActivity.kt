@@ -61,8 +61,8 @@ fun MyApp(modifier: Modifier = Modifier) {
             composable("favorite") {
                 FavoriteScreen()
             }
-        }
 
+        }
     }
 }
 
