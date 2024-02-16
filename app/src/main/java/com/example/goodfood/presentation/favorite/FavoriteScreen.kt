@@ -1,11 +1,9 @@
 package com.example.goodfood.presentation.favorite
 
-import android.provider.CalendarContract.Colors
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.ButtonDefaults
@@ -27,11 +24,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -53,7 +48,6 @@ import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.domain.model.listPaymentMethod
 import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.presentation.payment.CardPaymentMethod
-import com.example.goodfood.presentation.payment.PaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -64,7 +58,6 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
     var isFoodSelected by remember {
         mutableStateOf(true)
     }
-
     Scaffold(
         topBar = {
             TopBar(text = "Favorite")
@@ -77,62 +70,73 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
                 .padding(horizontal = 24.dp, vertical = 8.dp)
         ) {
             Row {
-                OutlinedButton(
-                    border = BorderStroke(
-                        1.dp, brush = Brush.linearGradient(
-                            colors = listOf(
-                                Gold,
-                                Gold,
-                            )
-                        )
-                    ),
+                ButtonHeader(
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isFoodSelected) Gold else Color.White,
-                        contentColor = if (isFoodSelected) Color.White else Gold,
-                    ),
-                    onClick = { isFoodSelected = true }, shape = RoundedCornerShape(24.dp)
-                ) {
-                    Text(text = "Food")
-                }
+                    onClick = { isFoodSelected = true },
+                    title = "Food",
+                    containerColor = if (isFoodSelected) Gold else Color.White,
+                    contentColor = if (isFoodSelected) Color.White else Gold
+                )
                 Spacer(modifier = Modifier.width(10.dp))
-                OutlinedButton(
-                    border = BorderStroke(
-                        1.dp, brush = Brush.linearGradient(
-                            colors = listOf(
-                                Gold,
-                                Gold
-                            )
-                        )
-                    ),
+                ButtonHeader(
                     modifier = Modifier.weight(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (isFoodSelected) Color.White else Gold,
-                        contentColor = if (isFoodSelected) Gold else Color.White,
-                    ),
-                    onClick = { isFoodSelected = false }, shape = RoundedCornerShape(24.dp)
-                ) {
-                    Text(text = "Restaurant")
-                }
+                    onClick = { isFoodSelected = false },
+                    title = "Restaurant",
+                    containerColor = if (isFoodSelected) Color.White else Gold,
+                    contentColor = if (isFoodSelected) Gold else Color.White
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                if (isFoodSelected)
-                    items(listFood.size) {
-                        CardFavorite(food = listFood[it])
-                    }
-                else
-                    items(listPaymentMethod.size) {
-                        CardPaymentMethod(
-                            listPaymentMethod[it],
-                            listPaymentMethod[0],
-                            onOptionSelected = { paymentMethod ->
-
-                            })
-                    }
-            }
+            FavoriteScreenContent(isFoodSelected = isFoodSelected)
 
         }
+    }
+}
+
+@Composable
+fun FavoriteScreenContent(modifier: Modifier = Modifier, isFoodSelected: Boolean) {
+    LazyColumn {
+        if (isFoodSelected)
+            items(listFood.size) {
+                CardFavorite(food = listFood[it])
+            }
+        else
+            items(listPaymentMethod.size) {
+                CardPaymentMethod(
+                    listPaymentMethod[it],
+                    listPaymentMethod[0],
+                    onOptionSelected = { paymentMethod ->
+
+                    })
+            }
+    }
+}
+
+@Composable
+fun ButtonHeader(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    title: String,
+    containerColor: Color,
+    contentColor: Color
+) {
+    OutlinedButton(
+        border = BorderStroke(
+            1.dp, brush = Brush.linearGradient(
+                colors = listOf(
+                    Gold,
+                    Gold,
+                )
+            )
+        ),
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = containerColor,
+            contentColor = contentColor,
+        ),
+        onClick = { onClick() }, shape = RoundedCornerShape(24.dp)
+    ) {
+        Text(text = title)
     }
 }
 

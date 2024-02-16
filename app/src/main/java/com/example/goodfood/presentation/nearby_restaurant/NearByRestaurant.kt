@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.domain.model.restaurants
 import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -54,87 +55,97 @@ fun NearbyRestaurant(modifier: Modifier = Modifier) {
         ) {
             items(restaurants.size) { restaurantItem ->
                 val restaurant = restaurants[restaurantItem]
-                Card(
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White,
-                    ),
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .wrapContentWidth()
-                        .wrapContentHeight(),
-                    elevation = CardDefaults.cardElevation(
-                        defaultElevation = 8.dp
-                    )
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.SpaceBetween,
-                        horizontalAlignment = Alignment.Start,
-                    ) {
-                        Image(
-                            painter = painterResource(id = restaurant.photo),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .clip(
-                                    shape = RoundedCornerShape(8.dp)
-                                ),
-                        )
-                        Box(modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()) {
-                            Column {
-                                Text(
-                                    text = restaurant.name,
-                                    fontSize = 16.sp,
-                                    modifier = Modifier
-                                        .padding(horizontal = 8.dp)
-                                        .padding(top = 8.dp),
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                                Row(
-                                    modifier.padding(bottom = 8.dp)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.LocationOn,
-                                        contentDescription = null,
-                                        tint = Color.Red
-                                    )
-                                    Text(
-                                        text = restaurant.location,
-                                        fontSize = 14.sp,
-                                        modifier = Modifier
-                                            .padding(horizontal = 8.dp)
-                                            .padding(top = 4.dp),
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                }
-                            }
-                            Row(
-                                modifier = Modifier
-                                    .padding(horizontal = 8.dp)
-                                    .padding(top = 4.dp)
-                                    .align(Alignment.TopEnd)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Star,
-                                    contentDescription = null,
-                                    tint = Color.Yellow
-                                )
-                                Text(
-                                    text = restaurant.rating,
-                                    fontSize = 13.sp,
-                                    overflow = TextOverflow.Ellipsis
-                                )
-                            }
-                        }
-
-
-                    }
-                }
+                CardRestaurant(restaurant, modifier)
             }
         }
 
+    }
+}
+
+@Composable
+private fun CardRestaurant(
+    restaurant: Restaurant,
+    modifier: Modifier
+) {
+    Card(
+        shape = RoundedCornerShape(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White,
+        ),
+        modifier = Modifier
+            .padding(8.dp)
+            .wrapContentWidth()
+            .wrapContentHeight(),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        )
+    ) {
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Image(
+                painter = painterResource(id = restaurant.photo),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(
+                        shape = RoundedCornerShape(8.dp)
+                    ),
+            )
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    Text(
+                        text = restaurant.name,
+                        fontSize = 16.sp,
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .padding(top = 8.dp),
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Row(
+                        modifier.padding(bottom = 8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = null,
+                            tint = Color.Red
+                        )
+                        Text(
+                            text = restaurant.location,
+                            fontSize = 14.sp,
+                            modifier = Modifier
+                                .padding(horizontal = 8.dp)
+                                .padding(top = 4.dp),
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                }
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .padding(top = 4.dp)
+                        .align(Alignment.TopEnd)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Star,
+                        contentDescription = null,
+                        tint = Color.Yellow
+                    )
+                    Text(
+                        text = restaurant.rating,
+                        fontSize = 13.sp,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+
+
+        }
     }
 }
 

@@ -108,28 +108,10 @@ fun DetailPayment(modifier: Modifier = Modifier) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Food Price", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(text = "$ 9.70", fontWeight = FontWeight.ExtraLight, fontSize = 28.sp)
-        }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Delivery Fee", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(text = "$ 1.20", fontWeight = FontWeight.ExtraLight, fontSize = 28.sp)
-        }
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Total Fee", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(text = "$ 10.90", fontWeight = FontWeight.ExtraLight, fontSize = 28.sp)
-        }
+        TextDetail("Food Price", "$ 7.89")
+        TextDetail("Total Fee", "$ 1.20")
+        TextDetail("Food Price", "$ 7.89")
+        TextDetail("Total Fee", "$ 10.90")
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(
             shape = RoundedCornerShape(24.dp),
@@ -143,6 +125,18 @@ fun DetailPayment(modifier: Modifier = Modifier) {
             onClick = { /*TODO*/ }) {
             Text(text = "Confirm payment")
         }
+    }
+}
+
+@Composable
+private fun TextDetail(infoType: String, totalPrice: String) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = infoType, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(text = totalPrice, fontWeight = FontWeight.ExtraLight, fontSize = 28.sp)
     }
 }
 
@@ -161,7 +155,7 @@ fun CardPaymentMethod(
         ),
         modifier = Modifier.padding(vertical = 8.dp),
 
-        onClick = { /*TODO*/ },
+        onClick = { onOptionSelected(paymentOption) },
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
