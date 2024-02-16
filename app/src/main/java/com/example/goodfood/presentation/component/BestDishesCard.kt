@@ -28,7 +28,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.home.FoodDescription
 
@@ -76,9 +78,14 @@ fun CardBestDishes(modifier: Modifier = Modifier, foodIndex: Int) {
                     contentColor = Color.White
                 ),
                 onClick = {
-                    Toast
-                        .makeText(ctx, "Added", Toast.LENGTH_SHORT)
-                        .show()
+                    val transactionList = SimpleDataDummy.transactionList
+                    val sameFood = transactionList.find { it.food == food }
+                    if (sameFood != null) {
+                        transactionList.find { it.food == food }!!.total += 1
+                    } else {
+                        transactionList.add(Transaction(id = 0, food = food, total = 1))
+                    }
+                    Toast.makeText(ctx, "Added To Cart", Toast.LENGTH_SHORT).show()
                 },
                 shape = CircleShape, modifier = Modifier
                     .align(

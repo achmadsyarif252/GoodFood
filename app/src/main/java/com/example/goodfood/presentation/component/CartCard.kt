@@ -25,16 +25,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.Gold
 
 @Composable
-fun CartCard(modifier: Modifier = Modifier, food: Food) {
+fun CartCard(
+    modifier: Modifier = Modifier,
+    food: Food,
+    total: Int,
+    onAddQty: (total: Double) -> Unit,
+    onMinQty: (total: Double) -> Unit,
+) {
     var qty by remember {
-        mutableIntStateOf(0)
+        mutableIntStateOf(total)
     }
+    val transactionList = SimpleDataDummy.transactionList
+    val sameFood = transactionList.find { it.food == food }
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp,
@@ -69,8 +79,18 @@ fun CartCard(modifier: Modifier = Modifier, food: Food) {
                 Text(text = food.name, fontSize = 25.sp)
                 Text(text = food.type, fontSize = 18.sp)
                 Text(text = "Price : $ ${food.price}", fontWeight = FontWeight.Bold)
-                AddMinQty(counter = qty, onAddCounter = { qty++ }, onMinCounter = {
-                    if (qty > 0) qty--
+                AddMinQty(counter = qty, onAddCounter = {
+                    if (sameFood != null) {
+                        transactionList.find { it.food == food }!!.total += 1
+                        onAddQty(transactionList.sumOf { it.food.price * it.total })
+                        qty++
+                    }
+                }, onMinCounter = {
+                    if (qty > 0 && sameFood != null) {
+                        transactionList.find { it.food == food }!!.total -= 1
+                        onMinQty(transactionList.sumOf { it.food.price * it.total })
+                        qty--
+                    }
                 })
             }
         }
