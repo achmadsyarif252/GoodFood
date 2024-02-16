@@ -69,7 +69,7 @@ fun TopBar() {
                 IconButton(
                     onClick = { /*TODO*/ }) {
                     Image(
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(22.dp),
                         painter = painterResource(id = R.drawable.settings),
                         contentDescription = null
                     )

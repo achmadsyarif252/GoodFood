@@ -32,6 +32,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -79,15 +83,24 @@ fun PaymentMethod(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Payment", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(32.dp))
+        var selectedOption by remember {
+            mutableStateOf(listPaymentMethod[0])
+        }
         LazyColumn {
             items(listPaymentMethod.size) {
-                CardPaymentMethod(listPaymentMethod[it])
+                CardPaymentMethod(
+                    listPaymentMethod[it],
+                    selectedOption,
+                    onOptionSelected = { paymentMethod ->
+                        selectedOption = paymentMethod
+                    })
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
-        DetailPayment()
     }
+    Spacer(modifier = Modifier.height(32.dp))
+    DetailPayment()
 }
+
 
 @Composable
 fun DetailPayment(modifier: Modifier = Modifier) {
@@ -134,7 +147,11 @@ fun DetailPayment(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun CardPaymentMethod(paymentMethod: PaymentMethod) {
+private fun CardPaymentMethod(
+    paymentOption: PaymentMethod, // Menambahkan parameter opsi pembayaran
+    selectedOption: PaymentMethod, // Menambahkan parameter opsi yang dipilih
+    onOptionSelected: (PaymentMethod) -> Unit // Menambahkan parameter fungsi untuk memperbarui opsi yang dipilih
+) {
     OutlinedButton(
         contentPadding = PaddingValues(6.dp),
         shape = RoundedCornerShape(8.dp),
@@ -152,20 +169,26 @@ private fun CardPaymentMethod(paymentMethod: PaymentMethod) {
             modifier = Modifier.fillMaxWidth()
         ) {
             RadioButton(
-                selected = true, onClick = { /*TODO*/ }, colors = RadioButtonDefaults.colors(
+                // Mengatur parameter selected sesuai dengan opsi yang dipilih
+                selected = paymentOption == selectedOption,
+                // Mengatur parameter onClick untuk memanggil fungsi onOptionSelected
+                onClick = {
+                    onOptionSelected(paymentOption)
+                },
+                colors = RadioButtonDefaults.colors(
                     selectedColor = Gold,
-                    unselectedColor = Color.White,
+                    unselectedColor = Color.LightGray,
                 )
             )
             Text(
-                text = paymentMethod.name,
+                text = paymentOption.name,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                painter = painterResource(id = paymentMethod.image),
+                painter = painterResource(id = paymentOption.image),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(end = 8.dp)
