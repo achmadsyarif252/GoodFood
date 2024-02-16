@@ -50,7 +50,10 @@ import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.domain.model.listPaymentMethod
 import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.payment.CardPaymentMethod
+import com.example.goodfood.presentation.payment.PaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -114,10 +117,21 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
-                items(listFood.size) {
-                    CardFavorite(food = listFood[it])
-                }
+                if (isFoodSelected)
+                    items(listFood.size) {
+                        CardFavorite(food = listFood[it])
+                    }
+                else
+                    items(listPaymentMethod.size) {
+                        CardPaymentMethod(
+                            listPaymentMethod[it],
+                            listPaymentMethod[0],
+                            onOptionSelected = { paymentMethod ->
+
+                            })
+                    }
             }
+
         }
     }
 }

@@ -147,7 +147,7 @@ fun DetailPayment(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun CardPaymentMethod(
+fun CardPaymentMethod(
     paymentOption: PaymentMethod, // Menambahkan parameter opsi pembayaran
     selectedOption: PaymentMethod, // Menambahkan parameter opsi yang dipilih
     onOptionSelected: (PaymentMethod) -> Unit // Menambahkan parameter fungsi untuk memperbarui opsi yang dipilih

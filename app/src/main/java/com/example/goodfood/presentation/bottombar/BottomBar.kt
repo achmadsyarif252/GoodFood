@@ -21,6 +21,10 @@ fun BottomNavigation(modifier: Modifier = Modifier) {
                 selected = it.title == bottomNavigation[2].title,
                 onClick = {
                     when (it) {
+                        bottomNavigation[0] -> {
+                            navController.navigate("nearbyResto")
+                        }
+
                         bottomNavigation[1] -> {
                             navController.navigate("favorite")
                         }

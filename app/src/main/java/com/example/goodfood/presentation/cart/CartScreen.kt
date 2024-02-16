@@ -33,23 +33,17 @@ import androidx.compose.ui.unit.dp
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.component.CartCard
+import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.Gold
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CartScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavController.current
     Scaffold(
         containerColor = CardFood,
         topBar = {
-            TopAppBar(title = { Text(text = "My Cart") }, navigationIcon = {
-                IconButton(onClick = {
-                    navController.popBackStack()
-                }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                }
-            })
+            TopBar(text = "My Cart")
         }
     ) {
         val padding = it
