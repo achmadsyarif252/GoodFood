@@ -61,6 +61,8 @@ import com.example.goodfood.presentation.component.RatingDialog
 @Composable
 fun DetailScreen(navController: NavController, foodIndex: String) {
     val food = listFood[foodIndex.toInt()]
+    var isFavoriteFood = SimpleDataDummy.listFavoriteFood.contains(food)
+
     var isExpanded by remember {
         mutableStateOf(false)
     }
@@ -83,7 +85,7 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
         }
     ) {
         val padding = it
-        Body(food, counter, isExpanded) {
+        Body(food, counter, isExpanded, isFavFood = isFavoriteFood) {
             counter = it
         }
         Box {
@@ -111,6 +113,7 @@ private fun Body(
     food: Food,
     counter: Int,
     isExpanded: Boolean,
+    isFavFood: Boolean,
     updateCounter: (Int) -> Unit,
 ) {
     var counter1 by remember {
@@ -170,15 +173,15 @@ private fun Body(
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(16.dp))
-        InfoDetail(food)
+        InfoDetail(food, isFav = isFavFood)
 
     }
 }
 
 @Composable
-private fun InfoDetail(food: Food) {
+private fun InfoDetail(food: Food, isFav: Boolean) {
     var isFavorite by remember {
-        mutableStateOf(false)
+        mutableStateOf(isFav)
     }
     Row {
         Text(text = "Delivery Time", fontSize = 18.sp)
@@ -199,7 +202,14 @@ private fun InfoDetail(food: Food) {
         }
         IconButton(
             modifier = Modifier.offset(y = (-8).dp, x = (-8).dp),
-            onClick = { isFavorite = !isFavorite }) {
+            onClick = {
+                isFavorite = !isFavorite
+                if (isFavorite) {
+                    SimpleDataDummy.listFavoriteFood.add(food)
+                } else {
+                    SimpleDataDummy.listFavoriteFood.remove(food)
+                }
+            }) {
             Icon(
                 modifier = Modifier.size(40.dp),
                 tint = Color.Red,

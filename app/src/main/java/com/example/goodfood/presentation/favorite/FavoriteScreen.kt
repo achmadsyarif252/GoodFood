@@ -104,8 +104,8 @@ fun FavoriteScreenContent(modifier: Modifier = Modifier, isFoodSelected: Boolean
     val listFavResto = SimpleDataDummy.listFavoriteResto
     if (isFoodSelected && listFavFood.isNotEmpty())
         LazyColumn {
-            items(listFood.size) {
-                CardFavorite(food = listFood[it])
+            items(listFavFood.size) {
+                CardFavorite(food = listFavFood[it])
             }
         }
 
@@ -125,7 +125,7 @@ fun FavoriteScreenContent(modifier: Modifier = Modifier, isFoodSelected: Boolean
         }
     }
 
-    if (!isFoodSelected && listFavFood.isEmpty()) {
+    if (!isFoodSelected && listFavResto.isEmpty()) {
         EmptyContent(image = R.drawable.emptyrestofav, "Nothing Here :(", "Add Your Favorite One")
     }
 }
