@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +27,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Restaurant
+import com.example.goodfood.domain.model.restaurants
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardRestaurant(
     restaurant: Restaurant,
     modifier: Modifier
 ) {
+    val navController = LocalNavController.current
+    val index = restaurants.indexOf(restaurant)
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
@@ -42,6 +48,9 @@ fun CardRestaurant(
             .padding(8.dp)
             .wrapContentWidth()
             .wrapContentHeight(),
+        onClick = {
+            navController.navigate("detailresto/${index}")
+        },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp
         )

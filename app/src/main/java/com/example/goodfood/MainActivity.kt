@@ -12,12 +12,12 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.domain.model.restaurants
 import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
+import com.example.goodfood.presentation.nearby_restaurant.DetailResto
 import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
 import com.example.goodfood.presentation.payment.PaymentScreen
 import com.example.goodfood.presentation.review.ReviewScreen
@@ -56,6 +56,12 @@ fun MyApp(modifier: Modifier = Modifier) {
             composable("detail/{index}") {
                 it.arguments?.getString("index")?.let { index ->
                     DetailScreen(navController, foodIndex = index)
+                }
+            }
+
+            composable("detailresto/{index}") {
+                it.arguments?.getString("index")?.let { index ->
+                    DetailResto(restaurant = restaurants[index.toInt()])
                 }
             }
             composable("cart") {
