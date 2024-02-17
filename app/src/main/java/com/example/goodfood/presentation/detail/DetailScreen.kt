@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -39,6 +42,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -95,8 +99,7 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
                     ).show()
                     dialogOpen = false
                 },
-                foodName = food.name,
-                foodImage = food.image,
+                food = food,
                 dialogOpen = dialogOpen,
             )
         }
@@ -174,6 +177,9 @@ private fun Body(
 
 @Composable
 private fun InfoDetail(food: Food) {
+    var isFavorite by remember {
+        mutableStateOf(false)
+    }
     Row {
         Text(text = "Delivery Time", fontSize = 18.sp)
         Spacer(modifier = Modifier.width(16.dp))
@@ -181,9 +187,27 @@ private fun InfoDetail(food: Food) {
         Text(text = "30 Min", fontWeight = FontWeight.Bold, fontSize = 18.sp)
     }
     Spacer(modifier = Modifier.height(48.dp))
-    Text(text = "Total Price")
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(text = "$ ${food.price}", fontWeight = FontWeight.Bold, fontSize = 38.sp)
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Top,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column {
+            Text(text = "Total Price")
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "$ ${food.price}", fontWeight = FontWeight.Bold, fontSize = 38.sp)
+        }
+        IconButton(
+            modifier = Modifier.offset(y = (-8).dp, x = (-8).dp),
+            onClick = { isFavorite = !isFavorite }) {
+            Icon(
+                modifier = Modifier.size(40.dp),
+                tint = Color.Red,
+                imageVector = if (!isFavorite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
+                contentDescription = null
+            )
+        }
+    }
 }
 
 @Composable

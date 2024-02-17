@@ -32,21 +32,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.goodfood.R
+import com.example.goodfood.data.SimpleDataDummy
+import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Review
 
 
 @Composable
 fun RatingDialog(
     onDismiss: () -> Unit, // fungsi yang dipanggil ketika dialog ditutup
     onSubmit: (Float) -> Unit, // fungsi yang dipanggil ketika rating dikirim
-    foodName: String, // nama makanan yang akan direview
-    foodImage: Int, // gambar makanan yang akan direview
+    food: Food,
     dialogOpen: Boolean, // state yang menyimpan apakah dialog terbuka atau tidak
 ) {
     val ctx = LocalContext.current
@@ -69,7 +69,7 @@ fun RatingDialog(
             },
             title = {
                 // tampilkan judul dialog dengan nama makanan
-                Text(text = "Berikan rating untuk $foodName")
+                Text(text = "Berikan rating untuk ${food.name}")
             },
             text = {
                 // tampilkan konten dialog dengan gambar makanan dan bintang rating
@@ -81,7 +81,7 @@ fun RatingDialog(
                 ) {
                     // tampilkan gambar makanan dengan ukuran 100 x 100 dp
                     Image(
-                        painter = painterResource(id = foodImage),
+                        painter = painterResource(id = food.image),
                         contentDescription = null,
                         modifier = Modifier
                             .size(100.dp)
@@ -128,6 +128,15 @@ fun RatingDialog(
                         isError = true
                     } else {
                         isError = false
+                        SimpleDataDummy.listReview.add(
+                            Review(
+                                name = "Achmad Syarif",
+                                photo = R.drawable.cita2,
+                                rating = rating.toInt(),
+                                review = textFieldState,
+                                food = food
+                            )
+                        )
                         onSubmit(rating)
                     }
                 }) {

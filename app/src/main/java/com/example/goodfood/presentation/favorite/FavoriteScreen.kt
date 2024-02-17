@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.favorite
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
@@ -43,10 +45,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
+import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.domain.model.listPaymentMethod
+import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
 import com.example.goodfood.presentation.payment.CardPaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
@@ -95,20 +100,56 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun FavoriteScreenContent(modifier: Modifier = Modifier, isFoodSelected: Boolean) {
-    LazyColumn {
-        if (isFoodSelected)
+    val listFavFood = SimpleDataDummy.listFavoriteFood
+    val listFavResto = SimpleDataDummy.listFavoriteResto
+    if (isFoodSelected && listFavFood.isNotEmpty())
+        LazyColumn {
             items(listFood.size) {
                 CardFavorite(food = listFood[it])
             }
-        else
-            items(listPaymentMethod.size) {
-                CardPaymentMethod(
-                    listPaymentMethod[it],
-                    listPaymentMethod[0],
-                    onOptionSelected = { paymentMethod ->
+        }
 
-                    })
+    if (isFoodSelected && listFavFood.isEmpty()) {
+        EmptyContent(
+            image = R.drawable.emptyfavfood,
+            "Favorite Food Still Empty",
+            "Let's Add Some :)"
+        )
+    }
+
+    if (!isFoodSelected && listFavResto.isNotEmpty()) {
+        LazyColumn {
+            items(listFavResto.size) {
+                CardRestaurant(restaurant = listFavResto[it], modifier = Modifier)
             }
+        }
+    }
+
+    if (!isFoodSelected && listFavFood.isEmpty()) {
+        EmptyContent(image = R.drawable.emptyrestofav, "Nothing Here :(", "Add Your Favorite One")
+    }
+}
+
+@Composable
+private fun EmptyContent(@DrawableRes image: Int, text: String, subText: String) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.fillMaxHeight(0.2f))
+        Column(
+            modifier = Modifier.fillMaxHeight(0.8f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Image(
+                painter = painterResource(id = image),
+                contentDescription = "Empty Content",
+            )
+            Text(text = text, fontSize = 22.sp)
+            Text(text = subText, fontSize = 22.sp)
+        }
+        Spacer(modifier = Modifier.fillMaxHeight(0.2f))
     }
 }
 
