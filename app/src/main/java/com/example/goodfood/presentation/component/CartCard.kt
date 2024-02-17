@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.component
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -39,10 +40,9 @@ fun CartCard(
     total: Int,
     onAddQty: (total: Double) -> Unit,
     onMinQty: (total: Double) -> Unit,
+    removeFood: (food: Food) -> Unit
 ) {
-    var qty by remember {
-        mutableIntStateOf(total)
-    }
+    var qty = total
     val transactionList = SimpleDataDummy.transactionList
     val sameFood = transactionList.find { it.food == food }
     Card(
@@ -91,6 +91,8 @@ fun CartCard(
                         onMinQty(transactionList.sumOf { it.food.price * it.total })
                         qty--
                     }
+                    if (qty == 0)
+                        removeFood(food)
                 })
             }
         }

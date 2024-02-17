@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.cart
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -86,13 +87,14 @@ fun CartScreen(modifier: Modifier = Modifier) {
                                 total = subTotal + shippingFee
                             },
                             onMinQty = {
-                                Toast.makeText(ctx, "OK MIN", Toast.LENGTH_SHORT).show()
                                 subTotal = it
                                 if (subTotal <= 0) {
-                                    products.removeAt(food)
                                     shippingFee = 0.0
                                 }
                                 total = subTotal + shippingFee
+                            },
+                            removeFood = { deletedFood ->
+                                products.removeAt(food)
                             }
                         )
                     }
