@@ -1,7 +1,5 @@
 package com.example.goodfood.presentation.review
 
-import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +36,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goodfood.R
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.reviews
 import com.example.goodfood.presentation.component.TopBar
@@ -55,7 +54,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
                 shape = CircleShape,
                 containerColor = Gold,
                 onClick = {
-                    Toast.makeText(ctx, "Coming Soon", Toast.LENGTH_SHORT).show()
+
                 }) {
                 Icon(
                     imageVector = Icons.Default.Star,
@@ -154,6 +153,8 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
         }
     }
 }
+
+
 
 @Preview
 @Composable

@@ -1,10 +1,12 @@
 package com.example.goodfood.presentation.detail
 
+import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +22,9 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,18 +36,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.component.AddMinQty
+import com.example.goodfood.presentation.component.RatingDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,20 +60,44 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
+    val ctx = LocalContext.current
 
     var counter by remember {
         mutableIntStateOf(1)
     }
+    // Membuat state dialogOpen sebagai MutableState<Boolean> dengan nilai awal false
+    var dialogOpen by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         floatingActionButton = {
             FloatingButton()
         },
         topBar = {
-            TopAppBarDetail(navController)
+            TopAppBarDetail(navController, showDialog = {
+                dialogOpen = true
+            })
         }
     ) {
         val padding = it
         Body(food, counter, isExpanded)
+        Box {
+            RatingDialog(
+                onDismiss = {
+                    dialogOpen = false
+                },
+                onSubmit = {
+                    Toast.makeText(
+                        ctx,
+                        "Terima Kasih atas review anda",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    dialogOpen = false
+                },
+                foodName = food.name,
+                foodImage = food.image,
+                dialogOpen = dialogOpen,
+            )
+        }
     }
 }
 
@@ -72,10 +105,15 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
 private fun Body(
     food: Food,
     counter: Int,
-    isExpanded: Boolean
+    isExpanded: Boolean,
 ) {
-    var counter1 = counter
-    var isExpanded1 = isExpanded
+    val ctx = LocalContext.current
+    var counter1 by remember {
+        mutableStateOf(counter)
+    }
+    var isExpanded1 by remember {
+        mutableStateOf(isExpanded)
+    }
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
@@ -83,6 +121,7 @@ private fun Body(
             .padding(16.dp, top = 64.dp)
             .fillMaxSize()
     ) {
+
         Image(
             alignment = Alignment.Center,
             painter = painterResource(id = food.image),
@@ -122,7 +161,6 @@ private fun Body(
         Spacer(modifier = Modifier.height(16.dp))
         InfoDetail(food)
 
-
     }
 }
 
@@ -142,11 +180,28 @@ private fun InfoDetail(food: Food) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun TopAppBarDetail(navController: NavController) {
+private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit) {
+    var ctx = LocalContext.current
+    var showDropDown by remember { mutableStateOf(false) }
+
     TopAppBar(title = { /*TODO*/ }, actions = {
-        IconButton(onClick = { /*TODO*/ }) {
+        DropdownMenu(
+            offset = DpOffset((-122).dp, (-66).dp),
+            expanded = showDropDown, onDismissRequest = { showDropDown = false }
+
+        ) {
+            DropdownMenuItem(text = { Text(text = "Tulis Review") }, leadingIcon = {
+            }, onClick = {
+                showDialog()
+                showDropDown = false
+            })
+        }
+        IconButton(onClick = {
+            showDropDown = true
+        }) {
             Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
         }
+
     }, navigationIcon = {
         IconButton(
             onClick = {
