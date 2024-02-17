@@ -13,15 +13,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,6 +38,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 
 @Composable
@@ -45,11 +49,16 @@ fun RatingDialog(
     foodImage: Int, // gambar makanan yang akan direview
     dialogOpen: Boolean, // state yang menyimpan apakah dialog terbuka atau tidak
 ) {
+    val ctx = LocalContext.current
     // state untuk menyimpan nilai rating
     var rating by rememberSaveable { mutableStateOf(0f) }
+    var isError by rememberSaveable { mutableStateOf(false) }
 
-    // state untuk menyimpan apakah dialog terbuka atau tidak
 
+    // state untuk menyimpan textfield
+    var textFieldState by remember {
+        mutableStateOf("")
+    }
     // jika dialog terbuka, tampilkan AlertDialog
     if (dialogOpen) {
         AlertDialog(
@@ -79,9 +88,26 @@ fun RatingDialog(
                             .clip(CircleShape)
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedTextField(value = "", onValueChange = {}, placeholder = {
-                        Text(text = "Tulis Review Anda")
-                    })
+                    OutlinedTextField(
+                        isError = isError,
+                        value = textFieldState, onValueChange = {
+                            textFieldState = it
+                            if (it.isNotEmpty()) isError = false
+
+                        },
+                        placeholder = {
+                            Text(text = if (!isError) "Tulis Review Anda" else "Tidak Boleh Kosong")
+                        },
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = if (isError) Color.Red else Color.Blue, // Change border color if error
+                            unfocusedBorderColor = if (isError) Color.Red else Color.Gray,
+                        ),
+                        trailingIcon = {
+                            if (isError) {
+                                Icon(Icons.Filled.Clear, "Error", tint = Color.Red)
+                            }
+                        })
+
 
                     Spacer(modifier = Modifier.height(8.dp))
 
@@ -98,7 +124,12 @@ fun RatingDialog(
                 // tampilkan tombol kirim dengan teks "Kirim"
                 TextButton(onClick = {
                     // kirim rating ke fungsi onSubmit dan tutup dialog
-//                    onSubmit(rating)
+                    if (textFieldState.isEmpty()) {
+                        isError = true
+                    } else {
+                        isError = false
+                        onSubmit(rating)
+                    }
                 }) {
                     Text(text = "Kirim")
                 }
