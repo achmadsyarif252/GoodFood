@@ -14,7 +14,7 @@ data class Food(
 
 data class Transaction(
     val id: Int,
-    val food: Food,
+    var food: Food,
     var total: Int
 )
 

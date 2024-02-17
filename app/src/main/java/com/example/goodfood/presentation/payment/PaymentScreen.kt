@@ -47,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goodfood.R
+import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.domain.model.listPaymentMethod
 import com.example.goodfood.presentation.component.TopBar
@@ -108,10 +109,9 @@ fun DetailPayment(modifier: Modifier = Modifier) {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        TextDetail("Food Price", "$ 7.89")
-        TextDetail("Total Fee", "$ 1.20")
-        TextDetail("Food Price", "$ 7.89")
-        TextDetail("Total Fee", "$ 10.90")
+        TextDetail("Food Price", "$ ${SimpleDataDummy.getSubTotal()}")
+        TextDetail("Total Fee", "$ ${SimpleDataDummy.getFee()}")
+        TextDetail("Total", "$ ${SimpleDataDummy.getTotalFee()}")
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(
             shape = RoundedCornerShape(24.dp),

@@ -53,13 +53,13 @@ fun CartScreen(modifier: Modifier = Modifier) {
     }
     val navController = LocalNavController.current
     var subTotal by remember {
-        mutableDoubleStateOf(products.sumOf { it.food.price * it.total })
+        mutableDoubleStateOf(SimpleDataDummy.getSubTotal())
     }
     var shippingFee by remember {
-        mutableDoubleStateOf(if (subTotal > 0) 1.2 else 0.0)
+        mutableDoubleStateOf(SimpleDataDummy.getFee())
     }
     var total by remember {
-        mutableDoubleStateOf(subTotal + shippingFee)
+        mutableDoubleStateOf(SimpleDataDummy.getTotalFee())
     }
 
     val ctx = LocalContext.current
@@ -137,6 +137,7 @@ fun CartScreen(modifier: Modifier = Modifier) {
             DetailPayment(type = "Total", total = "$ $total")
             Spacer(modifier = Modifier.height(8.dp))
             OutlinedButton(
+                enabled = total > 0,
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.White,
                     containerColor = Gold

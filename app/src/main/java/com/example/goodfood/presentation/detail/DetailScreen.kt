@@ -22,7 +22,6 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,12 +47,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(navController: NavController, foodIndex: String) {
     val food = listFood[foodIndex.toInt()]
@@ -70,7 +70,7 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
 
     Scaffold(
         floatingActionButton = {
-            FloatingButton()
+            FloatingButton(listFood[foodIndex.toInt()], counter)
         },
         topBar = {
             TopAppBarDetail(navController, showDialog = {
@@ -79,7 +79,9 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
         }
     ) {
         val padding = it
-        Body(food, counter, isExpanded)
+        Body(food, counter, isExpanded) {
+            counter = it
+        }
         Box {
             RatingDialog(
                 onDismiss = {
@@ -106,10 +108,10 @@ private fun Body(
     food: Food,
     counter: Int,
     isExpanded: Boolean,
+    updateCounter: (Int) -> Unit,
 ) {
-    val ctx = LocalContext.current
     var counter1 by remember {
-        mutableStateOf(counter)
+        mutableIntStateOf(counter)
     }
     var isExpanded1 by remember {
         mutableStateOf(isExpanded)
@@ -139,8 +141,14 @@ private fun Body(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = food.name, fontSize = 42.sp, fontWeight = FontWeight.Bold)
-            AddMinQty(counter = counter1, onAddCounter = { counter1++ }, onMinCounter = {
-                if (counter1 > 0) counter1--
+            AddMinQty(counter = counter1, onAddCounter = {
+                counter1++
+                updateCounter(counter1)
+            }, onMinCounter = {
+                if (counter1 > 0) {
+                    counter1--
+                    updateCounter(counter1)
+                }
             })
 
         }
@@ -181,7 +189,6 @@ private fun InfoDetail(food: Food) {
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit) {
-    var ctx = LocalContext.current
     var showDropDown by remember { mutableStateOf(false) }
 
     TopAppBar(title = { /*TODO*/ }, actions = {
@@ -214,10 +221,25 @@ private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit
 }
 
 @Composable
-private fun FloatingButton() {
+private fun FloatingButton(food: Food, total: Int) {
+    val ctx = LocalContext.current
     IconButton(
         modifier = Modifier.size(40.dp),
-        onClick = { /*TODO*/ }) {
+        onClick = {
+            if (total > 0) {
+                val transactionList = SimpleDataDummy.transactionList
+                val totalSameItem = transactionList.find { it.food == food }?.total
+
+                val item = transactionList.indexOf(transactionList.find { it.food == food })
+                if (totalSameItem != null) {
+                    transactionList[item].total = totalSameItem + total
+                } else
+                    transactionList.add(Transaction(id = 0, food = food, total = total))
+                Toast.makeText(ctx, "Added To Cart", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(ctx, "Cart can't be empty!", Toast.LENGTH_SHORT).show()
+            }
+        }) {
         Icon(
             modifier = Modifier.fillMaxSize(),
             imageVector = Icons.Default.ShoppingCart, contentDescription = null

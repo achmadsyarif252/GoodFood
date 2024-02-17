@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -97,7 +98,7 @@ fun RatingDialog(
                 // tampilkan tombol kirim dengan teks "Kirim"
                 TextButton(onClick = {
                     // kirim rating ke fungsi onSubmit dan tutup dialog
-                    onSubmit(rating)
+//                    onSubmit(rating)
                 }) {
                     Text(text = "Kirim")
                 }
