@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +19,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Favorite
@@ -51,12 +55,16 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
+import com.example.goodfood.presentation.favorite.CardFavorite
+import com.example.goodfood.presentation.review.CardReview
 
 @Composable
 fun DetailScreen(navController: NavController, foodIndex: String) {
@@ -66,6 +74,11 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
     var isExpanded by remember {
         mutableStateOf(false)
     }
+
+    var listReview by remember {
+        mutableStateOf(SimpleDataDummy.listReview.filter { it.food == food })
+    }
+
     val ctx = LocalContext.current
 
     var counter by remember {
@@ -85,9 +98,16 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
         }
     ) {
         val padding = it
-        Body(food, counter, isExpanded, isFavFood = isFavoriteFood) {
-            counter = it
-        }
+        Body(
+            padding,
+            food,
+            counter,
+            isExpanded,
+            isFavFood = isFavoriteFood,
+            listReview = listReview,
+            updateCounter = {
+                counter = it
+            })
         Box {
             RatingDialog(
                 onDismiss = {
@@ -99,6 +119,7 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
                         "Terima Kasih atas review anda",
                         Toast.LENGTH_SHORT
                     ).show()
+                    listReview = SimpleDataDummy.listReview.filter { it.food == food }
                     dialogOpen = false
                 },
                 food = food,
@@ -110,11 +131,13 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
 
 @Composable
 private fun Body(
+    padding: PaddingValues,
     food: Food,
     counter: Int,
     isExpanded: Boolean,
     isFavFood: Boolean,
     updateCounter: (Int) -> Unit,
+    listReview: List<Review>
 ) {
     var counter1 by remember {
         mutableIntStateOf(counter)
@@ -122,12 +145,20 @@ private fun Body(
     var isExpanded1 by remember {
         mutableStateOf(isExpanded)
     }
+
+    var review by remember {
+        mutableStateOf(listReview)
+    }
+
+    val navController = LocalNavController.current
+
     Column(
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
-            .statusBarsPadding()
-            .padding(16.dp, top = 64.dp)
+            .padding(padding)
+            .padding(start = 16.dp, end = 16.dp)
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
 
         Image(
@@ -174,7 +205,23 @@ private fun Body(
         )
         Spacer(modifier = Modifier.height(16.dp))
         InfoDetail(food, isFav = isFavFood)
-
+        Spacer(modifier = Modifier.height(16.dp))
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(text = "Review")
+            Text(text = "See all", color = Color.Blue, modifier = Modifier.clickable {
+                navController.navigate("review")
+            })
+        }
+        LazyRow {
+            items(listReview.size) {
+                CardReview(review = listReview[it])
+            }
+        }
     }
 }
 

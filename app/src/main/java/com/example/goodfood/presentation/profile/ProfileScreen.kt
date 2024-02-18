@@ -18,6 +18,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -73,11 +76,29 @@ fun Body(modifier: Modifier = Modifier, ineerPadding: PaddingValues) {
         Column(
             modifier = Modifier
                 .background(Color.White)
+                .padding(16.dp)
                 .fillMaxWidth()
                 .fillMaxHeight(0.8f)
 
         ) {
-            Text(text = "Hello")
+            Text(text = "Pengaturan Akun", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(24.dp))
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(imageVector = Icons.Outlined.Home, contentDescription = "Alamat")
+                Column {
+                    Text(text = "Daftar Alamat", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Atur alamat pengiriman belanjaan",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+            }
         }
     }
 }
