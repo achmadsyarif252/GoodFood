@@ -34,7 +34,8 @@ fun BottomNavigation(modifier: Modifier = Modifier) {
                         }
 
                         bottomNavigation[4] -> {
-                            navController.navigate("review")
+//                            navController.navigate("review")
+                            navController.navigate("profile")
                         }
                     }
                 },

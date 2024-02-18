@@ -20,6 +20,7 @@ import com.example.goodfood.presentation.home.HomeScreen
 import com.example.goodfood.presentation.nearby_restaurant.DetailResto
 import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
 import com.example.goodfood.presentation.payment.PaymentScreen
+import com.example.goodfood.presentation.profile.ProfileScreen
 import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
@@ -78,6 +79,9 @@ fun MyApp(modifier: Modifier = Modifier) {
             }
             composable("nearbyResto") {
                 NearbyRestaurant()
+            }
+            composable("profile") {
+                ProfileScreen()
             }
 
         }
