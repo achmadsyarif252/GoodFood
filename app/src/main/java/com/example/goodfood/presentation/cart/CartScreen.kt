@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.cart
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -16,15 +15,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,9 +38,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
-import com.example.goodfood.data.SimpleDataDummy
+import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.presentation.component.CartCard
 import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.CardFood
@@ -48,19 +50,23 @@ import com.example.goodfood.ui.theme.Gold
 
 @Composable
 fun CartScreen(modifier: Modifier = Modifier) {
-    val products by remember {
-        mutableStateOf(SimpleDataDummy.transactionList)
-    }
-    val navController = LocalNavController.current
-    var subTotal by remember {
-        mutableDoubleStateOf(SimpleDataDummy.getSubTotal())
-    }
+    val transactionViewModel: TransactionViewModel = viewModel()
+    val allTransaction by transactionViewModel.allTransaction!!.observeAsState()
+
+    var subTotal = allTransaction?.sumOf { it?.total?.times(it.food.price) ?: 0.0 }
     var shippingFee by remember {
-        mutableDoubleStateOf(SimpleDataDummy.getFee())
+        mutableDoubleStateOf(0.0)
     }
     var total by remember {
-        mutableDoubleStateOf(SimpleDataDummy.getTotalFee())
+        mutableDoubleStateOf(0.0)
     }
+    LaunchedEffect(subTotal) {
+        shippingFee = if ((subTotal ?: 0.0) > 0) 1.2 else 0.0
+        total = subTotal?.plus(shippingFee) ?: 0.0
+    }
+
+    val navController = LocalNavController.current
+
 
     val ctx = LocalContext.current
     Scaffold(
@@ -71,38 +77,10 @@ fun CartScreen(modifier: Modifier = Modifier) {
     ) {
         val padding = it
         Column(modifier.wrapContentHeight()) {
-            if (products.isNotEmpty())
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(it)
-                        .fillMaxHeight(0.55f)
-                ) {
-                    items(products.count()) { food ->
-                        CartCard(
-                            food = products[food].food,
-                            total = products[food].total,
-                            onAddQty = {
-                                Toast.makeText(ctx, "Add Qty", Toast.LENGTH_SHORT).show()
-                                subTotal = it
-                                total = subTotal + shippingFee
-                            },
-                            onMinQty = {
-                                subTotal = it
-                                if (subTotal <= 0) {
-                                    shippingFee = 0.0
-                                }
-                                total = subTotal + shippingFee
-                            },
-                            removeFood = { deletedFood ->
-                                products.removeAt(food)
-                            }
-                        )
-                    }
-                }
-            else {
+            if (allTransaction == null) {
+                CircularProgressIndicator(modifier = modifier.align(Alignment.CenterHorizontally))
                 Column(
                     modifier = Modifier
-                        .padding(it)
                         .fillMaxWidth()
                         .fillMaxHeight(0.55f),
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -129,31 +107,69 @@ fun CartScreen(modifier: Modifier = Modifier) {
 
 
                 }
-            }
-            CouponCode()
-            Spacer(modifier = Modifier.height(16.dp))
-            DetailPayment(type = "Sub Total", total = "$ $subTotal")
-            DetailPayment(type = "Shipping", total = "$ $shippingFee")
-            DetailPayment(type = "Total", total = "$ $total")
-            Spacer(modifier = Modifier.height(8.dp))
-            OutlinedButton(
-                enabled = total > 0,
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.White,
-                    containerColor = Gold
-                ),
-                modifier = Modifier
-                    .padding(horizontal = 52.dp)
-                    .fillMaxWidth(),
-                onClick = {
-                    navController.navigate("payment")
-                }) {
-                Text(text = "Payment")
-            }
+            } else
+                allTransaction?.let {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(padding)
+                            .fillMaxHeight(0.55f)
+                    ) {
+                        allTransaction?.count()?.let { transaction ->
+                            items(transaction) { food ->
+                                allTransaction!![food]?.food?.let { it1 ->
+                                    CartCard(
+                                        food = it1,
+                                        total = allTransaction!![food]!!.total,
+                                        onAddQty = {
+                                            Toast.makeText(ctx, "Add Qty", Toast.LENGTH_SHORT)
+                                                .show()
+                                            subTotal = it
+                                            total = subTotal ?: (0 + shippingFee)
+                                        },
+                                        onMinQty = {
+                                            subTotal = it
+                                            if (subTotal!! <= 0) {
+                                                shippingFee = 0.0
+                                            }
+                                            total = subTotal!! + shippingFee
+                                        },
+                                        removeFood = { deletedFood ->
+//                                            transactionViewModel.delete(deletedFood)
+                                            //                                        transaction.removeAt(food)
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    CouponCode()
+                    Spacer(modifier = Modifier.height(16.dp))
+                    DetailPayment(type = "Sub Total", total = "$ $subTotal")
+                    DetailPayment(type = "Shipping", total = "$ $shippingFee")
+                    DetailPayment(type = "Total", total = "$ $total")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedButton(
+                        enabled = total > 0,
+                        colors = ButtonDefaults.buttonColors(
+                            contentColor = Color.White,
+                            containerColor = Gold
+                        ),
+                        modifier = Modifier
+                            .padding(horizontal = 52.dp)
+                            .fillMaxWidth(),
+                        onClick = {
+                            navController.navigate("payment")
+                        }) {
+                        Text(text = "Payment")
+                    }
 
+                }
         }
+
+
     }
 }
+
 
 @Composable
 fun DetailPayment(modifier: Modifier = Modifier, type: String, total: String) {

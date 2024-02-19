@@ -39,6 +39,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -54,8 +55,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
@@ -139,6 +142,7 @@ private fun Body(
     updateCounter: (Int) -> Unit,
     listReview: List<Review>
 ) {
+
     var counter1 by remember {
         mutableIntStateOf(counter)
     }
@@ -303,19 +307,22 @@ private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit
 
 @Composable
 private fun FloatingButton(food: Food, total: Int) {
+    val transactionViewModel: TransactionViewModel = viewModel()
+    val transaction by transactionViewModel.allTransaction!!.observeAsState(listOf())
+
+
     val ctx = LocalContext.current
     IconButton(
         modifier = Modifier.size(40.dp),
         onClick = {
             if (total > 0) {
-                val transactionList = SimpleDataDummy.transactionList
-                val totalSameItem = transactionList.find { it.food == food }?.total
+                val totalSameItem = transaction?.find { it?.food == food }
+                val updateTotal = totalSameItem?.total?.plus(total)
 
-                val item = transactionList.indexOf(transactionList.find { it.food == food })
                 if (totalSameItem != null) {
-                    transactionList[item].total = totalSameItem + total
+                    transactionViewModel.update(totalSameItem.copy(total = updateTotal ?: 1))
                 } else
-                    transactionList.add(Transaction(id = 0, food = food, total = total))
+                    transactionViewModel.insert(Transaction(id = 0, food = food, total = total))
                 Toast.makeText(ctx, "Added To Cart", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(ctx, "Cart can't be empty!", Toast.LENGTH_SHORT).show()

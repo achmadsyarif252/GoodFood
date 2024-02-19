@@ -13,14 +13,18 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel
@@ -39,6 +43,8 @@ fun HomeScreen() {
             BottomNavigation()
         }
     ) { innerPadding ->
+
+
         Body(
             modifier = Modifier.padding(innerPadding)
         )
@@ -55,6 +61,8 @@ private fun HomeScreenPreview() {
 
 @Composable
 fun Body(modifier: Modifier = Modifier) {
+
+
     Column(
         modifier.padding(horizontal = 22.dp, vertical = 32.dp)
     ) {

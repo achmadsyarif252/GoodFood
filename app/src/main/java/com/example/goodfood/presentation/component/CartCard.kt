@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,10 +14,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,10 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.domain.model.listFood
-import com.example.goodfood.ui.theme.CardFood
-import com.example.goodfood.ui.theme.Gold
 
 @Composable
 fun CartCard(
