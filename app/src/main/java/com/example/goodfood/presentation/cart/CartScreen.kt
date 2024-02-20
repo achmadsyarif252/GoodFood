@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableDoubleStateOf
@@ -47,23 +48,19 @@ import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
+import kotlinx.coroutines.flow.onEach
 
 @Composable
-fun CartScreen(modifier: Modifier = Modifier) {
-    val transactionViewModel: TransactionViewModel = viewModel()
+fun CartScreen(
+    modifier: Modifier = Modifier,
+    transactionViewModel: TransactionViewModel = viewModel()
+) {
     val allTransaction by transactionViewModel.allTransaction!!.observeAsState()
+    val subTotal by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
 
-    var subTotal = allTransaction?.sumOf { it?.total?.times(it.food.price) ?: 0.0 }
-    var shippingFee by remember {
-        mutableDoubleStateOf(0.0)
-    }
-    var total by remember {
-        mutableDoubleStateOf(0.0)
-    }
-    LaunchedEffect(subTotal) {
-        shippingFee = if ((subTotal ?: 0.0) > 0) 1.2 else 0.0
-        total = subTotal?.plus(shippingFee) ?: 0.0
-    }
+
+    var shippingFee = if (subTotal > 0.0) 1.2 else 0.0
+    var total = subTotal + shippingFee
 
     val navController = LocalNavController.current
 
@@ -76,9 +73,8 @@ fun CartScreen(modifier: Modifier = Modifier) {
         }
     ) {
         val padding = it
-        Column(modifier.wrapContentHeight()) {
-            if (allTransaction == null) {
-                CircularProgressIndicator(modifier = modifier.align(Alignment.CenterHorizontally))
+        allTransaction?.let { transactions ->
+            if (transactions.isEmpty()) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -104,68 +100,49 @@ fun CartScreen(modifier: Modifier = Modifier) {
                         fontSize = 24.sp,
                         fontWeight = FontWeight.SemiBold
                     )
-
-
                 }
-            } else
-                allTransaction?.let {
-                    LazyColumn(
-                        modifier = Modifier
-                            .padding(padding)
-                            .fillMaxHeight(0.55f)
-                    ) {
-                        allTransaction?.count()?.let { transaction ->
-                            items(transaction) { food ->
-                                allTransaction!![food]?.food?.let { it1 ->
-                                    CartCard(
-                                        food = it1,
-                                        total = allTransaction!![food]!!.total,
-                                        onAddQty = {
-                                            Toast.makeText(ctx, "Add Qty", Toast.LENGTH_SHORT)
-                                                .show()
-                                            subTotal = it
-                                            total = subTotal ?: (0 + shippingFee)
-                                        },
-                                        onMinQty = {
-                                            subTotal = it
-                                            if (subTotal!! <= 0) {
-                                                shippingFee = 0.0
-                                            }
-                                            total = subTotal!! + shippingFee
-                                        },
-                                        removeFood = { deletedFood ->
-//                                            transactionViewModel.delete(deletedFood)
-                                            //                                        transaction.removeAt(food)
-                                        }
-                                    )
-                                }
+            }
+        }
+        Column(modifier.wrapContentHeight()) {
+            allTransaction?.let {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxHeight(0.55f)
+                ) {
+                    allTransaction?.count()?.let { transaction ->
+                        items(transaction) { food ->
+                            allTransaction!![food]?.food?.let { it1 ->
+                                CartCard(
+                                    food = it1,
+                                    total = allTransaction!![food]!!.total,
+                                )
                             }
                         }
                     }
-                    CouponCode()
-                    Spacer(modifier = Modifier.height(16.dp))
-                    DetailPayment(type = "Sub Total", total = "$ $subTotal")
-                    DetailPayment(type = "Shipping", total = "$ $shippingFee")
-                    DetailPayment(type = "Total", total = "$ $total")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    OutlinedButton(
-                        enabled = total > 0,
-                        colors = ButtonDefaults.buttonColors(
-                            contentColor = Color.White,
-                            containerColor = Gold
-                        ),
-                        modifier = Modifier
-                            .padding(horizontal = 52.dp)
-                            .fillMaxWidth(),
-                        onClick = {
-                            navController.navigate("payment")
-                        }) {
-                        Text(text = "Payment")
-                    }
-
                 }
+                CouponCode()
+                Spacer(modifier = Modifier.height(16.dp))
+                DetailPayment(type = "Sub Total", total = "$ $subTotal")
+                DetailPayment(type = "Shipping", total = "$ $shippingFee")
+                DetailPayment(type = "Total", total = "$ $total")
+                Spacer(modifier = Modifier.height(8.dp))
+                OutlinedButton(
+                    enabled = total > 0,
+                    colors = ButtonDefaults.buttonColors(
+                        contentColor = Color.White,
+                        containerColor = Gold
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = 52.dp)
+                        .fillMaxWidth(),
+                    onClick = {
+                        navController.navigate("payment")
+                    }) {
+                    Text(text = "Payment")
+                }
+            }
         }
-
 
     }
 }

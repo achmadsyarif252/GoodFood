@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.component
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,13 +15,18 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 
@@ -29,13 +35,14 @@ fun CartCard(
     modifier: Modifier = Modifier,
     food: Food,
     total: Int,
-    onAddQty: (total: Double) -> Unit,
-    onMinQty: (total: Double) -> Unit,
-    removeFood: (food: Food) -> Unit
+    transactionViewModel: TransactionViewModel = viewModel()
 ) {
-    var qty = total
-    val transactionList = SimpleDataDummy.transactionList
-    val sameFood = transactionList.find { it.food == food }
+    val transactionList by transactionViewModel.allTransaction!!.observeAsState()
+    val item = transactionList!!.find { it!!.food == food }
+    var qty = item?.total ?: 0
+
+    val ctx = LocalContext.current
+
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 8.dp,
@@ -71,19 +78,20 @@ fun CartCard(
                 Text(text = food.type, fontSize = 18.sp)
                 Text(text = "Price : $ ${food.price}", fontWeight = FontWeight.Bold)
                 AddMinQty(counter = qty, onAddCounter = {
-                    if (sameFood != null) {
-                        transactionList.find { it.food == food }!!.total += 1
-                        onAddQty(transactionList.sumOf { it.food.price * it.total })
+                    if (item != null) {
+                        transactionViewModel.update(item.copy(total = item.total + 1))
                         qty++
                     }
                 }, onMinCounter = {
-                    if (qty > 0 && sameFood != null) {
-                        transactionList.find { it.food == food }!!.total -= 1
-                        onMinQty(transactionList.sumOf { it.food.price * it.total })
+                    if (qty > 0) {
+                        transactionViewModel.update(item!!.copy(total = item.total - 1))
                         qty--
+
                     }
-                    if (qty == 0)
-                        removeFood(food)
+                    if (qty == 0) {
+                        transactionViewModel.delete(item!!)
+                    }
+
                 })
             }
         }

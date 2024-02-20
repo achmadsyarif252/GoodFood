@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +47,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
+import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.domain.model.listPaymentMethod
@@ -104,14 +107,20 @@ fun PaymentMethod(modifier: Modifier = Modifier) {
 
 
 @Composable
-fun DetailPayment(modifier: Modifier = Modifier) {
+fun DetailPayment(
+    modifier: Modifier = Modifier,
+    transactionViewModel: TransactionViewModel = viewModel()
+) {
+    val foodPrice by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
+    val shippingFee = if (foodPrice > 0.0) 1.2 else 0.0
+    val total = foodPrice + shippingFee
     Column(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        TextDetail("Food Price", "$ ${SimpleDataDummy.getSubTotal()}")
-        TextDetail("Total Fee", "$ ${SimpleDataDummy.getFee()}")
-        TextDetail("Total", "$ ${SimpleDataDummy.getTotalFee()}")
+        TextDetail("Food Price", "$ $foodPrice")
+        TextDetail("Total Fee", "$ $shippingFee")
+        TextDetail("Total", "$ $total")
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(
             shape = RoundedCornerShape(24.dp),

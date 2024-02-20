@@ -21,13 +21,17 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Transaction
@@ -36,9 +40,15 @@ import com.example.goodfood.presentation.home.FoodDescription
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardBestDishes(modifier: Modifier = Modifier, foodIndex: Int) {
+fun CardBestDishes(
+    modifier: Modifier = Modifier,
+    foodIndex: Int,
+    transactionViewModel: TransactionViewModel = viewModel()
+) {
     val navController = LocalNavController.current
     val food = listFood[foodIndex.toInt()]
+    val transactionList by transactionViewModel.allTransaction!!.observeAsState()
+
 
     val ctx = LocalContext.current
     Column {
@@ -78,12 +88,12 @@ fun CardBestDishes(modifier: Modifier = Modifier, foodIndex: Int) {
                     contentColor = Color.White
                 ),
                 onClick = {
-                    val transactionList = SimpleDataDummy.transactionList
-                    val sameFood = transactionList.find { it.food == food }
+                    val sameFood = transactionList!!.find { it!!.food == food }
+
                     if (sameFood != null) {
-                        transactionList.find { it.food == food }!!.total += 1
+                        transactionViewModel.update(sameFood.copy(total = sameFood.total + 1))
                     } else {
-                        transactionList.add(Transaction(id = 0, food = food, total = 1))
+                        transactionViewModel.insert(Transaction(food = food, total = 1))
                     }
                     Toast.makeText(ctx, "Added To Cart", Toast.LENGTH_SHORT).show()
                 },

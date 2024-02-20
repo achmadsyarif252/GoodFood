@@ -20,6 +20,8 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         allTransaction = repository.allTransaction.asLiveData()
     }
 
+    fun getSubTotal() = repository.getSubTotal()
+
     fun insert(transaction: Transaction) = viewModelScope.launch {
         repository.insert(transaction)
     }
