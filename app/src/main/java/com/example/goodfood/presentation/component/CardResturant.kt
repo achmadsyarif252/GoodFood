@@ -45,6 +45,7 @@ fun CardRestaurant(
     val navController = LocalNavController.current
     val allRestaurant by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
     val index = allRestaurant.indexOf(restaurant)
+
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
@@ -124,8 +125,6 @@ fun CardRestaurant(
                     )
                 }
             }
-
-
         }
     }
 }

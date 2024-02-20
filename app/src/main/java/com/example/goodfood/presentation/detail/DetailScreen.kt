@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.detail
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -38,6 +37,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
@@ -57,13 +57,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.goodfood.FoodViewModel
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.ReviewViewModel
 import com.example.goodfood.TransactionViewModel
-import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.FoodViewModel
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
 import com.example.goodfood.presentation.review.CardReview
@@ -72,7 +72,8 @@ import com.example.goodfood.presentation.review.CardReview
 fun DetailScreen(
     navController: NavController,
     foodIndex: String,
-    foodViewModel: FoodViewModel = viewModel()
+    foodViewModel: FoodViewModel = viewModel(),
+    reviewViewModel: ReviewViewModel = viewModel()
 ) {
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val food = allFoods.getOrNull(foodIndex.toInt())
@@ -81,10 +82,13 @@ fun DetailScreen(
     var isExpanded by remember {
         mutableStateOf(false)
     }
+    val allReview by reviewViewModel.allReview.observeAsState(initial = emptyList())
     var listReview by remember {
-        mutableStateOf(SimpleDataDummy.listReview.filter { it.food == food })
+        mutableStateOf(allReview.filter { it.food == food })
     }
-
+    LaunchedEffect(key1 = allReview) {
+        listReview = allReview.filter { it.food == food }
+    }
     val ctx = LocalContext.current
 
     var counter by remember {
@@ -130,7 +134,6 @@ fun DetailScreen(
                             "Terima Kasih atas review anda",
                             Toast.LENGTH_SHORT
                         ).show()
-                        listReview = SimpleDataDummy.listReview.filter { it.food == food }
                         dialogOpen = false
                     },
                     food = food,
@@ -159,9 +162,6 @@ private fun Body(
         mutableStateOf(isExpanded)
     }
 
-    var review by remember {
-        mutableStateOf(listReview)
-    }
 
     val navController = LocalNavController.current
 
@@ -244,7 +244,6 @@ private fun InfoDetail(food: Food, isFav: Boolean, foodViewModel: FoodViewModel 
 
     val isFavorite = allFood.find { it == food }?.isFavorite ?: false
 
-    Log.d("FOOD FAVORITE??", "$isFavorite OKE OKE")
     Row {
         Text(text = "Delivery Time", fontSize = 18.sp)
         Spacer(modifier = Modifier.width(16.dp))

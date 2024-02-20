@@ -1,6 +1,10 @@
 package com.example.goodfood.presentation.review
 
+import android.widget.Toast
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,11 +25,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,17 +50,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
+import com.example.goodfood.ReviewViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReviewScreen(modifier: Modifier = Modifier) {
+fun ReviewScreen(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel = viewModel()) {
     val ctx = LocalContext.current
-    val reviews = SimpleDataDummy.listReview
+    val reviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
+
     Scaffold(
         topBar = {
             TopBar(text = "Review")
@@ -75,10 +90,30 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
                 .padding(innerPadding)
                 .padding(horizontal = 24.dp, vertical = 8.dp)
         ) {
-            if (reviews.size > 0)
+            if (reviews.isNotEmpty())
                 LazyColumn {
                     items(reviews.size) {
-                        CardReview(review = reviews[it])
+                        val dismissState = rememberDismissState()
+                        if (dismissState.isDismissed(direction = DismissDirection.EndToStart)) {
+                            Toast.makeText(ctx, "Review Dihapus", Toast.LENGTH_SHORT).show()
+                            reviewViewModel.delete(reviews[it])
+                        }
+
+                        SwipeToDismiss(state = dismissState, background = {
+                            val backgroundColor by animateColorAsState(
+                                when (dismissState.targetValue) {
+                                    DismissValue.DismissedToStart -> Color.Red.copy(alpha = 0.8f)
+                                    else -> Color.White
+                                }
+                            )
+
+                            //iconSize
+                            val inconScale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.DismissedToStart) 1.3f else 0.5f)
+
+                        }, dismissContent = {
+                            CardReview(review = reviews[it])
+                        })
+
                     }
                 }
             else

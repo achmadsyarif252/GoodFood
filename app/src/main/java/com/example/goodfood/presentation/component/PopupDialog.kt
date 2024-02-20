@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.component
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -36,8 +35,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
-import com.example.goodfood.data.SimpleDataDummy
+import com.example.goodfood.ReviewViewModel
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
 
@@ -48,6 +48,7 @@ fun RatingDialog(
     onSubmit: (Float) -> Unit, // fungsi yang dipanggil ketika rating dikirim
     food: Food,
     dialogOpen: Boolean, // state yang menyimpan apakah dialog terbuka atau tidak
+    reviewViewModel: ReviewViewModel = viewModel()
 ) {
     val ctx = LocalContext.current
     // state untuk menyimpan nilai rating
@@ -128,7 +129,7 @@ fun RatingDialog(
                         isError = true
                     } else {
                         isError = false
-                        SimpleDataDummy.listReview.add(
+                        reviewViewModel.insert(
                             Review(
                                 name = "Achmad Syarif",
                                 photo = R.drawable.cita2,
@@ -137,6 +138,8 @@ fun RatingDialog(
                                 food = food
                             )
                         )
+                        rating = 0f
+                        textFieldState = ""
                         onSubmit(rating)
                     }
                 }) {
