@@ -35,7 +35,7 @@ import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.home.FoodDescription
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,10 +43,12 @@ import com.example.goodfood.presentation.home.FoodDescription
 fun CardBestDishes(
     modifier: Modifier = Modifier,
     foodIndex: Int,
-    transactionViewModel: TransactionViewModel = viewModel()
+    transactionViewModel: TransactionViewModel = viewModel(),
+    foodViewModel: FoodViewModel = viewModel()
 ) {
     val navController = LocalNavController.current
-    val food = listFood[foodIndex.toInt()]
+    val allFood by foodViewModel.allFood.observeAsState()
+    val food = allFood!![foodIndex]
     val transactionList by transactionViewModel.allTransaction!!.observeAsState()
 
 

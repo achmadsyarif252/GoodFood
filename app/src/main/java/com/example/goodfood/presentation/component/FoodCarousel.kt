@@ -15,6 +15,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.FoodViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,9 +38,11 @@ fun CardFoodCarousel(
     modifier: Modifier = Modifier,
     foodIndex: Int,
     cardColor: Color,
+    foodViewModel: FoodViewModel = viewModel()
 ) {
     val navController = LocalNavController.current
-    val food = listFood[foodIndex]
+    val allFoods by foodViewModel.allFood.observeAsState()
+    val food = allFoods!![foodIndex]
     Card(
         onClick = {
             navController.navigate("detail/${foodIndex}")

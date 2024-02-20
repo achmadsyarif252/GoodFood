@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.listFood
 import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
@@ -83,22 +82,27 @@ fun HeaderSection(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FoodCarouselSection(modifier: Modifier = Modifier) {
+fun FoodCarouselSection(modifier: Modifier = Modifier, foodViewModel: FoodViewModel = viewModel()) {
+    val allFoods by foodViewModel.allFood.observeAsState()
 
     LazyRow(
     ) {
-        items(listFood.size) {
-            Log.d("Food Index", "${listFood.indexOf(listFood[it])}")
-            CardFoodCarousel(
-                foodIndex = listFood.indexOf(listFood[it]),
-                cardColor = CardFood,
-            )
+        items(allFoods?.size ?: 0) {
+            allFoods?.indexOf(allFoods!![it])?.let { it1 ->
+                CardFoodCarousel(
+                    foodIndex = it1,
+                    cardColor = CardFood,
+                )
+            }
         }
     }
 }
 
 @Composable
-fun BestDishes(modifier: Modifier = Modifier) {
+fun BestDishes(
+    modifier: Modifier = Modifier, foodViewModel: FoodViewModel = viewModel()
+) {
+    val allFoods by foodViewModel.allFood.observeAsState()
     Column {
         Text(text = "Best Restaurant Dished", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(32.dp))
@@ -106,8 +110,11 @@ fun BestDishes(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(horizontal = 16.dp),
             columns = GridCells.Fixed(2)
         ) {
-            items(listFood.size) {
-                CardBestDishes(foodIndex = listFood.indexOf(listFood[it]))
+            allFoods?.let {
+                items(it.size) {
+                    allFoods?.indexOf(allFoods!![it])
+                        ?.let { it1 -> CardBestDishes(foodIndex = it1) }
+                }
             }
         }
     }

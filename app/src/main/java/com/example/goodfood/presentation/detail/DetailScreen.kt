@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.detail
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -17,7 +18,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
@@ -38,6 +38,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
@@ -63,21 +64,24 @@ import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.domain.model.listFood
+import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
-import com.example.goodfood.presentation.favorite.CardFavorite
 import com.example.goodfood.presentation.review.CardReview
 
 @Composable
-fun DetailScreen(navController: NavController, foodIndex: String) {
-    val food = listFood[foodIndex.toInt()]
-    var isFavoriteFood = SimpleDataDummy.listFavoriteFood.contains(food)
+fun DetailScreen(
+    navController: NavController,
+    foodIndex: String,
+    foodViewModel: FoodViewModel = viewModel()
+) {
+    val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
+    val food = allFoods.getOrNull(foodIndex.toInt())
 
+    var isFavoriteFood = food?.isFavorite ?: false
     var isExpanded by remember {
         mutableStateOf(false)
     }
-
     var listReview by remember {
         mutableStateOf(SimpleDataDummy.listReview.filter { it.food == food })
     }
@@ -92,7 +96,9 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
 
     Scaffold(
         floatingActionButton = {
-            FloatingButton(listFood[foodIndex.toInt()], counter)
+            food?.let {
+                FloatingButton(it, counter)
+            }
         },
         topBar = {
             TopAppBarDetail(navController, showDialog = {
@@ -101,33 +107,37 @@ fun DetailScreen(navController: NavController, foodIndex: String) {
         }
     ) {
         val padding = it
-        Body(
-            padding,
-            food,
-            counter,
-            isExpanded,
-            isFavFood = isFavoriteFood,
-            listReview = listReview,
-            updateCounter = {
-                counter = it
-            })
+        if (food != null) {
+            Body(
+                padding,
+                food,
+                counter,
+                isExpanded,
+                isFavFood = isFavoriteFood,
+                listReview = listReview,
+                updateCounter = {
+                    counter = it
+                })
+        }
         Box {
-            RatingDialog(
-                onDismiss = {
-                    dialogOpen = false
-                },
-                onSubmit = {
-                    Toast.makeText(
-                        ctx,
-                        "Terima Kasih atas review anda",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    listReview = SimpleDataDummy.listReview.filter { it.food == food }
-                    dialogOpen = false
-                },
-                food = food,
-                dialogOpen = dialogOpen,
-            )
+            if (food != null) {
+                RatingDialog(
+                    onDismiss = {
+                        dialogOpen = false
+                    },
+                    onSubmit = {
+                        Toast.makeText(
+                            ctx,
+                            "Terima Kasih atas review anda",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        listReview = SimpleDataDummy.listReview.filter { it.food == food }
+                        dialogOpen = false
+                    },
+                    food = food,
+                    dialogOpen = dialogOpen,
+                )
+            }
         }
     }
 }
@@ -230,10 +240,12 @@ private fun Body(
 }
 
 @Composable
-private fun InfoDetail(food: Food, isFav: Boolean) {
-    var isFavorite by remember {
-        mutableStateOf(isFav)
-    }
+private fun InfoDetail(food: Food, isFav: Boolean, foodViewModel: FoodViewModel = viewModel()) {
+    val allFood by foodViewModel.allFood.observeAsState(initial = emptyList())
+
+    val isFavorite = allFood.find { it == food }?.isFavorite ?: false
+
+    Log.d("FOOD FAVORITE??", "$isFavorite OKE OKE")
     Row {
         Text(text = "Delivery Time", fontSize = 18.sp)
         Spacer(modifier = Modifier.width(16.dp))
@@ -254,17 +266,17 @@ private fun InfoDetail(food: Food, isFav: Boolean) {
         IconButton(
             modifier = Modifier.offset(y = (-8).dp, x = (-8).dp),
             onClick = {
-                isFavorite = !isFavorite
-                if (isFavorite) {
-                    SimpleDataDummy.listFavoriteFood.add(food)
+                if (isFavorite == true) {
+                    foodViewModel.update(food = food.copy(isFavorite = false))
+
                 } else {
-                    SimpleDataDummy.listFavoriteFood.remove(food)
+                    foodViewModel.update(food = food.copy(isFavorite = true))
                 }
             }) {
             Icon(
                 modifier = Modifier.size(40.dp),
                 tint = Color.Red,
-                imageVector = if (!isFavorite) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
+                imageVector = if (isFavorite == false) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
                 contentDescription = null
             )
         }
@@ -308,7 +320,7 @@ private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit
 @Composable
 private fun FloatingButton(food: Food, total: Int) {
     val transactionViewModel: TransactionViewModel = viewModel()
-    val transaction by transactionViewModel.allTransaction!!.observeAsState(listOf())
+    val transaction by transactionViewModel.allTransaction.observeAsState(initial = emptyList())
 
 
     val ctx = LocalContext.current

@@ -11,7 +11,7 @@ import com.example.goodfood.domain.dao.TransactionDao
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Transaction
 
-@Database(entities = [Food::class, Transaction::class], version = 1, exportSchema = false)
+@Database(entities = [Food::class, Transaction::class], version = 2, exportSchema = false)
 @TypeConverters(FoodConverter::class)
 abstract class FoodDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
@@ -27,7 +27,7 @@ abstract class FoodDatabase : RoomDatabase() {
                     context.applicationContext,
                     FoodDatabase::class.java,
                     "good_food_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 instance
             }

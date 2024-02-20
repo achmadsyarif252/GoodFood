@@ -31,9 +31,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -43,23 +44,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.listFood
-import com.example.goodfood.domain.model.listPaymentMethod
+import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBar
-import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
-import com.example.goodfood.presentation.payment.CardPaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoriteScreen(modifier: Modifier = Modifier) {
-    val controller = LocalNavController.current
+    LocalNavController.current
     var isFoodSelected by remember {
         mutableStateOf(true)
     }
@@ -99,8 +98,13 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FavoriteScreenContent(modifier: Modifier = Modifier, isFoodSelected: Boolean) {
-    val listFavFood = SimpleDataDummy.listFavoriteFood
+fun FavoriteScreenContent(
+    modifier: Modifier = Modifier,
+    isFoodSelected: Boolean,
+    foodViewModel: FoodViewModel = viewModel()
+) {
+    val allFoods by foodViewModel.allFood.observeAsState()
+    val listFavFood = allFoods!!.filter { it.isFavorite }
     val listFavResto = SimpleDataDummy.listFavoriteResto
     if (isFoodSelected && listFavFood.isNotEmpty())
         LazyColumn {
@@ -184,13 +188,12 @@ fun ButtonHeader(
 @Composable
 fun CardFavorite(
     modifier: Modifier = Modifier,
-    food: Food = Food(
-        name = "Bibimbap",
-        totalRestaurant = 100,
-        image = R.drawable.bibimbap
-    ),
+    food: Food,
+    foodViewModel: FoodViewModel = viewModel()
 ) {
     val navController = LocalNavController.current
+    val allFood by foodViewModel.allFood.observeAsState()
+
     Card(
         modifier = Modifier
             .padding(16.dp)
@@ -199,7 +202,7 @@ fun CardFavorite(
             .clickable {
                 navController.navigate(
                     "detail/${
-                        (listFood
+                        (allFood!!
                             .indexOf(food)
                             .toString())
                     }"
@@ -275,6 +278,6 @@ fun CardFavorite(
 @Composable
 private fun CardFavoritePreview() {
     FoodAppsTheme {
-        CardFavorite()
+        CardFavorite(food = Food(0, 1, "", 12, "", 12.0, "", false))
     }
 }

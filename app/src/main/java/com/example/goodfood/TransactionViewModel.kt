@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class TransactionViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: TransactionRepository
-    val allTransaction: LiveData<List<Transaction?>?>?
+    val allTransaction: LiveData<List<Transaction>>
 
     init {
         val transactionDao = FoodDatabase.getDatabase(application).transactionDao()
