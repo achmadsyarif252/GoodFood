@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 class FoodRepository(private val foodDao: FoodDao) {
     val allFood: Flow<List<Food>> = foodDao.getAllFood()
 
+    suspend fun isFoodListEmpty(): Boolean {
+        return foodDao.getCount() == 0
+    }
     suspend fun insertAllFood() {
         foodDao.insertAllFoods(InitialDataSource.getFood())
     }

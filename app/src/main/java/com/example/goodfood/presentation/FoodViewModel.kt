@@ -18,11 +18,13 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
         val foodDao = FoodDatabase.getDatabase(application).foodDao()
         repository = FoodRepository(foodDao)
         allFood = repository.allFood.asLiveData()
-        if(allFood.value?.isEmpty() == true)insertAllFoods()
+        insertAllFoods()
     }
 
     private fun insertAllFoods() = viewModelScope.launch {
-        repository.insertAllFood()
+        if (repository.isFoodListEmpty()) { // Contoh pengecekan apakah sudah ada data
+            repository.insertAllFood()
+        }
     }
 
     fun insert(food: Food) = viewModelScope.launch {
