@@ -27,10 +27,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.goodfood.LocalNavController
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.FoodViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

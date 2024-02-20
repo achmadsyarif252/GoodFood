@@ -19,6 +19,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +29,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.RestaurantViewModel
 import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.domain.model.restaurants
 
@@ -35,10 +39,12 @@ import com.example.goodfood.domain.model.restaurants
 @Composable
 fun CardRestaurant(
     restaurant: Restaurant,
-    modifier: Modifier
+    modifier: Modifier,
+    restaurantViewModel: RestaurantViewModel = viewModel()
 ) {
     val navController = LocalNavController.current
-    val index = restaurants.indexOf(restaurant)
+    val allRestaurant by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
+    val index = allRestaurant.indexOf(restaurant)
     Card(
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(

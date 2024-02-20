@@ -32,10 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.TransactionViewModel
-import com.example.goodfood.data.SimpleDataDummy
-import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.FoodViewModel
 import com.example.goodfood.presentation.home.FoodDescription
 
 @OptIn(ExperimentalMaterial3Api::class)

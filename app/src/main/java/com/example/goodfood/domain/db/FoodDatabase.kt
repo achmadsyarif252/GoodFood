@@ -7,15 +7,22 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.goodfood.data.FoodConverter
 import com.example.goodfood.domain.dao.FoodDao
+import com.example.goodfood.domain.dao.RestaurantDao
 import com.example.goodfood.domain.dao.TransactionDao
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.domain.model.Transaction
 
-@Database(entities = [Food::class, Transaction::class], version = 2, exportSchema = false)
+@Database(
+    entities = [Food::class, Transaction::class, Restaurant::class],
+    version = 3,
+    exportSchema = false
+)
 @TypeConverters(FoodConverter::class)
 abstract class FoodDatabase : RoomDatabase() {
     abstract fun foodDao(): FoodDao
     abstract fun transactionDao(): TransactionDao
+    abstract fun restaurantDao(): RestaurantDao
 
     companion object {
         @Volatile

@@ -1,7 +1,6 @@
 package com.example.goodfood.presentation.home
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.FoodViewModel
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel

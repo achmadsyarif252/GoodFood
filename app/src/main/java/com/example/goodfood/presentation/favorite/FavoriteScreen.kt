@@ -49,7 +49,8 @@ import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.FoodViewModel
+import com.example.goodfood.RestaurantViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBar
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -101,11 +102,15 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 fun FavoriteScreenContent(
     modifier: Modifier = Modifier,
     isFoodSelected: Boolean,
-    foodViewModel: FoodViewModel = viewModel()
+    foodViewModel: FoodViewModel = viewModel(),
+    restaurantViewModel: RestaurantViewModel = viewModel()
 ) {
-    val allFoods by foodViewModel.allFood.observeAsState()
-    val listFavFood = allFoods!!.filter { it.isFavorite }
-    val listFavResto = SimpleDataDummy.listFavoriteResto
+    val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
+    val listFavFood = allFoods.filter { it.isFavorite }
+
+    val allRestaurant by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
+    val listFavResto = allRestaurant.filter { it.isFavorite }
+
     if (isFoodSelected && listFavFood.isNotEmpty())
         LazyColumn {
             items(listFavFood.size) {

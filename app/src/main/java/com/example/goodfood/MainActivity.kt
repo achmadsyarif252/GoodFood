@@ -7,15 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.goodfood.domain.model.restaurants
-import com.example.goodfood.presentation.FoodViewModel
 import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
@@ -66,7 +62,7 @@ fun MyApp(modifier: Modifier = Modifier) {
 
             composable("detailresto/{index}") {
                 it.arguments?.getString("index")?.let { index ->
-                    DetailResto(restaurant = restaurants[index.toInt()])
+                    DetailResto(restaurantIndex = index)
                 }
             }
             composable("cart") {

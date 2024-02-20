@@ -1,4 +1,4 @@
-package com.example.goodfood.presentation
+package com.example.goodfood
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
