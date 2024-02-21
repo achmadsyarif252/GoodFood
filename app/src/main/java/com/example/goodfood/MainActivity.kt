@@ -7,7 +7,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -40,7 +43,9 @@ class MainActivity : ComponentActivity() {
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found") }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier) {
+fun MyApp(modifier: Modifier = Modifier,reviewViewModel: ReviewViewModel= viewModel()) {
+
+    val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
     // Membuat sebuah NavController
     val navController = rememberNavController()

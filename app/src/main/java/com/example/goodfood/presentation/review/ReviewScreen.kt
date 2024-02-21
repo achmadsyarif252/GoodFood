@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DismissDirection
@@ -40,6 +41,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -108,11 +110,28 @@ fun ReviewScreen(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel
                             )
 
                             //iconSize
-                            val inconScale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.DismissedToStart) 1.3f else 0.5f)
+                            val iconScale by animateFloatAsState(targetValue = if (dismissState.targetValue == DismissValue.DismissedToStart) 1.3f else 0.5f)
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .background(color = backgroundColor)
+                                    .padding(end = 16.dp), // inner padding
+                                contentAlignment = Alignment.Center // place the icon at the end (left)
+                            ) {
+                                Icon(
+                                    modifier = Modifier
+                                        .scale(iconScale)
+                                        .size(50.dp),
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = "Delete",
+                                    tint = Color.White,
+
+                                    )
+                            }
 
                         }, dismissContent = {
                             CardReview(review = reviews[it])
-                        })
+                        }, directions = setOf(DismissDirection.EndToStart))
 
                     }
                 }
