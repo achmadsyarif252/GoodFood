@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.payment
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -34,6 +35,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -50,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.TransactionViewModel
+import com.example.goodfood.WalletViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.domain.model.listPaymentMethod
@@ -79,7 +82,10 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PaymentMethod(modifier: Modifier = Modifier) {
+fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewModel = viewModel()) {
+    val allWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -87,17 +93,19 @@ fun PaymentMethod(modifier: Modifier = Modifier) {
     ) {
         Text(text = "Payment", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(32.dp))
-        var selectedOption by remember {
-            mutableStateOf(listPaymentMethod[0])
-        }
-        LazyColumn {
-            items(listPaymentMethod.size) {
-                CardPaymentMethod(
-                    listPaymentMethod[it],
-                    selectedOption,
-                    onOptionSelected = { paymentMethod ->
-                        selectedOption = paymentMethod
-                    })
+        if (allWallet.isNotEmpty()) {
+            var selectedOption by remember {
+                mutableStateOf(allWallet[0].wallet)
+            }
+            LazyColumn {
+                items(allWallet.size) {
+                    CardPaymentMethod(
+                        allWallet[it].wallet,
+                        selectedOption = selectedOption,
+                        onOptionSelected = { paymentMethod ->
+                            selectedOption = paymentMethod
+                        })
+                }
             }
         }
     }
@@ -171,11 +179,13 @@ fun CardPaymentMethod(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
+            Log.d("Yang Oke", "${paymentOption == selectedOption}")
             RadioButton(
                 // Mengatur parameter selected sesuai dengan opsi yang dipilih
                 selected = paymentOption == selectedOption,
                 // Mengatur parameter onClick untuk memanggil fungsi onOptionSelected
                 onClick = {
+                    Log.d("YANG DI CARDPAYMENT", paymentOption.name)
                     onOptionSelected(paymentOption)
                 },
                 colors = RadioButtonDefaults.colors(

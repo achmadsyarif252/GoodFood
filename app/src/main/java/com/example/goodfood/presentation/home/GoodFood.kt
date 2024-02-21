@@ -102,6 +102,7 @@ fun BestDishes(
     modifier: Modifier = Modifier, foodViewModel: FoodViewModel = viewModel()
 ) {
     val allFoods by foodViewModel.allFood.observeAsState()
+
     Column {
         Text(text = "Best Restaurant Dished", fontSize = 28.sp)
         Spacer(modifier = Modifier.height(32.dp))

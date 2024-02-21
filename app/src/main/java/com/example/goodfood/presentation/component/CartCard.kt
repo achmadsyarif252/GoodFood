@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.component
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.TransactionViewModel
-import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 
 @Composable

@@ -2,7 +2,10 @@ package com.example.goodfood.helper
 
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.model.MyWallet
+import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.domain.model.Restaurant
+import com.example.goodfood.domain.model.listPaymentMethod
 
 object InitialDataSource {
     fun getFood(): List<Food> {
@@ -85,6 +88,15 @@ object InitialDataSource {
             Restaurant(16, "Pempek", "Palembang", 1985, "4.4", R.drawable.resto4),
             Restaurant(17, "Ayam Taliwang", "Lombok", 1998, "4.6", R.drawable.resto1),
             Restaurant(18, "Babi Guling", "Bali", 2001, "4.2", R.drawable.resto2)
+        )
+    }
+
+    fun getAllWallet(): List<MyWallet> {
+        return listOf(
+            MyWallet(id = 0, wallet = listPaymentMethod[0], 1000.0),
+            MyWallet(id = 0, wallet = listPaymentMethod[1], 1000.0),
+            MyWallet(id = 0, wallet = listPaymentMethod[2], 1000.0),
+            MyWallet(id = 0, wallet = listPaymentMethod[3], 1000.0),
         )
     }
 }
