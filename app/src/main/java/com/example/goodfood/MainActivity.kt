@@ -24,6 +24,7 @@ import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
 import com.example.goodfood.presentation.payment.PaymentScreen
 import com.example.goodfood.presentation.profile.ProfileScreen
 import com.example.goodfood.presentation.review.ReviewScreen
+import com.example.goodfood.presentation.topupscreen.SavingAccountScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 
@@ -43,7 +44,7 @@ class MainActivity : ComponentActivity() {
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found") }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier,reviewViewModel: ReviewViewModel= viewModel()) {
+fun MyApp(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel = viewModel()) {
 
     val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
@@ -87,6 +88,9 @@ fun MyApp(modifier: Modifier = Modifier,reviewViewModel: ReviewViewModel= viewMo
             }
             composable("profile") {
                 ProfileScreen()
+            }
+            composable("topup") {
+                SavingAccountScreen()
             }
 
         }

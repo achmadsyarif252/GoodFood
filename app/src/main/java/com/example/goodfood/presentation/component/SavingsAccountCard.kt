@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,10 +27,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.goodfood.R
+import com.example.goodfood.domain.model.MyWallet
+import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 @Composable
-fun SavingsAccountCard() {
+fun SavingsAccountCard(wallet: MyWallet) {
     // Define the card's background gradient colors and direction
     val gradientColors = listOf(Color(0xFF3D5AFE), Color(0xFF3D5AFE))
     val gradient = Brush.horizontalGradient(colors = gradientColors)
@@ -53,15 +54,15 @@ fun SavingsAccountCard() {
         ) {
             // Assuming the VISA logo is at the bottom end of the card
             Image(
-                painter = painterResource(id = R.drawable.visa), // Replace with your actual VISA logo resource ID
-                contentDescription = "VISA Logo",
+                painter = painterResource(id = wallet.wallet.image), // Replace with your actual VISA logo resource ID
+                contentDescription = "Logo",
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp)
                     .size(100.dp) // Adjust the size as needed
                     .graphicsLayer {
                         // Apply alpha transparency for a shadow-like effect
-                        alpha = 0.2f
+                        alpha = 0.7f
                     }
             )
             // Arrange your text elements according to the design
@@ -89,7 +90,7 @@ fun SavingsAccountCard() {
                     color = Color.White
                 )
                 Text(
-                    text = "$ 1500.00",
+                    text = "$ ${wallet.totalSaldo}",
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.White
                 )
@@ -107,6 +108,6 @@ fun SavingsAccountCard() {
 @Composable
 private fun SavingAccountCardPreview() {
     FoodAppsTheme {
-        SavingsAccountCard()
+//        SavingsAccountCard()
     }
 }
