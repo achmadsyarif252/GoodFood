@@ -1,6 +1,7 @@
 package com.example.goodfood.presentation.component
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,14 +16,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,11 +38,26 @@ import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SavingsAccountCard(wallet: MyWallet) {
     // Define the card's background gradient colors and direction
     val gradientColors = listOf(Color(0xFF3D5AFE), Color(0xFF3D5AFE))
     val gradient = Brush.horizontalGradient(colors = gradientColors)
+
+    var isDialogOpen by remember {
+        mutableStateOf(false)
+    }
+    val ctx = LocalContext.current
+    TopUpDialog(
+        onDismiss = { isDialogOpen = false },
+        onSubmit = {
+            isDialogOpen = false
+            Toast.makeText(ctx, "TopUp Berhasil", Toast.LENGTH_SHORT).show()
+        },
+        wallet = wallet,
+        dialogOpen = isDialogOpen
+    )
 
     Card(
         modifier = Modifier
@@ -44,6 +66,9 @@ fun SavingsAccountCard(wallet: MyWallet) {
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
+        onClick = {
+            isDialogOpen = true
+        },
         shape = RoundedCornerShape(16.dp)
     ) {
         Box(
