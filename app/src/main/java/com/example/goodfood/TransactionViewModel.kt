@@ -35,4 +35,8 @@ class TransactionViewModel(application: Application) : AndroidViewModel(applicat
         repository.delete(transaction)
     }
 
+    fun deleteAll() = viewModelScope.launch {
+        repository.deleteAll()
+    }
+
 }

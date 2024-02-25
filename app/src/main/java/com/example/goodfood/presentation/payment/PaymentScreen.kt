@@ -70,7 +70,10 @@ import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
 @Composable
-fun SuccessDialog(showDialog: Boolean, onDismiss: () -> Unit) {
+fun SuccessDialog(
+    showDialog: Boolean,
+    onDismiss: () -> Unit,
+) {
     if (showDialog) {
         Dialog(onDismissRequest = onDismiss) {
             // Custom design for dialog
@@ -119,7 +122,8 @@ fun FailedDialog(showDialog: Boolean, onDismiss: () -> Unit) {
                         onDismissRequest = onDismiss,
                         title = { Text("Failed", color = Color.White) },
                         text = {
-                            Text("Your ballance is not eneough,please top up first.") },
+                            Text("Your ballance is not eneough,please top up first.")
+                        },
                         confirmButton = {
                             Button(onClick = onDismiss) {
                                 Text("OK", color = Color.White)
@@ -212,6 +216,7 @@ fun DetailPayment(
 
     SuccessDialog(showDialog = showDialog) {
         showDialog = false
+        transactionViewModel.deleteAll()
     }
     FailedDialog(showDialog = showFailedDialog) {
         showFailedDialog = false
