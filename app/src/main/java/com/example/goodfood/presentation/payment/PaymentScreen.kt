@@ -1,6 +1,11 @@
 package com.example.goodfood.presentation.payment
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -22,6 +27,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -49,11 +56,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.WalletViewModel
 import com.example.goodfood.data.SimpleDataDummy
+import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.domain.model.listPaymentMethod
 import com.example.goodfood.presentation.component.TopBar
@@ -61,7 +70,74 @@ import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
 @Composable
+fun SuccessDialog(showDialog: Boolean, onDismiss: () -> Unit) {
+    if (showDialog) {
+        Dialog(onDismissRequest = onDismiss) {
+            // Custom design for dialog
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                // Animation
+                AnimatedVisibility(
+                    visible = showDialog,
+                    enter = scaleIn(animationSpec = tween(durationMillis = 300))
+                ) {
+                    // This is where your success message or icon would go
+                    AlertDialog(
+                        onDismissRequest = onDismiss,
+                        title = { Text("Success") },
+                        text = { Text("Have a nice eat,order completed successfully.") },
+                        confirmButton = {
+                            Button(onClick = onDismiss) {
+                                Text("OK")
+                            }
+                        },
+                        containerColor = Color.White,
+                        textContentColor = Color.Black,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FailedDialog(showDialog: Boolean, onDismiss: () -> Unit) {
+    if (showDialog) {
+        Dialog(onDismissRequest = onDismiss) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                AnimatedVisibility(
+                    visible = showDialog,
+                    enter = fadeIn(animationSpec = tween(durationMillis = 300)),
+                    exit = fadeOut(animationSpec = tween(durationMillis = 300))
+                ) {
+                    AlertDialog(
+                        onDismissRequest = onDismiss,
+                        title = { Text("Failed", color = Color.White) },
+                        text = {
+                            Text("Your ballance is not eneough,please top up first.") },
+                        confirmButton = {
+                            Button(onClick = onDismiss) {
+                                Text("OK", color = Color.White)
+                            }
+                        },
+                        containerColor = Color(0xFFB00020), // Use a red color to indicate failure
+                        textContentColor = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun PaymentScreen(modifier: Modifier = Modifier) {
+
+
     Scaffold(
         topBar = {
             TopBar(text = "Checkout")
@@ -85,7 +161,6 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewModel = viewModel()) {
     val allWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
 
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,6 +172,9 @@ fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewMode
             var selectedOption by remember {
                 mutableStateOf(allWallet[0].wallet)
             }
+            var selectedWallet by remember {
+                mutableStateOf(allWallet[0])
+            }
             LazyColumn {
                 items(allWallet.size) {
                     CardPaymentMethod(
@@ -107,21 +185,37 @@ fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewMode
                         })
                 }
             }
+            Spacer(modifier = Modifier.height(32.dp))
+            allWallet.find { it.wallet == selectedOption }?.let { DetailPayment(myWallet = it) }
         }
     }
-    Spacer(modifier = Modifier.height(32.dp))
-    DetailPayment()
+
 }
 
 
 @Composable
 fun DetailPayment(
     modifier: Modifier = Modifier,
-    transactionViewModel: TransactionViewModel = viewModel()
+    transactionViewModel: TransactionViewModel = viewModel(), myWallet: MyWallet,
+    walletViewModel: WalletViewModel = viewModel()
 ) {
     val foodPrice by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
     val shippingFee = if (foodPrice > 0.0) 1.2 else 0.0
     val total = foodPrice + shippingFee
+
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+    var showFailedDialog by remember {
+        mutableStateOf(false)
+    }
+
+    SuccessDialog(showDialog = showDialog) {
+        showDialog = false
+    }
+    FailedDialog(showDialog = showFailedDialog) {
+        showFailedDialog = false
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -139,7 +233,16 @@ fun DetailPayment(
             modifier = Modifier
                 .height(50.dp)
                 .fillMaxWidth(),
-            onClick = { /*TODO*/ }) {
+            onClick = {
+                if (total <= myWallet.totalSaldo) {
+                    myWallet.let {
+                        walletViewModel.update(wallet = it.copy(totalSaldo = it.totalSaldo - total))
+                        showDialog = true
+                    }
+                } else {
+                    showFailedDialog = true
+                }
+            }) {
             Text(text = "Confirm payment")
         }
     }

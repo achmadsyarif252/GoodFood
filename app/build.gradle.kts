@@ -54,7 +54,8 @@ android {
 dependencies {
     implementation("com.exyte:animated-navigation-bar:1.0.0")
     implementation("androidx.navigation:navigation-compose:2.4.0")
-
+    implementation("androidx.compose.material:material:1.0.0")
+    implementation("androidx.compose.animation:animation:1.0.0")
     // Room components
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
