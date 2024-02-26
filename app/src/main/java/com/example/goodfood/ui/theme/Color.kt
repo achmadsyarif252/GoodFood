@@ -20,4 +20,6 @@ val LightPurple = Color(0xFFBCA1E7)
 val RoyalPurple = Color(0xFF64419F)
 val LightGrey = Color(0xFFB1B1B1)
 
+val OrangeColor = Color(220, 86, 39)
+
 val ScaffoldBgColor = Color(242, 245, 250, 255)
