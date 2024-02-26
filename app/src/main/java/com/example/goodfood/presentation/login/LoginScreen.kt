@@ -17,16 +17,22 @@ import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +43,16 @@ import com.example.goodfood.ui.theme.OrangeColor
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier) {
+    var isShowPassword by remember {
+        mutableStateOf(false)
+    }
+
+    var usernameTextField by remember {
+        mutableStateOf("")
+    }
+    var passwordTextField by remember {
+        mutableStateOf("")
+    }
     Scaffold {
         val innerPadding = it
         Column(
@@ -70,9 +86,12 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         )
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    value = "", onValueChange = {}, placeholder = {
+                    value = usernameTextField,
+                    onValueChange = { usernameTextField = it },
+                    placeholder = {
                         Text(text = "Username")
-                    }, shape = RoundedCornerShape(32.dp)
+                    },
+                    shape = RoundedCornerShape(32.dp)
                 )
                 OutlinedTextField(
                     leadingIcon = {
@@ -85,21 +104,29 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         )
                     },
                     trailingIcon = {
-                        Icon(
+                        IconButton(
+                            onClick = {
+                                isShowPassword = !isShowPassword
+                            },
                             modifier = Modifier
                                 .padding(end = 8.dp)
                                 .size(24.dp),
-                            painter = painterResource(id = R.drawable.view),
-                            contentDescription = ""
-                        )
+                        ) {
+                            Icon(
+                                painter = painterResource(id = if (isShowPassword) R.drawable.view else R.drawable.hide),
+                                contentDescription = "View Password"
+                            )
+                        }
                     },
-                    modifier = Modifier.fillMaxWidth(), value = "",
-                    onValueChange = {},
+                    modifier = Modifier.fillMaxWidth(), value = passwordTextField,
+                    onValueChange = {
+                        passwordTextField = it
+                    },
                     placeholder = {
                         Text(text = "Password")
                     },
                     shape = RoundedCornerShape(32.dp),
-                    visualTransformation = PasswordVisualTransformation()
+                    visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation()
                 )
             }
             Column(
