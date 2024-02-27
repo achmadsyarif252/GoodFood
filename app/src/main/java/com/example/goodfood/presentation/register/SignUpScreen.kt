@@ -134,16 +134,11 @@ fun SignUpScreen(
                         return@OutlinedButton
                     } else {
                         confirmPasswordError = false
-                        Toast.makeText(ctx, "ELSE", Toast.LENGTH_LONG)
-                            .show()
                     }
                     if (isUserExist != null) {
                         usernameError = true
-                        Toast.makeText(ctx, "isUserExist != null", Toast.LENGTH_LONG)
-                            .show()
-                    }else{
-                        Toast.makeText(ctx, "isUserExist == null", Toast.LENGTH_LONG)
-                            .show()
+                    } else {
+                        usernameError = false
                     }
                     if (!confirmPasswordError && !usernameError) {
                         registerViewModel.insert(
