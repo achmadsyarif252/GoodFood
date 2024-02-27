@@ -19,10 +19,12 @@ import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
+import com.example.goodfood.presentation.login.LoginScreen
 import com.example.goodfood.presentation.nearby_restaurant.DetailResto
 import com.example.goodfood.presentation.nearby_restaurant.NearbyRestaurant
 import com.example.goodfood.presentation.payment.PaymentScreen
 import com.example.goodfood.presentation.profile.ProfileScreen
+import com.example.goodfood.presentation.register.SignUpScreen
 import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.presentation.topupscreen.SavingAccountScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -57,7 +59,7 @@ fun MyApp(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel = view
             // Menambahkan rute dan layar yang bisa dinavigasi ke dalam NavHost
             // Menambahkan rute dan layar home
             composable("home") {
-                HomeScreen()
+                LoginScreen()
             }
             // Menambahkan rute dan layar detail
             composable("detail/{index}") {
@@ -91,6 +93,12 @@ fun MyApp(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel = view
             }
             composable("topup") {
                 SavingAccountScreen()
+            }
+            composable("login") {
+                LoginScreen()
+            }
+            composable("register") {
+                SignUpScreen()
             }
 
         }

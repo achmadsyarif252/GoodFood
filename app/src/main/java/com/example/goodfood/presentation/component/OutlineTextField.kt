@@ -8,8 +8,10 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -20,9 +22,15 @@ import com.example.goodfood.R
 fun OutlineTextFieldUsername(
     modifier: Modifier = Modifier,
     usernameTextField: String,
-    onValueChange: (String) -> Unit
+    isError: Boolean,
+    onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
+        isError = isError,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = if (isError) Color.Red else Color.Blue, // Change border color if error
+            unfocusedBorderColor = if (isError) Color.Red else Color.Gray,
+        ),
         singleLine = true,
         leadingIcon = {
             Icon(
@@ -37,7 +45,7 @@ fun OutlineTextFieldUsername(
         value = usernameTextField,
         onValueChange = { onValueChange(it) },
         placeholder = {
-            Text(text = "Username or Email")
+            Text(text = if (!isError) "Username or Email" else "Username or Email Already Exist")
         },
         shape = RoundedCornerShape(32.dp)
     )
@@ -50,9 +58,11 @@ fun OutlineTextFieldPassword(
     onClick: () -> Unit,
     passwordTextField: String,
     placeHolder: String = "Password",
+    isError: Boolean,
     onValueChange: (String) -> Unit,
 ) {
     OutlinedTextField(
+        isError = isError,
         singleLine = true,
         leadingIcon = {
             Icon(
@@ -78,14 +88,18 @@ fun OutlineTextFieldPassword(
                 )
             }
         },
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = if (isError) Color.Red else Color.Blue, // Change border color if error
+            unfocusedBorderColor = if (isError) Color.Red else Color.Gray,
+        ),
         modifier = Modifier.fillMaxWidth(), value = passwordTextField,
         onValueChange = {
             onValueChange(it)
         },
         placeholder = {
-            Text(text = placeHolder)
+            Text(text = if (!isError) placeHolder else "Password Confirm Doesn't Same")
         },
         shape = RoundedCornerShape(32.dp),
-        visualTransformation = if (isShowPassword) VisualTransformation.None else PasswordVisualTransformation()
+        visualTransformation = if (isShowPassword || isError) VisualTransformation.None else PasswordVisualTransformation()
     )
 }

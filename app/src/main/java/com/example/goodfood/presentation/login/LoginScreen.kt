@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
@@ -36,6 +37,8 @@ import com.example.goodfood.ui.theme.OrangeColor
 
 @Composable
 fun LoginScreen(modifier: Modifier = Modifier) {
+    val localNavController = LocalNavController.current
+
     var isShowPassword by remember {
         mutableStateOf(false)
     }
@@ -68,7 +71,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                 contentDescription = "Login"
             )
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
-                OutlineTextFieldUsername(usernameTextField = usernameTextField) {
+                OutlineTextFieldUsername(usernameTextField = usernameTextField, isError = false) {
                     usernameTextField = it
                 }
                 OutlineTextFieldPassword(
@@ -76,7 +79,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                     onClick = {
                         isShowPassword = !isShowPassword
                     },
-                    passwordTextField = passwordTextField
+                    passwordTextField = passwordTextField, isError = false
                 ) {
                     passwordTextField = it
                 }
@@ -107,7 +110,9 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         containerColor = OrangeColor,
                         contentColor = Color.White
                     ),
-                    onClick = { /*TODO*/ }) {
+                    onClick = {
+                        localNavController.navigate("register")
+                    }) {
                     Text(text = "Register", color = Color.White)
                 }
             }

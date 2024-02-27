@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation.register
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,40 +15,64 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
+import com.example.goodfood.RegisterViewModel
+import com.example.goodfood.domain.model.User
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.OrangeColor
 
 @Composable
-fun SignUpScreen(modifier: Modifier = Modifier) {
+fun SignUpScreen(
+    modifier: Modifier = Modifier,
+    registerViewModel: RegisterViewModel = viewModel()
+) {
+    val ctx = LocalContext.current
+    val localNavController = LocalNavController.current
+
     var usernameTextField by remember {
         mutableStateOf("")
     }
     var passwordTextField by remember {
         mutableStateOf("")
     }
+    var passwordConfirmTextField by remember {
+        mutableStateOf("")
+    }
     var isShowPassword by remember {
         mutableStateOf(false)
     }
+
+    var usernameError by remember {
+        mutableStateOf(false)
+    }
+    var confirmPasswordError by remember {
+        mutableStateOf(false)
+    }
+
+    val isUserExist by registerViewModel.isAlreadyExist(usernameTextField).observeAsState()
+
     Scaffold {
         val innerPadding = it
         Column(
@@ -59,7 +84,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                modifier = Modifier.offset(y= (-32).dp),
+                modifier = Modifier.offset(y = (-32).dp),
                 text = "Sign up and start\nEating",
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp,
@@ -69,15 +94,22 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             Image(painter = painterResource(id = R.drawable.eat), contentDescription = "Sign Up Bg")
             Spacer(modifier = Modifier.height(32.dp))
 
-            OutlineTextFieldUsername(usernameTextField = usernameTextField) {
+            OutlineTextFieldUsername(
+                usernameTextField = usernameTextField,
+                isError = usernameError
+            ) {
                 usernameTextField = it
             }
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlineTextFieldPassword(
                 isShowPassword = isShowPassword,
-                onClick = { isShowPassword = !isShowPassword },
+                onClick = {
+                    isShowPassword = !isShowPassword
+                    confirmPasswordError = false
+                },
                 passwordTextField = passwordTextField,
+                isError = confirmPasswordError,
             ) {
                 passwordTextField = it
             }
@@ -86,15 +118,47 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
             OutlineTextFieldPassword(
                 isShowPassword = isShowPassword,
                 onClick = { isShowPassword = !isShowPassword },
-                passwordTextField = passwordTextField,
-                placeHolder = "Confirm Password"
+                passwordTextField = passwordConfirmTextField,
+                placeHolder = "Confirm Password",
+                isError = confirmPasswordError
             ) {
-                passwordTextField = it
+                passwordConfirmTextField = it
             }
             Spacer(modifier = Modifier.height(32.dp))
             OutlinedButton(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { /*TODO*/ }, colors = ButtonDefaults.buttonColors(
+                onClick = {
+
+                    if (passwordConfirmTextField != passwordTextField) {
+                        confirmPasswordError = true
+                        return@OutlinedButton
+                    } else {
+                        confirmPasswordError = false
+                        Toast.makeText(ctx, "ELSE", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    if (isUserExist != null) {
+                        usernameError = true
+                        Toast.makeText(ctx, "isUserExist != null", Toast.LENGTH_LONG)
+                            .show()
+                    }else{
+                        Toast.makeText(ctx, "isUserExist == null", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    if (!confirmPasswordError && !usernameError) {
+                        registerViewModel.insert(
+                            User(
+                                id = 0,
+                                email = usernameTextField,
+                                password = passwordConfirmTextField
+                            )
+                        )
+                        Toast.makeText(ctx, "Register Berhasil,Silakan Login", Toast.LENGTH_LONG)
+                            .show()
+                        localNavController.navigate("login")
+                    }
+
+                }, colors = ButtonDefaults.buttonColors(
                     containerColor = OrangeColor,
                     contentColor = Color.White
                 )

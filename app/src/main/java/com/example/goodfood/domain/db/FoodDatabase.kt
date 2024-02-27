@@ -11,16 +11,18 @@ import com.example.goodfood.domain.dao.FoodDao
 import com.example.goodfood.domain.dao.RestaurantDao
 import com.example.goodfood.domain.dao.ReviewDao
 import com.example.goodfood.domain.dao.TransactionDao
+import com.example.goodfood.domain.dao.UserDao
 import com.example.goodfood.domain.dao.WalletDao
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.domain.model.User
 
 @Database(
-    entities = [Food::class, Transaction::class, Restaurant::class, Review::class, MyWallet::class],
-    version = 5,
+    entities = [Food::class, Transaction::class, Restaurant::class, Review::class, MyWallet::class, User::class],
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(FoodConverter::class, PaymentConverter::class)
@@ -30,6 +32,7 @@ abstract class FoodDatabase : RoomDatabase() {
     abstract fun restaurantDao(): RestaurantDao
     abstract fun reviewDao(): ReviewDao
     abstract fun walletDao(): WalletDao
+    abstract fun userDao(): UserDao
 
     companion object {
         @Volatile

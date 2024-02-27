@@ -38,7 +38,20 @@
         </State>
       </entry>
       <entry key="SignUpScreenPreview">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\achma\.android\avd\Pixel_7a_API_33.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2024-02-27T08:58:27.318229100Z" />
+        </State>
       </entry>
       <entry key="app">
         <State>
