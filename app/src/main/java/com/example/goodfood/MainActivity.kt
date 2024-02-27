@@ -1,6 +1,7 @@
 package com.example.goodfood
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -9,12 +10,18 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.goodfood.data.LoginInfo
+import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
@@ -46,20 +53,32 @@ class MainActivity : ComponentActivity() {
 val LocalNavController = compositionLocalOf<NavController> { error("No NavController found") }
 
 @Composable
-fun MyApp(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel = viewModel()) {
-
+fun MyApp(
+    modifier: Modifier = Modifier,
+    reviewViewModel: ReviewViewModel = viewModel(),
+) {
+    val context = LocalContext.current
+    val viewModel: LoginViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    var username by rememberSaveable { mutableStateOf("") }
+    val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
     val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
     // Membuat sebuah NavController
     val navController = rememberNavController()
     // Membuat sebuah NavHost dengan NavController dan startDestination
-
+    val startDestination =
+        if (loginInfo.isLoggedIn) "home" else "login"
     CompositionLocalProvider(LocalNavController provides navController) {
-        NavHost(navController = navController, startDestination = "home") {
+        NavHost(navController = navController, startDestination = startDestination) {
             // Menambahkan rute dan layar yang bisa dinavigasi ke dalam NavHost
             // Menambahkan rute dan layar home
-            composable("home") {
+            composable("login") {
                 LoginScreen()
+            }
+            composable("home") {
+                HomeScreen()
             }
             // Menambahkan rute dan layar detail
             composable("detail/{index}") {

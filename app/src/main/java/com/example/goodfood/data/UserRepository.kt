@@ -5,8 +5,8 @@ import com.example.goodfood.domain.model.User
 
 class UserRepository(private val userDao: UserDao) {
 
-    suspend fun getUser(email: String, password: String) {
-        userDao.getUser(email, password)
+    fun getUser(email: String, password: String): User {
+        return userDao.getUser(email, password)
     }
 
     fun isAlreadyExist(email: String): User? {

@@ -1,6 +1,7 @@
 package com.example.goodfood.presentation.login
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,27 +17,42 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.LoginViewModel
 import com.example.goodfood.R
+import com.example.goodfood.RegisterViewModel
+import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
 import com.example.goodfood.ui.theme.OrangeColor
 
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    userViewModel: RegisterViewModel = viewModel(),
+) {
+    val context = LocalContext.current
+    val viewModel: LoginViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+
     val localNavController = LocalNavController.current
 
     var isShowPassword by remember {
@@ -49,6 +65,12 @@ fun LoginScreen(modifier: Modifier = Modifier) {
     var passwordTextField by remember {
         mutableStateOf("")
     }
+    val login by userViewModel.getUser(
+        email = usernameTextField,
+        password = passwordTextField
+    ).observeAsState()
+
+    val ctx = LocalContext.current
     Scaffold {
         val innerPadding = it
         Column(
@@ -94,7 +116,16 @@ fun LoginScreen(modifier: Modifier = Modifier) {
                         containerColor = OrangeColor,
                         contentColor = Color.White,
                     ),
-                    onClick = { /*TODO*/ }) {
+                    onClick = {
+
+                        if (login != null) {
+                            localNavController.navigate("home")
+                            viewModel.saveLoginInfo(usernameTextField, true)
+                        } else {
+                            Toast.makeText(ctx, "Username Or Password Incorrect", Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }) {
                     Text(text = "Login", color = Color.White)
                 }
                 Row(
@@ -125,5 +156,5 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen()
+//    LoginScreen()
 }

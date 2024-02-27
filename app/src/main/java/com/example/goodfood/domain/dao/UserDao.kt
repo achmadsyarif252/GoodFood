@@ -17,7 +17,7 @@ interface UserDao {
     fun isUsernameAlreadyExist(email: String): User?
 
     @Query("SELECT * FROM table_user WHERE email = :email AND password = :password")
-    suspend fun getUser(email: String, password: String): User
+    fun getUser(email: String, password: String): User
 
     @Update
     suspend fun update(user: User)

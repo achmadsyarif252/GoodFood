@@ -19,8 +19,10 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         repository = UserRepository(userDao)
     }
 
-    fun getUser(email: String, password: String) = viewModelScope.launch {
-        repository.getUser(email, password)
+    fun getUser(email: String, password: String): LiveData<User> {
+        return liveData(Dispatchers.IO) {
+            emit(repository.getUser(email, password))
+        }
     }
 
     // Fungsi untuk mengecek apakah user sudah ada
