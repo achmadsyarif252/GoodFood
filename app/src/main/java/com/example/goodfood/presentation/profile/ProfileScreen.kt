@@ -31,9 +31,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,21 +43,42 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
+import com.example.goodfood.LoginViewModel
+import com.example.goodfood.LogoutViewModel
 import com.example.goodfood.R
 import com.example.goodfood.WalletViewModel
+import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.presentation.component.TopBar
-import com.example.goodfood.presentation.component.TopUpDialog
+import com.example.goodfood.presentation.component.ExitDialog
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.ScaffoldBgColor
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    val viewModel: LogoutViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+
+    val localNavController = LocalNavController.current
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+    ExitDialog(onDismiss = { showDialog = false }, onSubmit = {
+        viewModel.logout {
+            localNavController.navigate("login")
+        }
+    }, dialogOpen = showDialog)
     Scaffold(
         containerColor = ScaffoldBgColor,
         topBar = {
-            TopBar(text = "Akun Saya")
-        }
+            TopBarDefault(text = "Akun Saya", isProfileScreen = true) {
+                showDialog = true
+            }
+        },
     ) {
         val innerPadding = it
         Body(ineerPadding = innerPadding)

@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,6 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -50,23 +48,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.R
 import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.WalletViewModel
-import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.model.PaymentMethod
-import com.example.goodfood.domain.model.listPaymentMethod
-import com.example.goodfood.presentation.component.TopBar
-import com.example.goodfood.ui.theme.FoodAppsTheme
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.Gold
 
 @Composable
@@ -144,7 +136,7 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 
     Scaffold(
         topBar = {
-            TopBar(text = "Checkout")
+            TopBarDefault(text = "Checkout")
         }
     )
     {

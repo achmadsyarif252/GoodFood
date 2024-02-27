@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.RestaurantViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 @Composable
@@ -24,7 +24,7 @@ fun NearbyRestaurant(
 ) {
     Scaffold(
         topBar = {
-            TopBar(text = "NearBy Restaurant")
+            TopBarDefault(text = "NearBy Restaurant")
         }
     ) {
         val allRestaurants by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())

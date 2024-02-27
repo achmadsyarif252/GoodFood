@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.cart
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,20 +14,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,11 +38,10 @@ import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.TransactionViewModel
 import com.example.goodfood.presentation.component.CartCard
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
-import kotlinx.coroutines.flow.onEach
 
 @Composable
 fun CartScreen(
@@ -69,7 +62,7 @@ fun CartScreen(
     Scaffold(
         containerColor = CardFood,
         topBar = {
-            TopBar(text = "My Cart")
+            TopBarDefault(text = "My Cart")
         }
     ) {
         val padding = it

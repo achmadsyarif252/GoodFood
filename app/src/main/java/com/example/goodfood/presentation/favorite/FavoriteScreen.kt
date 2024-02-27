@@ -47,12 +47,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.LocalNavController
 import com.example.goodfood.R
-import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.FoodViewModel
 import com.example.goodfood.RestaurantViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -65,7 +64,7 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
     }
     Scaffold(
         topBar = {
-            TopBar(text = "Favorite")
+            TopBarDefault(text = "Favorite")
         }
     ) {
         val padding = it

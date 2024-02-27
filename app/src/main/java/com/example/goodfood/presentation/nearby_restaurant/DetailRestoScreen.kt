@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.RestaurantViewModel
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -51,7 +51,7 @@ fun DetailResto(restaurantIndex: String, restaurantViewModel: RestaurantViewMode
     Scaffold(
         topBar = {
             if (restaurant != null) {
-                TopBar(text = restaurant.name)
+                TopBarDefault(text = restaurant.name)
             }
         },
         floatingActionButton = {

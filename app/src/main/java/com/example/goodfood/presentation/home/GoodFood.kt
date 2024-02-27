@@ -26,7 +26,8 @@ import com.example.goodfood.FoodViewModel
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
+import com.example.goodfood.presentation.component.TopBarHome
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
@@ -35,7 +36,7 @@ import com.example.goodfood.ui.theme.FoodAppsTheme
 fun HomeScreen() {
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {
-            TopBar()
+            TopBarHome()
         },
         bottomBar = {
             BottomNavigation()
@@ -136,6 +137,6 @@ fun FoodDescription(modifier: Modifier = Modifier, food: Food) {
 @Composable
 private fun TopBarPreview() {
     FoodAppsTheme {
-        TopBar()
+        TopBarHome()
     }
 }

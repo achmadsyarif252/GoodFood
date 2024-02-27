@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.WalletViewModel
 import com.example.goodfood.presentation.component.SavingsAccountCard
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 
 @Composable
 fun SavingAccountScreen(
@@ -21,7 +21,7 @@ fun SavingAccountScreen(
 
     Scaffold(
         topBar = {
-            TopBar(text = "Saving Account")
+            TopBarDefault(text = "Saving Account")
         }
     ) {
         val innerPadding = it

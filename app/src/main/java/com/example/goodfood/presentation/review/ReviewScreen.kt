@@ -57,7 +57,7 @@ import com.example.goodfood.R
 import com.example.goodfood.ReviewViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Review
-import com.example.goodfood.presentation.component.TopBar
+import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -69,7 +69,7 @@ fun ReviewScreen(modifier: Modifier = Modifier, reviewViewModel: ReviewViewModel
 
     Scaffold(
         topBar = {
-            TopBar(text = "Review")
+            TopBarDefault(text = "Review")
         }, floatingActionButton = {
             FloatingActionButton(
                 shape = CircleShape,

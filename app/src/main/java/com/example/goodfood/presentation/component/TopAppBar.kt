@@ -25,7 +25,7 @@ import com.example.goodfood.ui.theme.Gold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
+fun TopBarHome() {
     TopAppBar(title = {
         val buildAnnotatedString = buildAnnotatedString {
             withStyle(

@@ -23,6 +23,12 @@ object UserPreferences {
         }
     }
 
+    suspend fun clearLoginInfo(context: Context) {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     val Context.loginInfo: Flow<LoginInfo>
         get() = dataStore.data.map { preferences ->
             LoginInfo(
