@@ -2,6 +2,7 @@ package com.example.goodfood.presentation.profile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -149,6 +150,7 @@ fun Body(modifier: Modifier = Modifier, ineerPadding: PaddingValues) {
 
 @Composable
 fun Header(modifier: Modifier = Modifier) {
+    val localNavController = LocalNavController.current
     Row(
         modifier
             .fillMaxWidth()
@@ -157,7 +159,11 @@ fun Header(modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = R.drawable.cat),
             contentDescription = "Avatar Profile",
-            modifier = Modifier.size(80.dp)
+            modifier = Modifier
+                .size(80.dp)
+                .clickable {
+                    localNavController.navigate("change_profile_pic")
+                },
         )
         Spacer(modifier = Modifier.width(16.dp))
         Column {

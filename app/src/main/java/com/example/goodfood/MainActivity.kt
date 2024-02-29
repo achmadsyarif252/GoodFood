@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.presentation.cart.CartScreen
+import com.example.goodfood.presentation.change_profile_image.ProfileImage
 import com.example.goodfood.presentation.detail.DetailScreen
 import com.example.goodfood.presentation.favorite.FavoriteScreen
 import com.example.goodfood.presentation.home.HomeScreen
@@ -118,6 +119,9 @@ fun MyApp(
             }
             composable("register") {
                 SignUpScreen()
+            }
+            composable("change_profile_pic") {
+                ProfileImage()
             }
 
         }
