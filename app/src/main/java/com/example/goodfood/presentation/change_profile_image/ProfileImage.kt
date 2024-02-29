@@ -32,6 +32,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import com.example.goodfood.R
 import java.io.File
@@ -39,12 +40,14 @@ import java.io.File
 @Composable
 fun ProfileImage(modifier: Modifier = Modifier) {
 
-    val photoUri = File(
-        LocalContext.current.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+    val context = LocalContext.current
+
+    val photoFile = File(
+        context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
         "photo_${System.currentTimeMillis()}.jpg"
-    ).also {
-        it.createNewFile()
-    }.toUri()
+    )
+    val photoUri = FileProvider.getUriForFile(context, "com.example.goodfood.provider", photoFile)
+
 
     val takePictureLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success: Boolean ->
