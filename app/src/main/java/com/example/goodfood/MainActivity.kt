@@ -1,20 +1,24 @@
 package com.example.goodfood
 
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -36,6 +40,7 @@ import com.example.goodfood.presentation.register.SignUpScreen
 import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.presentation.topupscreen.SavingAccountScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
+import java.io.File
 
 
 class MainActivity : ComponentActivity() {
@@ -69,6 +74,32 @@ fun MyApp(
     // Membuat sebuah NavController
     val navController = rememberNavController()
     // Membuat sebuah NavHost dengan NavController dan startDestination
+
+    //property for profile image
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val externalCacheDir = context.externalCacheDir?.absolutePath
+
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri: Uri? -> imageUri = uri })
+
+    val takePictureLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.TakePicture(),
+        onResult = { success: Boolean ->
+            if (success) {
+                imageUri = FileProvider.getUriForFile(
+                    context,
+                    "com.example.goodfood.provider",
+                    File(externalCacheDir, "new-photo.jpg")
+                )
+            }
+        }
+    )
+
+
     val startDestination =
         if (loginInfo.isLoggedIn) "home" else "login"
     CompositionLocalProvider(LocalNavController provides navController) {
@@ -121,9 +152,19 @@ fun MyApp(
                 SignUpScreen()
             }
             composable("change_profile_pic") {
-                ProfileImage()
+                ProfileImage(
+                    imageUri = imageUri,
+                    onPickImage = { pickImageLauncher.launch("image/*") },
+                    onTakePicture = {
+                        val photoFile = File(context.externalCacheDir, "new-photo.jpg")
+                        val photoUri = FileProvider.getUriForFile(
+                            context,
+                            "${context.applicationContext.packageName}.provider",
+                            photoFile
+                        )
+                        takePictureLauncher.launch(photoUri)
+                    })
             }
-
         }
     }
 }

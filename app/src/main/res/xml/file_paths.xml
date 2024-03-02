@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths>
-    <external-path
-        name="my_images"
-        path="Android/data/com.example.goodfood/files/Pictures/" />
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-cache-path name="external_cache" path="."/>
+    <external-path name="external_files" path="."/>
+    <!-- Menyesuaikan path sesuai kebutuhan -->
 </paths>
