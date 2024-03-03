@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -81,6 +82,7 @@ fun MyApp(
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
+
 
     val externalCacheDir = context.externalCacheDir?.absolutePath
 

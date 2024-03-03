@@ -1,5 +1,7 @@
 package com.example.goodfood.presentation.profile
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
@@ -35,7 +38,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -47,7 +53,9 @@ import com.example.goodfood.LocalNavController
 import com.example.goodfood.LoginViewModel
 import com.example.goodfood.LogoutViewModel
 import com.example.goodfood.R
+import com.example.goodfood.RegisterViewModel
 import com.example.goodfood.WalletViewModel
+import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.presentation.component.ExitDialog
@@ -149,22 +157,49 @@ fun Body(modifier: Modifier = Modifier, ineerPadding: PaddingValues) {
 }
 
 @Composable
-fun Header(modifier: Modifier = Modifier) {
+fun Header(modifier: Modifier = Modifier, userViewModel: RegisterViewModel = viewModel()) {
+    val context = LocalContext.current
+    val viewModel: LoginViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
+
+    val accountInfo by userViewModel.isAlreadyExist(
+        email = loginInfo.username,
+    ).observeAsState()
+
+    val imageBitmap = accountInfo?.image?.let { byteArrayToBitmap(it) }
+
     val localNavController = LocalNavController.current
     Row(
         modifier
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.cat),
-            contentDescription = "Avatar Profile",
-            modifier = Modifier
-                .size(80.dp)
-                .clickable {
-                    localNavController.navigate("change_profile_pic")
-                },
-        )
+        if (imageBitmap == null)
+            Image(
+                painter = painterResource(id = R.drawable.cat),
+                contentDescription = "Avatar Profile",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        localNavController.navigate("change_profile_pic")
+                    },
+            )
+        else
+            Image(
+                bitmap = imageBitmap.asImageBitmap(),
+                contentDescription = "Avatar Profile",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        localNavController.navigate("change_profile_pic")
+                    },
+            )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(text = "Achmad Syarif", fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -225,6 +260,10 @@ fun Wallet(modifier: Modifier = Modifier, wallet: MyWallet) {
         Text(text = "$ ${wallet.totalSaldo}", fontSize = 16.sp, fontWeight = FontWeight.Bold)
         Text(text = "Top Up ${wallet.wallet.name}", fontSize = 14.sp, fontWeight = FontWeight.Light)
     }
+}
+
+fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 }
 
 @Preview
