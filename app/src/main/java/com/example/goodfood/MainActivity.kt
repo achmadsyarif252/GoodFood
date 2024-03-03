@@ -3,11 +3,11 @@ package com.example.goodfood
 import android.Manifest
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -43,31 +43,15 @@ import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.presentation.topupscreen.SavingAccountScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import java.io.File
-import android.Manifest.permission.READ_EXTERNAL_STORAGE
-import android.content.Context
-import android.content.pm.PackageManager
-import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
-import androidx.core.content.ContextCompat
+
 
 class MainActivity : ComponentActivity() {
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestPermissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-                if (isGranted) {
-                    // Izin diberikan, handle sesuai kebutuhan
-                } else {
-                    // Izin ditolak, tampilkan pesan atau handle penolakan
-                }
-            }
-
         enableEdgeToEdge()
         setContent {
             FoodAppsTheme {
-                MyApp(requestPermission = { requestPermissionLauncher.launch(READ_EXTERNAL_STORAGE) })
+                MyApp()
             }
         }
     }
@@ -78,24 +62,17 @@ val LocalNavController = compositionLocalOf<NavController> { error("No NavContro
 
 @Composable
 fun MyApp(
-    modifier: Modifier = Modifier, requestPermission: () -> Unit,
+    modifier: Modifier = Modifier,
+    reviewViewModel: ReviewViewModel = viewModel(),
 ) {
-
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = 1) {
-        if (!hasStoragePermission(context)) {
-            Log.d("MALAM MINGGU CUY", "OKOKOK")
-            requestPermission()
-        } else {
-            Log.d("MALAM MINGGU CUY", "SUDAH ACC")
-
-        }
-    }
     val viewModel: LoginViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
+    var username by rememberSaveable { mutableStateOf("") }
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
+    val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
+
     // Membuat sebuah NavController
     val navController = rememberNavController()
     // Membuat sebuah NavHost dengan NavController dan startDestination
@@ -120,6 +97,28 @@ fun MyApp(
                     "com.example.goodfood.provider",
                     File(externalCacheDir, "new-photo.jpg")
                 )
+            }
+        }
+    )
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { isGranted: Boolean ->
+            if (isGranted) {
+                // Izin diberikan, lanjutkan untuk membuka kamera
+                val photoFile = File(context.externalCacheDir, "new-photo.jpg")
+                imageUri = FileProvider.getUriForFile(
+                    context,
+                    "${context.packageName}.provider",
+                    photoFile
+                )
+                takePictureLauncher.launch(imageUri)
+            } else {
+                Toast.makeText(
+                    context,
+                    "Camera permission is required to use the camera",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     )
@@ -188,22 +187,11 @@ fun MyApp(
                             photoFile
                         )
                         takePictureLauncher.launch(photoUri)
-                    },
-                    reqPermission = {
-
-                    }
-                )
+                    }, launchCameraPermission = {
+                        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+                    })
             }
         }
     }
 }
-
-
-fun hasStoragePermission(context: Context): Boolean {
-    return ContextCompat.checkSelfPermission(
-        context,
-        READ_EXTERNAL_STORAGE
-    ) == PackageManager.PERMISSION_GRANTED
-}
-
 
