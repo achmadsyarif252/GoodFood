@@ -22,7 +22,7 @@ import com.example.goodfood.domain.model.User
 
 @Database(
     entities = [Food::class, Transaction::class, Restaurant::class, Review::class, MyWallet::class, User::class],
-    version = 7,
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(FoodConverter::class, PaymentConverter::class)

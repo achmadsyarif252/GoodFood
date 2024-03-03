@@ -1,5 +1,6 @@
 package com.example.goodfood.domain.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,5 +12,6 @@ data class User(
     val id: Int = 0,
     val email: String,
     val password: String,
-    val imagePath: String? = null // Field baru untuk menyimpan URI gambar
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB) val image: ByteArray? = null
+
 )

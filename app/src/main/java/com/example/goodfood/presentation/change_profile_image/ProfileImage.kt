@@ -3,12 +3,13 @@ package com.example.goodfood.presentation.change_profile_image
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,49 +23,79 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import com.example.goodfood.LoginViewModel
 import com.example.goodfood.R
+import com.example.goodfood.RegisterViewModel
+import com.example.goodfood.data.LoginInfo
+import com.example.goodfood.data.UserViewModelFactory
+import com.example.goodfood.ui.theme.Gold
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 @Composable
 fun ProfileImage(
     imageUri: Uri?,
     onPickImage: () -> Unit,
     onTakePicture: () -> Unit,
-    launchCameraPermission: () -> Unit
-) {
+    launchCameraPermission: () -> Unit,
+    userViewModel: RegisterViewModel = viewModel(),
+
+    ) {
     val context = LocalContext.current
+    var isUserPhotoEmpty by remember {
+        mutableStateOf(imageUri == null)
+    }
+    val viewModel: LoginViewModel = viewModel(
+        factory = UserViewModelFactory(context)
+    )
+    val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
 
-
+    val accountInfo by userViewModel.isAlreadyExist(
+        email = loginInfo.username,
+    ).observeAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        if (imageUri == null)
-            Image(
-                painter = painterResource(id = R.drawable.cita2),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-        else
+        if (imageUri == null) {
+            if (accountInfo?.image == null) {
+                Image(
+                    painter = painterResource(id = R.drawable.cita2),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
+                )
+            } else {
+                val bitmap = byteArrayToBitmap(accountInfo?.image!!)
+                Image(
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Fit
+                )
+            }
+
+        } else
             imageUri.let { uri ->
                 val bitmap = loadPicture(uri = uri).value
                 bitmap?.let {
@@ -84,16 +115,33 @@ fun ProfileImage(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedButton(
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Blue
-                ),
-                modifier = Modifier.weight(1f), // This will make the button take up the remaining space
-                onClick = {
-                    onPickImage()
-                }) {
-                Text(text = "Change From Gallery")
+            Column(modifier = Modifier.weight(1f)) {
+                if (!isUserPhotoEmpty) OutlinedButton(
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Gold
+                    ),
+                    modifier = Modifier.fillMaxWidth(1f), // This will make the button take up the remaining space
+                    onClick = {
+                        imageUri?.let {
+                            val imageBytes = uriToByteArray(context, it)
+                            accountInfo?.let { it1 -> userViewModel.update(it1.copy(image = imageBytes)) }
+                        }
+                    }) {
+                    Text(text = "Save")
+                }
+
+                OutlinedButton(
+                    shape = RoundedCornerShape(8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Blue
+                    ),
+                    modifier = Modifier.fillMaxWidth(1f), // This will make the button take up the remaining space
+                    onClick = {
+                        onPickImage()
+                    }) {
+                    Text(text = "Change From Gallery")
+                }
             }
             Spacer(modifier = Modifier.width(16.dp))
             Image(
@@ -113,14 +161,13 @@ fun ProfileImage(
                             else -> {
                                 // Minta izin kamera
                                 launchCameraPermission()
-
                             }
                         }
-//                        onTakePicture()
                     },
 
                 )
         }
+
     }
 }
 
@@ -154,3 +201,27 @@ fun CoilImageLoader(context: Context, uri: Uri, onImageLoaded: (ImageBitmap?) ->
         }
     }
 }
+
+
+fun Bitmap.toByteArray(): ByteArray {
+    ByteArrayOutputStream().apply {
+        compress(Bitmap.CompressFormat.PNG, 100, this)
+        return toByteArray()
+    }
+}
+
+fun uriToByteArray(context: Context, uri: Uri): ByteArray? {
+    val inputStream = context.contentResolver.openInputStream(uri)
+    return inputStream?.use { stream ->
+        ByteArrayOutputStream().use { output ->
+            stream.copyTo(output)
+            output.toByteArray()
+        }
+    }
+}
+
+fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+}
+
+
