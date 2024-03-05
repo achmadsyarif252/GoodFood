@@ -7,7 +7,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.goodfood.LocalNavController
+import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.domain.model.bottomNavigation
 import com.example.goodfood.ui.theme.Gold
 

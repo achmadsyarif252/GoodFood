@@ -1,7 +1,6 @@
 package com.example.goodfood.presentation.component
 
 import android.content.res.Configuration
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -36,10 +34,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.R
-import com.example.goodfood.WalletViewModel
+import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.domain.model.PaymentMethod
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

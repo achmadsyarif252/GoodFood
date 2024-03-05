@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.goodfood.LocalNavController
+import com.example.goodfood.presentation.LocalNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

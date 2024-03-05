@@ -29,11 +29,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.LocalNavController
-import com.example.goodfood.TransactionViewModel
+import com.example.goodfood.presentation.LocalNavController
+import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.FoodViewModel
+import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.home.FoodDescription
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,15 +44,17 @@ fun CardBestDishes(
     modifier: Modifier = Modifier,
     foodIndex: Int,
     transactionViewModel: TransactionViewModel = viewModel(),
-    foodViewModel: FoodViewModel = viewModel()
 ) {
+    val ctx = LocalContext.current
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()
     val food = allFood!![foodIndex]
     val transactionList by transactionViewModel.allTransaction!!.observeAsState()
 
 
-    val ctx = LocalContext.current
     Column {
         Box(contentAlignment = Alignment.BottomEnd) {
             Card(

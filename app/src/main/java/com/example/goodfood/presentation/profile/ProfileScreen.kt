@@ -49,12 +49,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.LocalNavController
-import com.example.goodfood.LoginViewModel
-import com.example.goodfood.LogoutViewModel
+import com.example.goodfood.presentation.LocalNavController
+import com.example.goodfood.presentation.LoginViewModel
+import com.example.goodfood.presentation.LogoutViewModel
 import com.example.goodfood.R
-import com.example.goodfood.RegisterViewModel
-import com.example.goodfood.WalletViewModel
+import com.example.goodfood.presentation.RegisterViewModel
+import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.domain.model.MyWallet

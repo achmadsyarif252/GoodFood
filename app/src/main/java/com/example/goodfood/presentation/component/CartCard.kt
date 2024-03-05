@@ -25,7 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.TransactionViewModel
+import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.domain.model.Food
 
 @Composable

@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
-import com.example.goodfood.ReviewViewModel
+import com.example.goodfood.presentation.ReviewViewModel
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
 

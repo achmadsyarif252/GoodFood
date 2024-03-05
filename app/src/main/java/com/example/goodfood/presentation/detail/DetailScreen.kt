@@ -57,13 +57,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.goodfood.FoodViewModel
-import com.example.goodfood.LocalNavController
-import com.example.goodfood.ReviewViewModel
-import com.example.goodfood.TransactionViewModel
+import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.presentation.LocalNavController
+import com.example.goodfood.presentation.ReviewViewModel
+import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
 import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
 import com.example.goodfood.presentation.review.CardReview
@@ -72,9 +73,11 @@ import com.example.goodfood.presentation.review.CardReview
 fun DetailScreen(
     navController: NavController,
     foodIndex: String,
-    foodViewModel: FoodViewModel = viewModel(),
     reviewViewModel: ReviewViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val food = allFoods.getOrNull(foodIndex.toInt())
 
@@ -239,7 +242,10 @@ private fun Body(
 }
 
 @Composable
-private fun InfoDetail(food: Food, isFav: Boolean, foodViewModel: FoodViewModel = viewModel()) {
+private fun InfoDetail(food: Food, isFav: Boolean) {
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+
     val allFood by foodViewModel.allFood.observeAsState(initial = emptyList())
 
     val isFavorite = allFood.find { it == food }?.isFavorite ?: false

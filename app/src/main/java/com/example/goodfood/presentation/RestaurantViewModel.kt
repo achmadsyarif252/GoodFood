@@ -1,4 +1,4 @@
-package com.example.goodfood
+package com.example.goodfood.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.data.RestaurantRepository
 import com.example.goodfood.domain.db.FoodDatabase
-import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Restaurant
 import kotlinx.coroutines.launch
 

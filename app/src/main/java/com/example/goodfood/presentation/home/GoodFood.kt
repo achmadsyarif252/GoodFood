@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.FoodViewModel
+import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel
-import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.presentation.component.TopBarHome
 import com.example.goodfood.ui.theme.CardFood
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -82,7 +82,9 @@ fun HeaderSection(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun FoodCarouselSection(modifier: Modifier = Modifier, foodViewModel: FoodViewModel = viewModel()) {
+fun FoodCarouselSection(modifier: Modifier = Modifier) {
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
     val allFoods by foodViewModel.allFood.observeAsState()
 
     LazyRow(

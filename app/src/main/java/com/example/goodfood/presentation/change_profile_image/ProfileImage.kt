@@ -43,9 +43,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.example.goodfood.LoginViewModel
+import com.example.goodfood.presentation.LoginViewModel
 import com.example.goodfood.R
-import com.example.goodfood.RegisterViewModel
+import com.example.goodfood.presentation.RegisterViewModel
 import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.ui.theme.Gold

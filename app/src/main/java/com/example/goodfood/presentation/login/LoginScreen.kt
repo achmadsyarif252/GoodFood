@@ -17,7 +17,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -34,10 +33,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.LocalNavController
-import com.example.goodfood.LoginViewModel
+import com.example.goodfood.presentation.LocalNavController
+import com.example.goodfood.presentation.LoginViewModel
 import com.example.goodfood.R
-import com.example.goodfood.RegisterViewModel
+import com.example.goodfood.presentation.RegisterViewModel
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername

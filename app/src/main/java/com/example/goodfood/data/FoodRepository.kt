@@ -1,29 +1,35 @@
 package com.example.goodfood.data
 
+import com.example.goodfood.domain.IFoodRepository
 import com.example.goodfood.domain.dao.FoodDao
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
-class FoodRepository(private val foodDao: FoodDao) {
-    val allFood: Flow<List<Food>> = foodDao.getAllFood()
+class FoodRepository(private val foodDataSource: IFoodDataSource) : IFoodRepository {
+    val allFood: Flow<List<Food>> = getListFood()
 
-    suspend fun isFoodListEmpty(): Boolean {
-        return foodDao.getCount() == 0
-    }
-    suspend fun insertAllFood() {
-        foodDao.insertAllFoods(InitialDataSource.getFood())
+    override suspend fun insert(food: Food) {
+        foodDataSource.insert(food)
     }
 
-    suspend fun insert(food: Food) {
-        foodDao.insert(food)
+    override suspend fun update(food: Food) {
+        foodDataSource.update(food)
     }
 
-    suspend fun delete(food: Food) {
-        foodDao.delete(food)
+    override suspend fun delete(food: Food) {
+        foodDataSource.delete(food)
     }
 
-    suspend fun update(food: Food) {
-        foodDao.update(food)
+    override suspend fun isFoodListEmpty(): Boolean {
+        return foodDataSource.isFoodListEmpty()
+    }
+
+    override suspend fun insertAllFood() {
+        foodDataSource.insertAllFood((InitialDataSource.getFood()))
+    }
+
+    override fun getListFood(): Flow<List<Food>> {
+        return foodDataSource.getAllFood()
     }
 }

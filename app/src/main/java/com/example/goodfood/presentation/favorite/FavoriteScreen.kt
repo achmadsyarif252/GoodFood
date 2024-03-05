@@ -45,11 +45,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.LocalNavController
+import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.FoodViewModel
-import com.example.goodfood.RestaurantViewModel
+import com.example.goodfood.presentation.FoodViewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.presentation.RestaurantViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -101,9 +102,11 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 fun FavoriteScreenContent(
     modifier: Modifier = Modifier,
     isFoodSelected: Boolean,
-    foodViewModel: FoodViewModel = viewModel(),
     restaurantViewModel: RestaurantViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val listFavFood = allFoods.filter { it.isFavorite }
 
@@ -193,8 +196,10 @@ fun ButtonHeader(
 fun CardFavorite(
     modifier: Modifier = Modifier,
     food: Food,
-    foodViewModel: FoodViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()
 

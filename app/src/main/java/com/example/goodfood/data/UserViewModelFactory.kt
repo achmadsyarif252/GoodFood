@@ -3,8 +3,8 @@ package com.example.goodfood.data
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.goodfood.LoginViewModel
-import com.example.goodfood.LogoutViewModel
+import com.example.goodfood.presentation.LoginViewModel
+import com.example.goodfood.presentation.LogoutViewModel
 
 class UserViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
