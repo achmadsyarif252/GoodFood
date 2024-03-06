@@ -8,6 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.presentation.component.SavingsAccountCard
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -15,8 +16,9 @@ import com.example.goodfood.presentation.component.TopBarDefault
 @Composable
 fun SavingAccountScreen(
     modifier: Modifier = Modifier,
-    paymentMethodViewModel: WalletViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val paymentMethodViewModel: WalletViewModel = viewModel(factory = factory)
     val allPaymentMethod by paymentMethodViewModel.allWallet.observeAsState(initial = emptyList())
 
     Scaffold(
@@ -26,10 +28,8 @@ fun SavingAccountScreen(
     ) {
         val innerPadding = it
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
-            allPaymentMethod.let { wallet ->
-                items(wallet.size) { myWallet ->
-                    SavingsAccountCard(allPaymentMethod[myWallet])
-                }
+            items(allPaymentMethod.size) { myWallet ->
+                SavingsAccountCard(allPaymentMethod[myWallet])
             }
         }
     }

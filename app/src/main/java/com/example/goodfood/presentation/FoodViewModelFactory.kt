@@ -9,6 +9,7 @@ import com.example.goodfood.domain.usecase.RestaurantUseCase
 import com.example.goodfood.domain.usecase.ReviewUseCase
 import com.example.goodfood.domain.usecase.TransactionUseCase
 import com.example.goodfood.domain.usecase.UserUseCase
+import com.example.goodfood.domain.usecase.WalletUseCase
 
 class FoodViewModelFactory(
     private var foodUseCase: FoodUseCase,
@@ -16,9 +17,10 @@ class FoodViewModelFactory(
     private var reviewUseCase: ReviewUseCase,
     private var transactionUseCase: TransactionUseCase,
     private var userUseCase: UserUseCase,
-    private var context: Context
+    private var context: Context,
+    private var walletUseCase: WalletUseCase,
 
-) : ViewModelProvider.NewInstanceFactory() {
+    ) : ViewModelProvider.NewInstanceFactory() {
     companion object {
         @Volatile
         private var instance: FoodViewModelFactory? = null
@@ -30,7 +32,8 @@ class FoodViewModelFactory(
                 Injection.provideReviewUseCase(),
                 Injection.provideTransactionUseCase(),
                 Injection.provideUserUseCase(),
-                context = Injection.provideContext()
+                context = Injection.provideContext(),
+                Injection.provideWalletUseCase()
             )
         }
     }
@@ -56,6 +59,9 @@ class FoodViewModelFactory(
 
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(context) as T
 
+            modelClass.isAssignableFrom(WalletViewModel::class.java) -> WalletViewModel(
+                walletUseCase
+            ) as T
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

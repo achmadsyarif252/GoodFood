@@ -226,7 +226,9 @@ fun Header(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PointsSaldo(modifier: Modifier = Modifier, walletViewModel: WalletViewModel = viewModel()) {
+fun PointsSaldo(modifier: Modifier = Modifier) {
+    val factory = FoodViewModelFactory.getInstance()
+    val walletViewModel: WalletViewModel = viewModel(factory = factory)
     val myWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(16.dp))

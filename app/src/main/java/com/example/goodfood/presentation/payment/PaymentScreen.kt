@@ -155,7 +155,10 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewModel = viewModel()) {
+fun PaymentMethod(modifier: Modifier = Modifier) {
+    val factory = FoodViewModelFactory.getInstance()
+    val walletViewModel: WalletViewModel = viewModel(factory = factory)
+
     val allWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
 
     Column(
@@ -193,12 +196,11 @@ fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewMode
 @Composable
 fun DetailPayment(
     modifier: Modifier = Modifier,
-    walletViewModel: WalletViewModel = viewModel(),
     myWallet: MyWallet,
 ) {
     val factory = FoodViewModelFactory.getInstance()
     val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
-
+    val walletViewModel: WalletViewModel = viewModel(factory = factory)
     val foodPrice by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
     val shippingFee = if (foodPrice > 0.0) 1.2 else 0.0
     val total = foodPrice + shippingFee

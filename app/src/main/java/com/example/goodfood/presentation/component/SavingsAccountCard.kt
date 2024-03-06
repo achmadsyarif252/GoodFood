@@ -36,11 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.domain.model.MyWallet
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SavingsAccountCard(wallet: MyWallet, walletViewModel: WalletViewModel = viewModel()) {
+fun SavingsAccountCard(wallet: MyWallet) {
+    val factory = FoodViewModelFactory.getInstance()
+    val walletViewModel: WalletViewModel = viewModel(factory = factory)
     // Define the card's background gradient colors and direction
     val gradientColors = listOf(Color(0xFF3D5AFE), Color(0xFF3D5AFE))
     val gradient = Brush.horizontalGradient(colors = gradientColors)

@@ -8,14 +8,17 @@ import com.example.goodfood.data.datasource.IRestaurantDataSource
 import com.example.goodfood.data.datasource.IReviewDataSource
 import com.example.goodfood.data.datasource.ITransactionDataSource
 import com.example.goodfood.data.datasource.IUserDataSource
+import com.example.goodfood.data.datasource.IWalletDataSource
 import com.example.goodfood.data.datasource.RestaurantDataSource
 import com.example.goodfood.data.datasource.ReviewDataSource
 import com.example.goodfood.data.datasource.TransactionDataSource
 import com.example.goodfood.data.datasource.UserDataSource
+import com.example.goodfood.data.datasource.WalletDataSource
 import com.example.goodfood.data.repository.RestaurantRepository
 import com.example.goodfood.data.repository.ReviewRepository
 import com.example.goodfood.data.repository.TransactionRepository
 import com.example.goodfood.data.repository.UserRepository
+import com.example.goodfood.data.repository.WalletRepository
 import com.example.goodfood.domain.usecase.FoodInteractor
 import com.example.goodfood.domain.usecase.FoodUseCase
 import com.example.goodfood.domain.repository.IFoodRepository
@@ -27,17 +30,20 @@ import com.example.goodfood.domain.dao.RestaurantDao
 import com.example.goodfood.domain.dao.ReviewDao
 import com.example.goodfood.domain.dao.TransactionDao
 import com.example.goodfood.domain.dao.UserDao
+import com.example.goodfood.domain.dao.WalletDao
 import com.example.goodfood.domain.db.FoodDatabase
-import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.repository.IReviewRepository
 import com.example.goodfood.domain.repository.ITransactionRepository
 import com.example.goodfood.domain.repository.IUserRepository
+import com.example.goodfood.domain.repository.IwalletRepsitory
 import com.example.goodfood.domain.usecase.ReviewInteractor
 import com.example.goodfood.domain.usecase.ReviewUseCase
 import com.example.goodfood.domain.usecase.TransactionInteractor
 import com.example.goodfood.domain.usecase.TransactionUseCase
 import com.example.goodfood.domain.usecase.UserInteractor
 import com.example.goodfood.domain.usecase.UserUseCase
+import com.example.goodfood.domain.usecase.WalletInteractor
+import com.example.goodfood.domain.usecase.WalletUseCase
 
 object Injection {
     private lateinit var appContext: Context
@@ -46,7 +52,7 @@ object Injection {
         this.appContext = context.applicationContext
     }
 
-    fun provideContext():Context{
+    fun provideContext(): Context {
         return appContext
     }
 
@@ -75,6 +81,11 @@ object Injection {
         return UserInteractor(userRepository)
     }
 
+    fun provideWalletUseCase(): WalletUseCase {
+        val walletRepository = provideWalletRepository()
+        return WalletInteractor(walletRepository)
+    }
+
     private fun provideFoodRepository(): IFoodRepository {
         val foodDataSource = provideFoodDataSource()
         return FoodRepository(foodDataSource)
@@ -100,6 +111,11 @@ object Injection {
         return UserRepository(userDataSource)
     }
 
+    private fun provideWalletRepository(): IwalletRepsitory {
+        val walletDataSource = provideWalletDataSource()
+        return WalletRepository(walletDataSource)
+    }
+
     private fun provideFoodDataSource(): IFoodDataSource {
         val foodDao = provideFoodDao()
         return FoodDataSource(foodDao)
@@ -123,6 +139,11 @@ object Injection {
     private fun provideUserDataSource(): IUserDataSource {
         val userDao = provideUserDao()
         return UserDataSource(userDao)
+    }
+
+    private fun provideWalletDataSource(): IWalletDataSource {
+        val walletDao = provideWalletDao()
+        return WalletDataSource(walletDao)
     }
 
     private fun provideFoodDao(): FoodDao {
@@ -159,6 +180,14 @@ object Injection {
             throw IllegalStateException("Injection object must be initialized with context first")
         } else {
             return FoodDatabase.getDatabase(appContext).userDao()
+        }
+    }
+
+    private fun provideWalletDao(): WalletDao {
+        if (!::appContext.isInitialized) {
+            throw IllegalStateException("Injection object must be initialized with context first")
+        } else {
+            return FoodDatabase.getDatabase(appContext).walletDao()
         }
     }
 
