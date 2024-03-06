@@ -323,7 +323,8 @@ private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit
 
 @Composable
 private fun FloatingButton(food: Food, total: Int) {
-    val transactionViewModel: TransactionViewModel = viewModel()
+    val factory = FoodViewModelFactory.getInstance()
+    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
     val transaction by transactionViewModel.allTransaction.observeAsState(initial = emptyList())
 
 

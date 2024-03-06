@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.presentation.component.CartCard
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -46,11 +47,12 @@ import com.example.goodfood.ui.theme.Gold
 @Composable
 fun CartScreen(
     modifier: Modifier = Modifier,
-    transactionViewModel: TransactionViewModel = viewModel()
 ) {
-    val allTransaction by transactionViewModel.allTransaction!!.observeAsState()
-    val subTotal by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
+    val factory = FoodViewModelFactory.getInstance()
+    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
 
+    val allTransaction by transactionViewModel.allTransaction.observeAsState()
+    val subTotal by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
 
     var shippingFee = if (subTotal > 0.0) 1.2 else 0.0
     var total = subTotal + shippingFee

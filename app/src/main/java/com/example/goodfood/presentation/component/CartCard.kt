@@ -27,19 +27,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.domain.model.Food
+import com.example.goodfood.presentation.FoodViewModelFactory
 
 @Composable
 fun CartCard(
     modifier: Modifier = Modifier,
     food: Food,
     total: Int,
-    transactionViewModel: TransactionViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
+
     val transactionList by transactionViewModel.allTransaction!!.observeAsState()
     val item = transactionList!!.find { it!!.food == food }
     var qty = item?.total ?: 0
-
-    val ctx = LocalContext.current
 
     Card(
         elevation = CardDefaults.cardElevation(

@@ -6,11 +6,14 @@ import com.example.goodfood.di.Injection
 import com.example.goodfood.domain.usecase.FoodUseCase
 import com.example.goodfood.domain.usecase.RestaurantUseCase
 import com.example.goodfood.domain.usecase.ReviewUseCase
+import com.example.goodfood.domain.usecase.TransactionUseCase
 
 class FoodViewModelFactory(
     private var foodUseCase: FoodUseCase,
     private var restaurantUseCase: RestaurantUseCase,
     private var reviewUseCase: ReviewUseCase,
+    private var transactionUseCase: TransactionUseCase
+
 ) : ViewModelProvider.NewInstanceFactory() {
     companion object {
         @Volatile
@@ -21,6 +24,7 @@ class FoodViewModelFactory(
                 Injection.provideFoodUseCase(),
                 Injection.provideRestaurantUseCase(),
                 Injection.provideReviewUseCase(),
+                Injection.provideTransactionUseCase(),
             )
         }
     }
@@ -34,6 +38,10 @@ class FoodViewModelFactory(
 
             modelClass.isAssignableFrom(ReviewViewModel::class.java) -> ReviewViewModel(
                 reviewUseCase
+            ) as T
+
+            modelClass.isAssignableFrom(TransactionViewModel::class.java) -> TransactionViewModel(
+                transactionUseCase
             ) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

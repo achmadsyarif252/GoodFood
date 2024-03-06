@@ -58,6 +58,7 @@ import com.example.goodfood.presentation.TransactionViewModel
 import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.model.PaymentMethod
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.Gold
 
@@ -192,9 +193,12 @@ fun PaymentMethod(modifier: Modifier = Modifier, walletViewModel: WalletViewMode
 @Composable
 fun DetailPayment(
     modifier: Modifier = Modifier,
-    transactionViewModel: TransactionViewModel = viewModel(), myWallet: MyWallet,
-    walletViewModel: WalletViewModel = viewModel()
+    walletViewModel: WalletViewModel = viewModel(),
+    myWallet: MyWallet,
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
+
     val foodPrice by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
     val shippingFee = if (foodPrice > 0.0) 1.2 else 0.0
     val total = foodPrice + shippingFee

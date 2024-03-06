@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.data.UserRepository
+import com.example.goodfood.data.repository.UserRepository
 import com.example.goodfood.domain.db.FoodDatabase
 import com.example.goodfood.domain.model.User
 import kotlinx.coroutines.Dispatchers

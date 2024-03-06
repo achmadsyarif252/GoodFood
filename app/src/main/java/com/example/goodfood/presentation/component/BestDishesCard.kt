@@ -43,11 +43,11 @@ import com.example.goodfood.presentation.home.FoodDescription
 fun CardBestDishes(
     modifier: Modifier = Modifier,
     foodIndex: Int,
-    transactionViewModel: TransactionViewModel = viewModel(),
 ) {
     val ctx = LocalContext.current
     val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
 
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()
