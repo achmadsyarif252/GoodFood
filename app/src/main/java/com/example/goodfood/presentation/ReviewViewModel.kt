@@ -1,13 +1,11 @@
 package com.example.goodfood.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.data.ReviewRepository
-import com.example.goodfood.domain.db.FoodDatabase
 import com.example.goodfood.domain.model.Review
+import com.example.goodfood.domain.usecase.ReviewUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -17,17 +15,14 @@ data class ReviewScreenUIState(
     val reviews: List<Review> = emptyList()
 )
 
-class ReviewViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: ReviewRepository
+class ReviewViewModel(private val reviewUseCase: ReviewUseCase) : ViewModel() {
     val allReview: LiveData<List<Review>>
 
     private val _state = MutableStateFlow(ReviewScreenUIState())
     val state = _state.asStateFlow()
 
     init {
-        val reviewDao = FoodDatabase.getDatabase(application).reviewDao()
-        repository = ReviewRepository(reviewDao)
-        allReview = repository.getReviews().asLiveData()
+        allReview = reviewUseCase.getReviews().asLiveData()
     }
 
     fun updateReviews(reviews: List<Review>) {
@@ -35,18 +30,18 @@ class ReviewViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun insert(review: Review) = viewModelScope.launch {
-        repository.insert(review)
+        reviewUseCase.insert(review)
     }
 
     fun delete(review: Review) = viewModelScope.launch {
         _state.update {
-            repository.delete(review)
+            reviewUseCase.delete(review)
             it
         }
     }
 
     fun update(review: Review) = viewModelScope.launch {
-        repository.update(review)
+        reviewUseCase.update(review)
     }
 
 

@@ -73,10 +73,10 @@ import com.example.goodfood.presentation.review.CardReview
 fun DetailScreen(
     navController: NavController,
     foodIndex: String,
-    reviewViewModel: ReviewViewModel = viewModel()
 ) {
     val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val food = allFoods.getOrNull(foodIndex.toInt())

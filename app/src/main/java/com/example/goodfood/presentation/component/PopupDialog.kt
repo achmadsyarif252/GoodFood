@@ -40,6 +40,7 @@ import com.example.goodfood.R
 import com.example.goodfood.presentation.ReviewViewModel
 import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.model.Review
+import com.example.goodfood.presentation.FoodViewModelFactory
 
 
 @Composable
@@ -48,10 +49,12 @@ fun RatingDialog(
     onSubmit: (Float) -> Unit, // fungsi yang dipanggil ketika rating dikirim
     food: Food,
     dialogOpen: Boolean, // state yang menyimpan apakah dialog terbuka atau tidak
-    reviewViewModel: ReviewViewModel = viewModel()
 ) {
     val ctx = LocalContext.current
     // state untuk menyimpan nilai rating
+    val factory = FoodViewModelFactory.getInstance()
+    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+
     var rating by rememberSaveable { mutableStateOf(0f) }
     var isError by rememberSaveable { mutableStateOf(false) }
 

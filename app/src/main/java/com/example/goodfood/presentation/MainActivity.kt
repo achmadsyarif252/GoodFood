@@ -63,9 +63,11 @@ val LocalNavController = compositionLocalOf<NavController> { error("No NavContro
 @Composable
 fun MyApp(
     modifier: Modifier = Modifier,
-    reviewViewModel: ReviewViewModel = viewModel(),
 ) {
     val context = LocalContext.current
+    val factory = FoodViewModelFactory.getInstance()
+    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+
     val viewModel: LoginViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
