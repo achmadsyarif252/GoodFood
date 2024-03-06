@@ -205,8 +205,14 @@ fun Header(modifier: Modifier = Modifier) {
             )
         Spacer(modifier = Modifier.width(16.dp))
         Column {
-            Text(text = "Achmad Syarif", fontWeight = FontWeight.Bold, fontSize = 16.sp)
-            Text(text = "0895384252730", fontWeight = FontWeight.Normal, fontSize = 13.sp)
+            Text(text = "${accountInfo?.email}", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            accountInfo?.phoneNumber?.let {
+                Text(
+                    text = it,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 13.sp
+                )
+            }
         }
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = { /*TODO*/ }) {

@@ -21,6 +21,6 @@ class UserInteractor(private val userRepository: IUserRepository) : UserUseCase 
     }
 
     override suspend fun update(user: User) {
-        userRepository.delete(user)
+        userRepository.update(user)
     }
 }
