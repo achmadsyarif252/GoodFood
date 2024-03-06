@@ -7,7 +7,6 @@ import com.example.goodfood.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
 class FoodRepository(private val foodDataSource: IFoodDataSource) : IFoodRepository {
-    val allFood: Flow<List<Food>> = getListFood()
 
     override suspend fun insert(food: Food) {
         foodDataSource.insert(food)

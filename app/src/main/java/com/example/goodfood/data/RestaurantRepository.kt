@@ -1,32 +1,34 @@
 package com.example.goodfood.data
 
-import androidx.lifecycle.LiveData
-import com.example.goodfood.domain.dao.RestaurantDao
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.domain.IRestaurantRepository
 import com.example.goodfood.domain.model.Restaurant
-import com.example.goodfood.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
-class RestaurantRepository(private val restaurantDao: RestaurantDao) {
-    val allRestaurant: Flow<List<Restaurant>> = restaurantDao.getAllRestaurant()
-
-    suspend fun isListRestaurantEmpty(): Boolean {
-        return restaurantDao.getCount() == 0
+class RestaurantRepository(private val restaurantDataSource: IRestaurantDataSource) :
+    IRestaurantRepository {
+    override fun getAllRestaurant(): Flow<List<Restaurant>> {
+        return restaurantDataSource.getAllRestaurant()
     }
 
-    suspend fun insertAllRestaurant() {
-        restaurantDao.insertAllRestaurant(InitialDataSource.getRestaurants())
+    override suspend fun isListRestaurantEmpty(): Boolean {
+        return restaurantDataSource.isRestaurantEmpty()
     }
 
-    suspend fun insert(restaurant: Restaurant) {
-        restaurantDao.insert(restaurant)
+    override suspend fun insertAllRestaurant(listRestaurant: List<Restaurant>) {
+        restaurantDataSource.insertAllRestaurant(listRestaurant)
     }
 
-    suspend fun delete(restaurant: Restaurant) {
-        restaurantDao.delete(restaurant)
+    override suspend fun insert(restaurant: Restaurant) {
+        restaurantDataSource.insert(restaurant)
     }
 
-    suspend fun update(restaurant: Restaurant) {
-        restaurantDao.update(restaurant)
+    override suspend fun delete(restaurant: Restaurant) {
+        restaurantDataSource.delete(restaurant)
     }
+
+    override suspend fun update(restaurant: Restaurant) {
+        restaurantDataSource.update(restaurant)
+    }
+
+
 }

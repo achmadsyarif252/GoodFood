@@ -102,10 +102,10 @@ fun FavoriteScreen(modifier: Modifier = Modifier) {
 fun FavoriteScreenContent(
     modifier: Modifier = Modifier,
     isFoodSelected: Boolean,
-    restaurantViewModel: RestaurantViewModel = viewModel()
 ) {
     val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val listFavFood = allFoods.filter { it.isFavorite }

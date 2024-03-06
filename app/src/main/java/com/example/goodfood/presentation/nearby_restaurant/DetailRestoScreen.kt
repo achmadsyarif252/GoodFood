@@ -37,13 +37,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.RestaurantViewModel
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
 @Composable
-fun DetailResto(restaurantIndex: String, restaurantViewModel: RestaurantViewModel = viewModel()) {
+fun DetailResto(restaurantIndex: String) {
+    val factory = FoodViewModelFactory.getInstance()
+    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
+
     val allResto by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
     val restaurant = allResto.getOrNull(restaurantIndex.toInt())
     val isFav = restaurant?.isFavorite ?: false

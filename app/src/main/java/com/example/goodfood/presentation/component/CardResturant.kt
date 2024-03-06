@@ -33,14 +33,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.RestaurantViewModel
 import com.example.goodfood.domain.model.Restaurant
+import com.example.goodfood.presentation.FoodViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardRestaurant(
     restaurant: Restaurant,
     modifier: Modifier,
-    restaurantViewModel: RestaurantViewModel = viewModel()
 ) {
+    val factory = FoodViewModelFactory.getInstance()
+    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
+
     val navController = LocalNavController.current
     val allRestaurant by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
     val index = allRestaurant.indexOf(restaurant)
