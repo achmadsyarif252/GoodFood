@@ -1,5 +1,6 @@
-package com.example.goodfood.data
+package com.example.goodfood.data.datasource
 
+import com.example.goodfood.data.datasource.IFoodDataSource
 import com.example.goodfood.domain.dao.FoodDao
 import com.example.goodfood.domain.model.Food
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
-package com.example.goodfood.domain
+package com.example.goodfood.domain.usecase
 
-import com.example.goodfood.domain.dao.RestaurantDao
+import com.example.goodfood.domain.repository.IRestaurantRepository
 import com.example.goodfood.domain.model.Restaurant
 import kotlinx.coroutines.flow.Flow
 

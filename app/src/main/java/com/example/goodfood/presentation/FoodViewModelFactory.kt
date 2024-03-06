@@ -3,8 +3,8 @@ package com.example.goodfood.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.goodfood.di.Injection
-import com.example.goodfood.domain.FoodUseCase
-import com.example.goodfood.domain.RestaurantUseCase
+import com.example.goodfood.domain.usecase.FoodUseCase
+import com.example.goodfood.domain.usecase.RestaurantUseCase
 
 class FoodViewModelFactory(
     private var foodUseCase: FoodUseCase,

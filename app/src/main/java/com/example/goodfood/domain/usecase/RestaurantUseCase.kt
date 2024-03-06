@@ -1,4 +1,4 @@
-package com.example.goodfood.domain
+package com.example.goodfood.domain.usecase
 
 import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.helper.InitialDataSource

@@ -1,6 +1,7 @@
-package com.example.goodfood.data
+package com.example.goodfood.data.repository
 
-import com.example.goodfood.domain.IRestaurantRepository
+import com.example.goodfood.data.datasource.IRestaurantDataSource
+import com.example.goodfood.domain.repository.IRestaurantRepository
 import com.example.goodfood.domain.model.Restaurant
 import kotlinx.coroutines.flow.Flow
 

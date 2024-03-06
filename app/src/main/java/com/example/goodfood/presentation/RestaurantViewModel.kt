@@ -1,14 +1,10 @@
 package com.example.goodfood.presentation
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.data.RestaurantRepository
-import com.example.goodfood.domain.RestaurantUseCase
-import com.example.goodfood.domain.db.FoodDatabase
+import com.example.goodfood.domain.usecase.RestaurantUseCase
 import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.helper.InitialDataSource
 import kotlinx.coroutines.launch

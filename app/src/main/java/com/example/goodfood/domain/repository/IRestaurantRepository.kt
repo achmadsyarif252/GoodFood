@@ -1,4 +1,4 @@
-package com.example.goodfood.domain
+package com.example.goodfood.domain.repository
 
 import com.example.goodfood.domain.model.Restaurant
 import kotlinx.coroutines.flow.Flow

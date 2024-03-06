@@ -1,5 +1,6 @@
-package com.example.goodfood.domain
+package com.example.goodfood.domain.usecase
 
+import com.example.goodfood.domain.repository.IFoodRepository
 import com.example.goodfood.domain.model.Food
 import kotlinx.coroutines.flow.Flow
 

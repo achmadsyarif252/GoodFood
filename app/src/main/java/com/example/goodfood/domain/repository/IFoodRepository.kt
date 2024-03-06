@@ -1,9 +1,9 @@
-package com.example.goodfood.domain
+package com.example.goodfood.domain.repository
 
 import com.example.goodfood.domain.model.Food
 import kotlinx.coroutines.flow.Flow
 
-interface FoodUseCase {
+interface IFoodRepository {
     suspend fun insert(food: Food)
     suspend fun update(food: Food)
     suspend fun delete(food: Food)
