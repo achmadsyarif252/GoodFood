@@ -38,6 +38,7 @@ import com.example.goodfood.presentation.LoginViewModel
 import com.example.goodfood.R
 import com.example.goodfood.presentation.RegisterViewModel
 import com.example.goodfood.data.UserViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
 import com.example.goodfood.ui.theme.OrangeColor
@@ -45,12 +46,13 @@ import com.example.goodfood.ui.theme.OrangeColor
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    userViewModel: RegisterViewModel = viewModel(),
 ) {
+    val factory = FoodViewModelFactory.getInstance()
     val context = LocalContext.current
     val viewModel: LoginViewModel = viewModel(
         factory = UserViewModelFactory(context)
     )
+    val userViewModel: RegisterViewModel = viewModel(factory = factory)
 
     val localNavController = LocalNavController.current
 

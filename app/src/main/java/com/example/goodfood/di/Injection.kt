@@ -7,12 +7,15 @@ import com.example.goodfood.data.datasource.IFoodDataSource
 import com.example.goodfood.data.datasource.IRestaurantDataSource
 import com.example.goodfood.data.datasource.IReviewDataSource
 import com.example.goodfood.data.datasource.ITransactionDataSource
+import com.example.goodfood.data.datasource.IUserDataSource
 import com.example.goodfood.data.datasource.RestaurantDataSource
 import com.example.goodfood.data.datasource.ReviewDataSource
 import com.example.goodfood.data.datasource.TransactionDataSource
+import com.example.goodfood.data.datasource.UserDataSource
 import com.example.goodfood.data.repository.RestaurantRepository
 import com.example.goodfood.data.repository.ReviewRepository
 import com.example.goodfood.data.repository.TransactionRepository
+import com.example.goodfood.data.repository.UserRepository
 import com.example.goodfood.domain.usecase.FoodInteractor
 import com.example.goodfood.domain.usecase.FoodUseCase
 import com.example.goodfood.domain.repository.IFoodRepository
@@ -23,19 +26,28 @@ import com.example.goodfood.domain.dao.FoodDao
 import com.example.goodfood.domain.dao.RestaurantDao
 import com.example.goodfood.domain.dao.ReviewDao
 import com.example.goodfood.domain.dao.TransactionDao
+import com.example.goodfood.domain.dao.UserDao
 import com.example.goodfood.domain.db.FoodDatabase
+import com.example.goodfood.domain.model.Food
 import com.example.goodfood.domain.repository.IReviewRepository
 import com.example.goodfood.domain.repository.ITransactionRepository
+import com.example.goodfood.domain.repository.IUserRepository
 import com.example.goodfood.domain.usecase.ReviewInteractor
 import com.example.goodfood.domain.usecase.ReviewUseCase
 import com.example.goodfood.domain.usecase.TransactionInteractor
 import com.example.goodfood.domain.usecase.TransactionUseCase
+import com.example.goodfood.domain.usecase.UserInteractor
+import com.example.goodfood.domain.usecase.UserUseCase
 
 object Injection {
     private lateinit var appContext: Context
 
     fun init(context: Context) {
         this.appContext = context.applicationContext
+    }
+
+    fun provideContext():Context{
+        return appContext
     }
 
     fun provideFoodUseCase(): FoodUseCase {
@@ -58,6 +70,11 @@ object Injection {
         return TransactionInteractor(transactionRepository)
     }
 
+    fun provideUserUseCase(): UserUseCase {
+        val userRepository = provideUserRepository()
+        return UserInteractor(userRepository)
+    }
+
     private fun provideFoodRepository(): IFoodRepository {
         val foodDataSource = provideFoodDataSource()
         return FoodRepository(foodDataSource)
@@ -78,6 +95,11 @@ object Injection {
         return TransactionRepository(transactionDataSource)
     }
 
+    private fun provideUserRepository(): IUserRepository {
+        val userDataSource = provideUserDataSource()
+        return UserRepository(userDataSource)
+    }
+
     private fun provideFoodDataSource(): IFoodDataSource {
         val foodDao = provideFoodDao()
         return FoodDataSource(foodDao)
@@ -96,6 +118,11 @@ object Injection {
     private fun provideTransactionDataSource(): ITransactionDataSource {
         val transactionDao = provideTransactionDao()
         return TransactionDataSource(transactionDao)
+    }
+
+    private fun provideUserDataSource(): IUserDataSource {
+        val userDao = provideUserDao()
+        return UserDataSource(userDao)
     }
 
     private fun provideFoodDao(): FoodDao {
@@ -124,6 +151,14 @@ object Injection {
             throw IllegalStateException("Injection object must be initialized with context first")
         } else {
             return FoodDatabase.getDatabase(appContext).transactionDao()
+        }
+    }
+
+    private fun provideUserDao(): UserDao {
+        if (!::appContext.isInitialized) {
+            throw IllegalStateException("Injection object must be initialized with context first")
+        } else {
+            return FoodDatabase.getDatabase(appContext).userDao()
         }
     }
 

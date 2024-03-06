@@ -1,5 +1,6 @@
 package com.example.goodfood.presentation
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.goodfood.di.Injection
@@ -7,12 +8,15 @@ import com.example.goodfood.domain.usecase.FoodUseCase
 import com.example.goodfood.domain.usecase.RestaurantUseCase
 import com.example.goodfood.domain.usecase.ReviewUseCase
 import com.example.goodfood.domain.usecase.TransactionUseCase
+import com.example.goodfood.domain.usecase.UserUseCase
 
 class FoodViewModelFactory(
     private var foodUseCase: FoodUseCase,
     private var restaurantUseCase: RestaurantUseCase,
     private var reviewUseCase: ReviewUseCase,
-    private var transactionUseCase: TransactionUseCase
+    private var transactionUseCase: TransactionUseCase,
+    private var userUseCase: UserUseCase,
+    private var context: Context
 
 ) : ViewModelProvider.NewInstanceFactory() {
     companion object {
@@ -25,6 +29,8 @@ class FoodViewModelFactory(
                 Injection.provideRestaurantUseCase(),
                 Injection.provideReviewUseCase(),
                 Injection.provideTransactionUseCase(),
+                Injection.provideUserUseCase(),
+                context = Injection.provideContext()
             )
         }
     }
@@ -43,6 +49,12 @@ class FoodViewModelFactory(
             modelClass.isAssignableFrom(TransactionViewModel::class.java) -> TransactionViewModel(
                 transactionUseCase
             ) as T
+
+            modelClass.isAssignableFrom(RegisterViewModel::class.java) -> RegisterViewModel(
+                userUseCase
+            ) as T
+
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(context) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

@@ -48,6 +48,7 @@ import com.example.goodfood.R
 import com.example.goodfood.presentation.RegisterViewModel
 import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.ui.theme.Gold
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,10 +61,12 @@ fun ProfileImage(
     onPickImage: () -> Unit,
     onTakePicture: () -> Unit,
     launchCameraPermission: () -> Unit,
-    userViewModel: RegisterViewModel = viewModel(),
 
     ) {
     val context = LocalContext.current
+    val factory = FoodViewModelFactory.getInstance()
+    val userViewModel: RegisterViewModel = viewModel(factory = factory)
+
     var isUserPhotoEmpty by remember {
         mutableStateOf(imageUri == null)
     }

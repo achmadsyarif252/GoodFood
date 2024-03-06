@@ -58,6 +58,7 @@ import com.example.goodfood.presentation.WalletViewModel
 import com.example.goodfood.data.LoginInfo
 import com.example.goodfood.data.UserViewModelFactory
 import com.example.goodfood.domain.model.MyWallet
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.ExitDialog
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -157,10 +158,12 @@ fun Body(modifier: Modifier = Modifier, ineerPadding: PaddingValues) {
 }
 
 @Composable
-fun Header(modifier: Modifier = Modifier, userViewModel: RegisterViewModel = viewModel()) {
+fun Header(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val factory = FoodViewModelFactory.getInstance()
+    val userViewModel: RegisterViewModel = viewModel(factory = factory)
     val viewModel: LoginViewModel = viewModel(
-        factory = UserViewModelFactory(context)
+        factory = factory
     )
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
 
