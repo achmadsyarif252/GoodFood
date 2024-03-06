@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -128,7 +129,10 @@ fun ProfileImage(
                     onClick = {
                         imageUri?.let {
                             val imageBytes = uriToByteArray(context, it)
-                            accountInfo?.let { it1 -> userViewModel.update(it1.copy(image = imageBytes)) }
+                            accountInfo?.let { it1 ->
+                                userViewModel.update(it1.copy(image = imageBytes))
+                                Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }) {
                     Text(text = "Save")
