@@ -1,7 +1,7 @@
-package com.example.goodfood.core.data.datasource
+package com.example.goodfood.core.data.source.local
 
-import com.example.goodfood.core.domain.dao.WalletDao
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.room.WalletDao
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import com.example.goodfood.core.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 

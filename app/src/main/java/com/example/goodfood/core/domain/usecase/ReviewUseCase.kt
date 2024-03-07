@@ -1,14 +1,14 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.core.domain.model.Review
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
 import kotlinx.coroutines.flow.Flow
 
 interface ReviewUseCase {
-    fun getReviews(): Flow<List<Review>>
+    fun getReviews(): Flow<List<ReviewEntity>>
 
-    suspend fun insert(review: Review)
+    suspend fun insert(reviewEntity: ReviewEntity)
 
-    suspend fun update(review: Review)
+    suspend fun update(reviewEntity: ReviewEntity)
 
-    suspend fun delete(review: Review)
+    suspend fun delete(reviewEntity: ReviewEntity)
 }

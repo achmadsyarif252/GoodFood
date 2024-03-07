@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import kotlinx.coroutines.flow.Flow
 
 interface WalletUseCase {

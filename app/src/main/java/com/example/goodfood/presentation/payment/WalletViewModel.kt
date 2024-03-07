@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import com.example.goodfood.core.domain.usecase.WalletUseCase
 import kotlinx.coroutines.launch
 

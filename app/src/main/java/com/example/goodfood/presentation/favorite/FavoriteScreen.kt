@@ -45,14 +45,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.presentation.home.FoodViewModel
-import com.example.goodfood.core.utils.FoodViewModelFactory
-import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
+import com.example.goodfood.presentation.home.FoodViewModel
+import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
 
@@ -287,6 +287,6 @@ fun CardFavorite(
 @Composable
 private fun CardFavoritePreview() {
     FoodAppsTheme {
-        CardFavorite(food = Food(0, 1, "", 12, "", 12.0, "", false))
+        CardFavorite(food = Food(0,0,"", 1, "", 12.0, "", false))
     }
 }

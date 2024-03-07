@@ -51,9 +51,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.data.LoginInfo
-import com.example.goodfood.core.data.UserViewModelFactory
-import com.example.goodfood.core.domain.model.MyWallet
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.UserViewModelFactory
+import com.example.goodfood.core.data.source.local.entity.MyWallet
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.ExitDialog
 import com.example.goodfood.presentation.component.TopBarDefault

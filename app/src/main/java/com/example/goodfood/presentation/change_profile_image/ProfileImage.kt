@@ -46,8 +46,8 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.example.goodfood.R
 import com.example.goodfood.core.data.LoginInfo
-import com.example.goodfood.core.data.UserViewModelFactory
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.UserViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.login.LoginViewModel
 import com.example.goodfood.presentation.register.RegisterViewModel
 import com.example.goodfood.ui.theme.Gold

@@ -1,4 +1,4 @@
-package com.example.goodfood.core.domain.db
+package com.example.goodfood.core.data.source.local.room
 
 import android.content.Context
 import androidx.room.Database
@@ -7,22 +7,16 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.goodfood.core.data.FoodConverter
 import com.example.goodfood.core.data.PaymentConverter
-import com.example.goodfood.core.domain.dao.FoodDao
-import com.example.goodfood.core.domain.dao.RestaurantDao
-import com.example.goodfood.core.domain.dao.ReviewDao
-import com.example.goodfood.core.domain.dao.TransactionDao
-import com.example.goodfood.core.domain.dao.UserDao
-import com.example.goodfood.core.domain.dao.WalletDao
-import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.core.domain.model.MyWallet
-import com.example.goodfood.core.domain.model.Restaurant
-import com.example.goodfood.core.domain.model.Review
-import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.core.domain.model.User
+import com.example.goodfood.core.data.source.local.entity.FoodEntity
+import com.example.goodfood.core.data.source.local.entity.MyWallet
+import com.example.goodfood.core.data.source.local.entity.Restaurant
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
+import com.example.goodfood.core.data.source.local.entity.TransactionEntity
+import com.example.goodfood.core.data.source.local.entity.UserEntity
 
 @Database(
-    entities = [Food::class, Transaction::class, Restaurant::class, Review::class, MyWallet::class, User::class],
-    version = 9,
+    entities = [FoodEntity::class, TransactionEntity::class, Restaurant::class, ReviewEntity::class, MyWallet::class, UserEntity::class],
+    version = 10,
     exportSchema = false
 )
 @TypeConverters(FoodConverter::class, PaymentConverter::class)

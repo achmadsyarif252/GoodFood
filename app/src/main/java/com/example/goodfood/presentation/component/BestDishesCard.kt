@@ -31,7 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.presentation.home.FoodDescription
@@ -51,7 +51,7 @@ fun CardBestDishes(
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()
     val food = allFood!![foodIndex]
-    val transactionList by transactionViewModel.allTransaction!!.observeAsState()
+    val transactionList by transactionViewModel.allTransaction.observeAsState()
 
 
     Column {
@@ -91,7 +91,7 @@ fun CardBestDishes(
                     contentColor = Color.White
                 ),
                 onClick = {
-                    val sameFood = transactionList!!.find { it!!.food == food }
+                    val sameFood = transactionList!!.find { it.food == food }
 
                     if (sameFood != null) {
                         transactionViewModel.update(sameFood.copy(total = sameFood.total + 1))

@@ -57,17 +57,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.presentation.home.FoodViewModel
+import com.example.goodfood.core.utils.DataMapper
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
-import com.example.goodfood.presentation.review.ReviewViewModel
 import com.example.goodfood.presentation.cart.TransactionViewModel
-import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog
+import com.example.goodfood.presentation.home.FoodViewModel
 import com.example.goodfood.presentation.review.CardReview
+import com.example.goodfood.presentation.review.ReviewViewModel
 
 @Composable
 fun DetailScreen(
@@ -85,12 +86,20 @@ fun DetailScreen(
     var isExpanded by remember {
         mutableStateOf(false)
     }
-    val allReview by reviewViewModel.allReview.observeAsState(initial = emptyList())
+    val foodEntity = food?.let {
+        DataMapper.mapFoodDomainToEntity(
+            it
+        )
+    }
+
+    val allReview by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
     var listReview by remember {
-        mutableStateOf(allReview.filter { it.food == food })
+        mutableStateOf(allReview.filter {
+            it.foodEntity == foodEntity
+        })
     }
     LaunchedEffect(key1 = allReview) {
-        listReview = allReview.filter { it.food == food }
+        listReview = allReview.filter { it.foodEntity == foodEntity }
     }
     val ctx = LocalContext.current
 
@@ -120,7 +129,7 @@ fun DetailScreen(
                 counter,
                 isExpanded,
                 isFavFood = isFavoriteFood,
-                listReview = listReview,
+                listReviewEntity = listReview,
                 updateCounter = {
                     counter = it
                 })
@@ -155,7 +164,7 @@ private fun Body(
     isExpanded: Boolean,
     isFavFood: Boolean,
     updateCounter: (Int) -> Unit,
-    listReview: List<Review>
+    listReviewEntity: List<ReviewEntity>
 ) {
 
     var counter1 by remember {
@@ -220,7 +229,7 @@ private fun Body(
             overflow = TextOverflow.Ellipsis
         )
         Spacer(modifier = Modifier.height(16.dp))
-        InfoDetail(food, isFav = isFavFood)
+        InfoDetail(food = food, isFav = isFavFood)
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier
@@ -234,8 +243,8 @@ private fun Body(
             })
         }
         LazyRow {
-            items(listReview.size) {
-                CardReview(review = listReview[it])
+            items(listReviewEntity.size) {
+                CardReview(reviewEntity = listReviewEntity[it])
             }
         }
     }
@@ -245,7 +254,7 @@ private fun Body(
 private fun InfoDetail(food: Food, isFav: Boolean) {
     val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = viewModel(factory = factory)
-
+    val ctx = LocalContext.current
     val allFood by foodViewModel.allFood.observeAsState(initial = emptyList())
 
     val isFavorite = allFood.find { it == food }?.isFavorite ?: false
@@ -270,6 +279,7 @@ private fun InfoDetail(food: Food, isFav: Boolean) {
         IconButton(
             modifier = Modifier.offset(y = (-8).dp, x = (-8).dp),
             onClick = {
+                Toast.makeText(ctx, "isFavorite : $isFavorite", Toast.LENGTH_SHORT).show()
                 if (isFavorite == true) {
                     foodViewModel.update(food = food.copy(isFavorite = false))
 
@@ -327,19 +337,24 @@ private fun FloatingButton(food: Food, total: Int) {
     val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
     val transaction by transactionViewModel.allTransaction.observeAsState(initial = emptyList())
 
-
     val ctx = LocalContext.current
     IconButton(
         modifier = Modifier.size(40.dp),
         onClick = {
             if (total > 0) {
-                val totalSameItem = transaction?.find { it?.food == food }
+                val totalSameItem = transaction.find { it.food == food }
                 val updateTotal = totalSameItem?.total?.plus(total)
 
                 if (totalSameItem != null) {
                     transactionViewModel.update(totalSameItem.copy(total = updateTotal ?: 1))
                 } else
-                    transactionViewModel.insert(Transaction(id = 0, food = food, total = total))
+                    transactionViewModel.insert(
+                        Transaction(
+                            id = 0,
+                            food = food,
+                            total = total
+                        )
+                    )
                 Toast.makeText(ctx, "Added To Cart", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(ctx, "Cart can't be empty!", Toast.LENGTH_SHORT).show()

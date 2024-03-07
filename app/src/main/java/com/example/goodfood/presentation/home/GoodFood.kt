@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel

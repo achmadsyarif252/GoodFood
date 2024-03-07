@@ -55,8 +55,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.data.SimpleDataDummy
-import com.example.goodfood.core.domain.model.Review
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
@@ -67,7 +67,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
     val ctx = LocalContext.current
     val factory = FoodViewModelFactory.getInstance()
     val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
-    val reviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
+    val reviews by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
 
     Scaffold(
         topBar = {
@@ -132,7 +132,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
                             }
 
                         }, dismissContent = {
-                            CardReview(review = reviews[it])
+                            CardReview(reviewEntity = reviews[it])
                         }, directions = setOf(DismissDirection.EndToStart))
 
                     }
@@ -161,7 +161,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardReview(modifier: Modifier = Modifier, review: Review) {
+fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,7 +193,7 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
             ) {
                 Image(
                     contentScale = ContentScale.Crop,
-                    painter = painterResource(id = review.photo),
+                    painter = painterResource(id = reviewEntity.photo),
                     contentDescription = null,
                     modifier = Modifier
                         .clip(
@@ -209,10 +209,10 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
                         .height(30.dp)
 
                 )
-                Text(text = review.name, fontSize = 18.sp, overflow = TextOverflow.Ellipsis)
+                Text(text = reviewEntity.name, fontSize = 18.sp, overflow = TextOverflow.Ellipsis)
                 Spacer(modifier = Modifier.weight(1f))
                 Row {
-                    repeat(review.rating) {
+                    repeat(reviewEntity.rating) {
                         Icon(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Default.Star,
@@ -224,7 +224,7 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
             }
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Image(
-                    painter = painterResource(id = review.food.image),
+                    painter = painterResource(id = reviewEntity.foodEntity.image),
                     contentDescription = "Food Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -237,7 +237,7 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
             }
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = review.review,
+                text = reviewEntity.review,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Light,
                 maxLines = 3,
@@ -252,6 +252,6 @@ fun CardReview(modifier: Modifier = Modifier, review: Review) {
 @Composable
 private fun CardReviewPreview() {
     FoodAppsTheme {
-        CardReview(review = SimpleDataDummy.listReview[0])
+        CardReview(reviewEntity = SimpleDataDummy.listReviewEntity[0])
     }
 }

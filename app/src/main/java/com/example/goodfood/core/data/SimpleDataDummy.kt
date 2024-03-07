@@ -1,14 +1,14 @@
 package com.example.goodfood.core.data
 
-import com.example.goodfood.core.domain.model.MyWallet
-import com.example.goodfood.core.domain.model.Review
-import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.core.domain.model.listPaymentMethod
+import com.example.goodfood.core.data.source.local.entity.MyWallet
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
+import com.example.goodfood.core.data.source.local.entity.TransactionEntity
+import com.example.goodfood.core.data.source.local.entity.listPaymentMethod
 
 
 object SimpleDataDummy {
-    val transactionList = mutableListOf<Transaction>()
-    val listReview = mutableListOf<Review>()
+    val transactionEntityList = mutableListOf<TransactionEntity>()
+    val listReviewEntity = mutableListOf<ReviewEntity>()
 
     val listMyWallet = listOf(
         MyWallet(wallet = listPaymentMethod[0], totalSaldo = 1000.0),
@@ -19,5 +19,5 @@ object SimpleDataDummy {
     )
 
 
-    fun getSubTotal() = transactionList.sumOf { it.food.price * it.total }
+    fun getSubTotal() = transactionEntityList.sumOf { it.foodEntity.price * it.total }
 }

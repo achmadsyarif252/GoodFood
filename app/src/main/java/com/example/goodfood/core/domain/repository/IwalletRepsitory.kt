@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import kotlinx.coroutines.flow.Flow
 
 interface IwalletRepsitory {

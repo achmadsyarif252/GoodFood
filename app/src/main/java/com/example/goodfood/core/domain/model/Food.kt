@@ -1,13 +1,8 @@
 package com.example.goodfood.core.domain.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.example.goodfood.R
 
-
-@Entity(tableName = "food_table")
 data class Food(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val id: Int,
     val image: Int,
     val name: String,
     val totalRestaurant: Int,

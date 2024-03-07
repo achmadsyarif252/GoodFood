@@ -8,11 +8,11 @@ interface TransactionUseCase {
 
     fun getSubTotal(): Flow<Double>
 
-    suspend fun insert(transaction: Transaction)
+    suspend fun insert(transactionEntity: Transaction)
 
-    suspend fun update(transaction: Transaction)
+    suspend fun update(transactionEntity: Transaction)
 
-    suspend fun delete(transaction: Transaction)
+    suspend fun delete(transactionEntity: Transaction)
 
     suspend fun deleteAll()
 }

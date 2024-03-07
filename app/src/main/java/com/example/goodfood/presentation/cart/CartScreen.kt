@@ -34,9 +34,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.CartCard
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.CardFood
@@ -106,12 +106,10 @@ fun CartScreen(
                 ) {
                     allTransaction?.count()?.let { transaction ->
                         items(transaction) { food ->
-                            allTransaction!![food]?.food?.let { it1 ->
-                                CartCard(
-                                    food = it1,
-                                    total = allTransaction!![food]!!.total,
-                                )
-                            }
+                            CartCard(
+                                food = allTransaction!![food].food,
+                                total = allTransaction!![food].total,
+                            )
                         }
                     }
                 }

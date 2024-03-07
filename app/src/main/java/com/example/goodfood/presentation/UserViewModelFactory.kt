@@ -1,4 +1,4 @@
-package com.example.goodfood.core.data
+package com.example.goodfood.presentation
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

@@ -35,7 +35,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import java.text.NumberFormat
 import java.util.Locale
 

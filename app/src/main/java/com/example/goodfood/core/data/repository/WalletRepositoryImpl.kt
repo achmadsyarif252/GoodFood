@@ -1,7 +1,7 @@
 package com.example.goodfood.core.data.repository
 
-import com.example.goodfood.core.data.datasource.IWalletDataSource
-import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.data.source.local.IWalletDataSource
+import com.example.goodfood.core.data.source.local.entity.MyWallet
 import com.example.goodfood.core.domain.repository.IwalletRepsitory
 import kotlinx.coroutines.flow.Flow
 

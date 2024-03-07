@@ -1,4 +1,4 @@
-package com.example.goodfood.core.domain.model
+package com.example.goodfood.presentation.bottombar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -7,7 +7,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import com.example.goodfood.R
 
 data class BottomBarItem(val title: Int, val icon: ImageVector)

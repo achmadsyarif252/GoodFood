@@ -1,24 +1,31 @@
 package com.example.goodfood.core.data.repository
 
 
-import com.example.goodfood.core.data.datasource.IFoodDataSource
+import android.util.Log
+import com.example.goodfood.core.data.source.local.IFoodDataSource
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.core.domain.repository.IFoodRepository
 import com.example.goodfood.core.helper.InitialDataSource
+import com.example.goodfood.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class FoodRepositoryImpl(private val foodDataSource: IFoodDataSource) : IFoodRepository {
 
     override suspend fun insert(food: Food) {
-        foodDataSource.insert(food)
+        val foodEntity = DataMapper.mapFoodDomainToEntity(food)
+        foodDataSource.insert(foodEntity)
     }
 
     override suspend fun update(food: Food) {
-        foodDataSource.update(food)
+        val foodEntity = DataMapper.mapFoodDomainToEntity(food)
+        Log.d("SET FAVORITE", foodEntity.isFavorite.toString())
+        foodDataSource.update(foodEntity)
     }
 
     override suspend fun delete(food: Food) {
-        foodDataSource.delete(food)
+        val foodEntity = DataMapper.mapFoodDomainToEntity(food)
+        foodDataSource.delete(foodEntity)
     }
 
     override suspend fun isFoodListEmpty(): Boolean {
@@ -30,6 +37,8 @@ class FoodRepositoryImpl(private val foodDataSource: IFoodDataSource) : IFoodRep
     }
 
     override fun getListFood(): Flow<List<Food>> {
-        return foodDataSource.getAllFood()
+        return foodDataSource.getAllFood().map { entities ->
+            DataMapper.mapFoodEntitiesToDomain(entities)
+        }
     }
 }

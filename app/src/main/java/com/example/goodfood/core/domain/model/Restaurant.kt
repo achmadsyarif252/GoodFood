@@ -1,13 +1,8 @@
 package com.example.goodfood.core.domain.model
 
 import androidx.annotation.DrawableRes
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.example.goodfood.R
 
-@Entity("table_restaurant")
 data class Restaurant(
-    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
     val location: String,
@@ -20,6 +15,3 @@ data class Restaurant(
     val isFavorite: Boolean = false
 )
 
-val restaurants = listOf(
-    Restaurant(0, "Bakso Malang", "Jakarta", 1995, "4.5", R.drawable.resto1, isFavorite = false),
-)

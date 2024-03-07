@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.core.domain.model.Review
+import com.example.goodfood.core.data.source.local.entity.ReviewEntity
 import com.example.goodfood.core.domain.usecase.ReviewUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,36 +12,36 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class ReviewScreenUIState(
-    val reviews: List<Review> = emptyList()
+    val reviewEntities: List<ReviewEntity> = emptyList()
 )
 
 class ReviewViewModel(private val reviewUseCase: ReviewUseCase) : ViewModel() {
-    val allReview: LiveData<List<Review>>
+    val allReviewEntity: LiveData<List<ReviewEntity>>
 
     private val _state = MutableStateFlow(ReviewScreenUIState())
     val state = _state.asStateFlow()
 
     init {
-        allReview = reviewUseCase.getReviews().asLiveData()
+        allReviewEntity = reviewUseCase.getReviews().asLiveData()
     }
 
-    fun updateReviews(reviews: List<Review>) {
-        _state.value = _state.value.copy(reviews = reviews)
+    fun updateReviews(reviewEntities: List<ReviewEntity>) {
+        _state.value = _state.value.copy(reviewEntities = reviewEntities)
     }
 
-    fun insert(review: Review) = viewModelScope.launch {
-        reviewUseCase.insert(review)
+    fun insert(reviewEntity: ReviewEntity) = viewModelScope.launch {
+        reviewUseCase.insert(reviewEntity)
     }
 
-    fun delete(review: Review) = viewModelScope.launch {
+    fun delete(reviewEntity: ReviewEntity) = viewModelScope.launch {
         _state.update {
-            reviewUseCase.delete(review)
+            reviewUseCase.delete(reviewEntity)
             it
         }
     }
 
-    fun update(review: Review) = viewModelScope.launch {
-        reviewUseCase.update(review)
+    fun update(reviewEntity: ReviewEntity) = viewModelScope.launch {
+        reviewUseCase.update(reviewEntity)
     }
 
 

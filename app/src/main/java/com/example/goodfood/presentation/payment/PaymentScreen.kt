@@ -54,9 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.core.domain.model.MyWallet
-import com.example.goodfood.core.domain.model.PaymentMethod
-import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.core.data.source.local.entity.MyWallet
+import com.example.goodfood.core.data.source.local.entity.PaymentMethod
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.Gold

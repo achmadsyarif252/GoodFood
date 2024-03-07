@@ -27,8 +27,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.core.data.LoginInfo
-import com.example.goodfood.core.data.UserViewModelFactory
-import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.cart.CartScreen
 import com.example.goodfood.presentation.change_profile_image.ProfileImage
 import com.example.goodfood.presentation.detail.DetailScreen
@@ -76,7 +74,7 @@ fun MyApp(
     )
     var username by rememberSaveable { mutableStateOf("") }
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
-    val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
+    val allReviews by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
 
     // Membuat sebuah NavController
     val navController = rememberNavController()

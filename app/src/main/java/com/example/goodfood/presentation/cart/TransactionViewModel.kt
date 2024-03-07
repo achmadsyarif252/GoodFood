@@ -6,7 +6,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.Transaction
 import com.example.goodfood.core.domain.usecase.TransactionUseCase
-
 import kotlinx.coroutines.launch
 
 class TransactionViewModel(private val transactionUseCase: TransactionUseCase) : ViewModel() {

@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.core.domain.model.Restaurant
+import com.example.goodfood.core.data.source.local.entity.Restaurant
 import com.example.goodfood.core.domain.repository.IRestaurantRepository
 import kotlinx.coroutines.flow.Flow
 
