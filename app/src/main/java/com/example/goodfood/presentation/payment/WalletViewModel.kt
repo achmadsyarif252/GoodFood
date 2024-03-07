@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.domain.usecase.WalletUseCase
+import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.domain.usecase.WalletUseCase
 import kotlinx.coroutines.launch
 
 class WalletViewModel(private val walletUseCase: WalletUseCase) : ViewModel() {

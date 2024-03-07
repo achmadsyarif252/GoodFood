@@ -1,6 +1,7 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.domain.model.User
+import com.example.goodfood.core.domain.model.User
+
 
 interface UserUseCase {
     fun getUser(email: String, password: String): User

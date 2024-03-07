@@ -1,8 +1,7 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.core.domain.model.Transaction
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 interface ITransactionRepository {
     fun getAllTransaction(): Flow<List<Transaction>>

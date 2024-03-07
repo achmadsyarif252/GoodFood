@@ -30,9 +30,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.core.domain.model.Restaurant
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
-import com.example.goodfood.domain.model.Restaurant
 import com.example.goodfood.core.utils.FoodViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)

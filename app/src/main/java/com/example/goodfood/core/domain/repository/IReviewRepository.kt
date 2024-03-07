@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.domain.model.Review
+import com.example.goodfood.core.domain.model.Review
 import kotlinx.coroutines.flow.Flow
 
 interface IReviewRepository {

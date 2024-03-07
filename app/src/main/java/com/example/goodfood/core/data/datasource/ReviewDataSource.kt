@@ -1,7 +1,7 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.dao.ReviewDao
-import com.example.goodfood.domain.model.Review
+import com.example.goodfood.core.domain.dao.ReviewDao
+import com.example.goodfood.core.domain.model.Review
 import kotlinx.coroutines.flow.Flow
 
 class ReviewDataSource(private val reviewDao: ReviewDao) : IReviewDataSource {

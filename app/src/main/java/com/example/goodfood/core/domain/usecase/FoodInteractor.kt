@@ -1,7 +1,7 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.domain.repository.IFoodRepository
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.repository.IFoodRepository
 import kotlinx.coroutines.flow.Flow
 
 class FoodInteractor(private val foodRepository: IFoodRepository) : FoodUseCase {

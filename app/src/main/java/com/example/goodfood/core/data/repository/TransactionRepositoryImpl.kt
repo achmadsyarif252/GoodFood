@@ -1,8 +1,9 @@
 package com.example.goodfood.core.data.repository
 
-import com.example.goodfood.data.datasource.ITransactionDataSource
-import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.domain.repository.ITransactionRepository
+
+import com.example.goodfood.core.data.datasource.ITransactionDataSource
+import com.example.goodfood.core.domain.model.Transaction
+import com.example.goodfood.core.domain.repository.ITransactionRepository
 import kotlinx.coroutines.flow.Flow
 
 class TransactionRepositoryImpl(private val transactionDataSource: ITransactionDataSource) :

@@ -1,11 +1,10 @@
 package com.example.goodfood.core.helper
 
 import com.example.goodfood.R
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.domain.model.PaymentMethod
-import com.example.goodfood.domain.model.Restaurant
-import com.example.goodfood.domain.model.listPaymentMethod
+import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.domain.model.Restaurant
+import com.example.goodfood.core.domain.model.listPaymentMethod
 
 object InitialDataSource {
     fun getFood(): List<Food> {

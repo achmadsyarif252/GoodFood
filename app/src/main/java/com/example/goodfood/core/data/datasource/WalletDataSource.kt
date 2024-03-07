@@ -1,8 +1,8 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.dao.WalletDao
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.helper.InitialDataSource
+import com.example.goodfood.core.domain.dao.WalletDao
+import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
 class WalletDataSource(private val walletDao: WalletDao) : IWalletDataSource {

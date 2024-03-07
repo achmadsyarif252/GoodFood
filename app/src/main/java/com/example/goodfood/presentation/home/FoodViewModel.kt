@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.domain.usecase.FoodUseCase
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.usecase.FoodUseCase
 import kotlinx.coroutines.launch
 
 class FoodViewModel(private val foodUseCase: FoodUseCase) : ViewModel() {

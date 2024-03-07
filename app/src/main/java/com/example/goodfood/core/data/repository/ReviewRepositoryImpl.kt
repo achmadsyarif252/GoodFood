@@ -1,8 +1,9 @@
 package com.example.goodfood.core.data.repository
 
-import com.example.goodfood.data.datasource.IReviewDataSource
-import com.example.goodfood.domain.model.Review
-import com.example.goodfood.domain.repository.IReviewRepository
+
+import com.example.goodfood.core.data.datasource.IReviewDataSource
+import com.example.goodfood.core.domain.model.Review
+import com.example.goodfood.core.domain.repository.IReviewRepository
 import kotlinx.coroutines.flow.Flow
 
 class ReviewRepositoryImpl(private val reviewDataSource: IReviewDataSource) : IReviewRepository {

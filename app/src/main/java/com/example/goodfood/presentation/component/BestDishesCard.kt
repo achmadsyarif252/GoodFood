@@ -30,12 +30,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.goodfood.core.domain.model.Transaction
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.cart.TransactionViewModel
-import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.presentation.home.FoodViewModel
-import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.home.FoodDescription
+import com.example.goodfood.presentation.home.FoodViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -1,8 +1,7 @@
 package com.example.goodfood.core.data
 
 import androidx.room.TypeConverter
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.domain.model.PaymentMethod
+import com.example.goodfood.core.domain.model.PaymentMethod
 import com.google.gson.Gson
 
 class PaymentConverter {

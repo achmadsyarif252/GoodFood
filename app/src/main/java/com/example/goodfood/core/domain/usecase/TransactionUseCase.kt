@@ -1,8 +1,7 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.core.domain.model.Transaction
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 interface TransactionUseCase {
     fun getAllTransaction(): Flow<List<Transaction>>

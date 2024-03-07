@@ -1,9 +1,10 @@
 package com.example.goodfood.core.data.repository
 
-import com.example.goodfood.data.datasource.IFoodDataSource
-import com.example.goodfood.domain.repository.IFoodRepository
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.helper.InitialDataSource
+
+import com.example.goodfood.core.data.datasource.IFoodDataSource
+import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.repository.IFoodRepository
+import com.example.goodfood.core.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
 class FoodRepositoryImpl(private val foodDataSource: IFoodDataSource) : IFoodRepository {

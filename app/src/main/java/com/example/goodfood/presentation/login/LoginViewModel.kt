@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.data.LoginInfo
-import com.example.goodfood.data.UserPreferences
-import com.example.goodfood.data.UserPreferences.loginInfo
+import com.example.goodfood.core.data.LoginInfo
+import com.example.goodfood.core.data.UserPreferences
+import com.example.goodfood.core.data.UserPreferences.loginInfo
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val context: Context):ViewModel() {

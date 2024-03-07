@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.core.domain.model.Food
 import kotlinx.coroutines.flow.Flow
 
 interface FoodUseCase {

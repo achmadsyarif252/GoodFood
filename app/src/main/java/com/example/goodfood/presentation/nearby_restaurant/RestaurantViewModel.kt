@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.domain.usecase.RestaurantUseCase
-import com.example.goodfood.domain.model.Restaurant
-import com.example.goodfood.helper.InitialDataSource
+import com.example.goodfood.core.domain.model.Restaurant
+import com.example.goodfood.core.domain.usecase.RestaurantUseCase
+import com.example.goodfood.core.helper.InitialDataSource
 import kotlinx.coroutines.launch
 
 class RestaurantViewModel(private val restaurantUseCase: RestaurantUseCase) : ViewModel() {

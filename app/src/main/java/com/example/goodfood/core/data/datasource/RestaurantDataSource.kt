@@ -1,7 +1,7 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.dao.RestaurantDao
-import com.example.goodfood.domain.model.Restaurant
+import com.example.goodfood.core.domain.dao.RestaurantDao
+import com.example.goodfood.core.domain.model.Restaurant
 import kotlinx.coroutines.flow.Flow
 
 class RestaurantDataSource(private val restaurantDao: RestaurantDao) : IRestaurantDataSource {

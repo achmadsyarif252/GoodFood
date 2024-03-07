@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.presentation.home.FoodViewModel
 import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel

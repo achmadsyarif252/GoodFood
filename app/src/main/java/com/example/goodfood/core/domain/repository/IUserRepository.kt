@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.domain.model.User
+import com.example.goodfood.core.domain.model.User
 
 interface IUserRepository {
     fun getUser(email: String, password: String): User

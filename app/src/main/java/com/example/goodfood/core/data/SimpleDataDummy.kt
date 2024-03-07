@@ -1,11 +1,10 @@
 package com.example.goodfood.core.data
 
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.domain.model.Restaurant
-import com.example.goodfood.domain.model.Review
-import com.example.goodfood.domain.model.Transaction
-import com.example.goodfood.domain.model.listPaymentMethod
+import com.example.goodfood.core.domain.model.MyWallet
+import com.example.goodfood.core.domain.model.Review
+import com.example.goodfood.core.domain.model.Transaction
+import com.example.goodfood.core.domain.model.listPaymentMethod
+
 
 object SimpleDataDummy {
     val transactionList = mutableListOf<Transaction>()

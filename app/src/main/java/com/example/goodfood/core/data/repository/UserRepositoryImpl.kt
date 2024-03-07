@@ -1,8 +1,9 @@
 package com.example.goodfood.core.data.repository
 
-import com.example.goodfood.data.datasource.IUserDataSource
-import com.example.goodfood.domain.model.User
-import com.example.goodfood.domain.repository.IUserRepository
+import com.example.goodfood.core.data.datasource.IUserDataSource
+import com.example.goodfood.core.domain.model.User
+import com.example.goodfood.core.domain.repository.IUserRepository
+
 
 class UserRepositoryImpl(private val userDataSource: IUserDataSource) : IUserRepository {
     override fun getUser(email: String, password: String): User {

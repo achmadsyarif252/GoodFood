@@ -1,7 +1,8 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.dao.UserDao
-import com.example.goodfood.domain.model.User
+import com.example.goodfood.core.domain.dao.UserDao
+import com.example.goodfood.core.domain.model.User
+
 
 class UserDataSource(private val userDao: UserDao) : IUserDataSource {
     override fun getUser(email: String, password: String): User {

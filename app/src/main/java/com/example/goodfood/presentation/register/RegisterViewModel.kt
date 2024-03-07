@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.goodfood.domain.model.User
-import com.example.goodfood.domain.usecase.UserUseCase
+import com.example.goodfood.core.domain.model.User
+import com.example.goodfood.core.domain.usecase.UserUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

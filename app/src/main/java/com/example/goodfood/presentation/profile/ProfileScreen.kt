@@ -49,17 +49,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.LocalNavController
-import com.example.goodfood.presentation.login.LoginViewModel
 import com.example.goodfood.R
-import com.example.goodfood.presentation.register.RegisterViewModel
-import com.example.goodfood.presentation.payment.WalletViewModel
-import com.example.goodfood.data.LoginInfo
-import com.example.goodfood.data.UserViewModelFactory
-import com.example.goodfood.domain.model.MyWallet
+import com.example.goodfood.core.data.LoginInfo
+import com.example.goodfood.core.data.UserViewModelFactory
+import com.example.goodfood.core.domain.model.MyWallet
 import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.ExitDialog
 import com.example.goodfood.presentation.component.TopBarDefault
+import com.example.goodfood.presentation.login.LoginViewModel
+import com.example.goodfood.presentation.payment.WalletViewModel
+import com.example.goodfood.presentation.register.RegisterViewModel
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.ScaffoldBgColor
 

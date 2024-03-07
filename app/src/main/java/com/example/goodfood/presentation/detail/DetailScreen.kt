@@ -57,13 +57,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.model.Review
+import com.example.goodfood.core.domain.model.Transaction
 import com.example.goodfood.presentation.home.FoodViewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.review.ReviewViewModel
 import com.example.goodfood.presentation.cart.TransactionViewModel
-import com.example.goodfood.domain.model.Food
-import com.example.goodfood.domain.model.Review
-import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.AddMinQty
 import com.example.goodfood.presentation.component.RatingDialog

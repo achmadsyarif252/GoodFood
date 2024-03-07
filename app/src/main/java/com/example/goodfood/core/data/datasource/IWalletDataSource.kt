@@ -1,7 +1,6 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.helper.InitialDataSource
+import com.example.goodfood.core.domain.model.MyWallet
 import kotlinx.coroutines.flow.Flow
 
 interface IWalletDataSource {

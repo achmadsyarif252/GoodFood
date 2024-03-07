@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.domain.model.Food
+import com.example.goodfood.core.domain.model.Food
 import kotlinx.coroutines.flow.Flow
 
 interface IFoodRepository {

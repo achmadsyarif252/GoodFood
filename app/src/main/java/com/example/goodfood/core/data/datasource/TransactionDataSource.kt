@@ -1,7 +1,7 @@
 package com.example.goodfood.core.data.datasource
 
-import com.example.goodfood.domain.dao.TransactionDao
-import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.core.domain.dao.TransactionDao
+import com.example.goodfood.core.domain.model.Transaction
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

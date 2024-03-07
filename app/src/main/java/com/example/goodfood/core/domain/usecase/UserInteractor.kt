@@ -1,7 +1,8 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.domain.model.User
-import com.example.goodfood.domain.repository.IUserRepository
+import com.example.goodfood.core.domain.model.User
+import com.example.goodfood.core.domain.repository.IUserRepository
+
 
 class UserInteractor(private val userRepository: IUserRepository) : UserUseCase {
     override fun getUser(email: String, password: String): User {

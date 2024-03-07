@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.goodfood.domain.model.Transaction
+import com.example.goodfood.core.domain.model.Transaction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
