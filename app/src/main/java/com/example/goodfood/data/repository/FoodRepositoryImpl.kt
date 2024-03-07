@@ -6,7 +6,7 @@ import com.example.goodfood.domain.model.Food
 import com.example.goodfood.helper.InitialDataSource
 import kotlinx.coroutines.flow.Flow
 
-class FoodRepository(private val foodDataSource: IFoodDataSource) : IFoodRepository {
+class FoodRepositoryImpl(private val foodDataSource: IFoodDataSource) : IFoodRepository {
 
     override suspend fun insert(food: Food) {
         foodDataSource.insert(food)

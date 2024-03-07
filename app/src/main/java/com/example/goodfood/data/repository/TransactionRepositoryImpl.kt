@@ -1,14 +1,11 @@
 package com.example.goodfood.data.repository
 
 import com.example.goodfood.data.datasource.ITransactionDataSource
-import com.example.goodfood.data.datasource.TransactionDataSource
-import com.example.goodfood.domain.dao.TransactionDao
 import com.example.goodfood.domain.model.Transaction
 import com.example.goodfood.domain.repository.ITransactionRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
-class TransactionRepository(private val transactionDataSource: ITransactionDataSource) :
+class TransactionRepositoryImpl(private val transactionDataSource: ITransactionDataSource) :
     ITransactionRepository {
     override fun getAllTransaction(): Flow<List<Transaction>> {
         return transactionDataSource.getAllTransaction()

@@ -2,7 +2,7 @@ package com.example.goodfood.di
 
 import android.content.Context
 import com.example.goodfood.data.datasource.FoodDataSource
-import com.example.goodfood.data.repository.FoodRepository
+import com.example.goodfood.data.repository.FoodRepositoryImpl
 import com.example.goodfood.data.datasource.IFoodDataSource
 import com.example.goodfood.data.datasource.IRestaurantDataSource
 import com.example.goodfood.data.datasource.IReviewDataSource
@@ -14,11 +14,11 @@ import com.example.goodfood.data.datasource.ReviewDataSource
 import com.example.goodfood.data.datasource.TransactionDataSource
 import com.example.goodfood.data.datasource.UserDataSource
 import com.example.goodfood.data.datasource.WalletDataSource
-import com.example.goodfood.data.repository.RestaurantRepository
-import com.example.goodfood.data.repository.ReviewRepository
-import com.example.goodfood.data.repository.TransactionRepository
-import com.example.goodfood.data.repository.UserRepository
-import com.example.goodfood.data.repository.WalletRepository
+import com.example.goodfood.data.repository.RestaurantRepositoryImpl
+import com.example.goodfood.data.repository.ReviewRepositoryImpl
+import com.example.goodfood.data.repository.TransactionRepositoryImpl
+import com.example.goodfood.data.repository.UserRepositoryImpl
+import com.example.goodfood.data.repository.WalletRepositoryImpl
 import com.example.goodfood.domain.usecase.FoodInteractor
 import com.example.goodfood.domain.usecase.FoodUseCase
 import com.example.goodfood.domain.repository.IFoodRepository
@@ -88,32 +88,32 @@ object Injection {
 
     private fun provideFoodRepository(): IFoodRepository {
         val foodDataSource = provideFoodDataSource()
-        return FoodRepository(foodDataSource)
+        return FoodRepositoryImpl(foodDataSource)
     }
 
     private fun provideRestaurantRepository(): IRestaurantRepository {
         val restaurantDataSource = provideRestaurantDataSource()
-        return RestaurantRepository(restaurantDataSource)
+        return RestaurantRepositoryImpl(restaurantDataSource)
     }
 
     private fun provideReviewRepository(): IReviewRepository {
         val reviewDataSource = provideReviewDataSouce()
-        return ReviewRepository(reviewDataSource)
+        return ReviewRepositoryImpl(reviewDataSource)
     }
 
     private fun provideTransactionRepository(): ITransactionRepository {
         val transactionDataSource = provideTransactionDataSource()
-        return TransactionRepository(transactionDataSource)
+        return TransactionRepositoryImpl(transactionDataSource)
     }
 
     private fun provideUserRepository(): IUserRepository {
         val userDataSource = provideUserDataSource()
-        return UserRepository(userDataSource)
+        return UserRepositoryImpl(userDataSource)
     }
 
     private fun provideWalletRepository(): IwalletRepsitory {
         val walletDataSource = provideWalletDataSource()
-        return WalletRepository(walletDataSource)
+        return WalletRepositoryImpl(walletDataSource)
     }
 
     private fun provideFoodDataSource(): IFoodDataSource {

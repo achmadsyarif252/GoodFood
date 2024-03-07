@@ -1,12 +1,11 @@
 package com.example.goodfood.data.repository
 
 import com.example.goodfood.data.datasource.IWalletDataSource
-import com.example.goodfood.data.datasource.WalletDataSource
 import com.example.goodfood.domain.model.MyWallet
 import com.example.goodfood.domain.repository.IwalletRepsitory
 import kotlinx.coroutines.flow.Flow
 
-class WalletRepository(private val walletDataSource: IWalletDataSource) : IwalletRepsitory {
+class WalletRepositoryImpl(private val walletDataSource: IWalletDataSource) : IwalletRepsitory {
     override fun getAllWallet(): Flow<List<MyWallet>> {
         return walletDataSource.getAllWallet()
     }

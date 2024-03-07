@@ -5,7 +5,7 @@ import com.example.goodfood.domain.repository.IRestaurantRepository
 import com.example.goodfood.domain.model.Restaurant
 import kotlinx.coroutines.flow.Flow
 
-class RestaurantRepository(private val restaurantDataSource: IRestaurantDataSource) :
+class RestaurantRepositoryImpl(private val restaurantDataSource: IRestaurantDataSource) :
     IRestaurantRepository {
     override fun getAllRestaurant(): Flow<List<Restaurant>> {
         return restaurantDataSource.getAllRestaurant()
