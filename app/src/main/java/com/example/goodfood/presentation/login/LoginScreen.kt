@@ -34,11 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
-import com.example.goodfood.presentation.LoginViewModel
 import com.example.goodfood.R
-import com.example.goodfood.presentation.RegisterViewModel
+import com.example.goodfood.presentation.register.RegisterViewModel
 import com.example.goodfood.data.UserViewModelFactory
-import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
 import com.example.goodfood.ui.theme.OrangeColor

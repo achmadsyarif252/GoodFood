@@ -28,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
-import com.example.goodfood.presentation.FoodViewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.presentation.home.FoodViewModel
+import com.example.goodfood.core.utils.FoodViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

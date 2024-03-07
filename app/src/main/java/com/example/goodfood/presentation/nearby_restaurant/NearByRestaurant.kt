@@ -12,8 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
-import com.example.goodfood.presentation.RestaurantViewModel
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme

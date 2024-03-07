@@ -8,8 +8,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
-import com.example.goodfood.presentation.WalletViewModel
+import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.payment.WalletViewModel
 import com.example.goodfood.presentation.component.SavingsAccountCard
 import com.example.goodfood.presentation.component.TopBarDefault
 

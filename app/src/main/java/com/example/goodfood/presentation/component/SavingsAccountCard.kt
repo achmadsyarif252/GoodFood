@@ -34,9 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.WalletViewModel
+import com.example.goodfood.presentation.payment.WalletViewModel
 import com.example.goodfood.domain.model.MyWallet
-import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.ui.theme.FoodAppsTheme
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -54,10 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
-import com.example.goodfood.presentation.ReviewViewModel
 import com.example.goodfood.data.SimpleDataDummy
 import com.example.goodfood.domain.model.Review
-import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold

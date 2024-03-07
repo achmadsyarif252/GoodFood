@@ -36,8 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
-import com.example.goodfood.presentation.FoodViewModelFactory
-import com.example.goodfood.presentation.TransactionViewModel
+import com.example.goodfood.core.utils.FoodViewModelFactory
 import com.example.goodfood.presentation.component.CartCard
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.CardFood

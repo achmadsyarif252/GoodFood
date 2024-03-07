@@ -48,9 +48,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.R
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
-import com.example.goodfood.presentation.RestaurantViewModel
+import com.example.goodfood.presentation.home.FoodViewModel
+import com.example.goodfood.core.utils.FoodViewModelFactory
+import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme

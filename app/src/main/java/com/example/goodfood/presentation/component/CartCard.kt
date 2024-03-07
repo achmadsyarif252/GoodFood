@@ -19,15 +19,14 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.TransactionViewModel
+import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.core.utils.FoodViewModelFactory
 
 @Composable
 fun CartCard(
