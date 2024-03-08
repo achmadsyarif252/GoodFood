@@ -92,14 +92,16 @@ object DataMapper {
         )
     }
 
-    fun mapUserEntityToDomain(user: UserEntity) =
-        User(
-            id = user.id,
-            email = user.email,
-            password = user.password,
-            phoneNumber = user.phoneNumber,
-            image = user.image
-        )
+    fun mapUserEntityToDomain(user: UserEntity?) =
+        user?.let {
+            User(
+                id = it.id,
+                email = user.email,
+                password = user.password,
+                phoneNumber = user.phoneNumber,
+                image = user.image
+            )
+        }
 
 
     fun mapFoodDomainToEntity(input: Food) = FoodEntity(

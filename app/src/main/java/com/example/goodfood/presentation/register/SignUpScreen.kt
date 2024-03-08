@@ -137,7 +137,7 @@ fun SignUpScreen(
                     } else {
                         confirmPasswordError = false
                     }
-                    if (isUserExist?.password != "") {
+                    if (isUserExist != null) {
                         usernameError = true
                     } else {
                         usernameError = false

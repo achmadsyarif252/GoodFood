@@ -8,15 +8,15 @@ import com.example.goodfood.core.utils.DataMapper
 
 
 class UserRepositoryImpl(private val userDataSource: IUserDataSource) : IUserRepository {
-    override fun getUser(email: String, password: String): User {
+    override fun getUser(email: String, password: String): User? {
         return DataMapper.mapUserEntityToDomain(
             userDataSource.getUser(email, password) ?: UserEntity()
         )
     }
 
-    override fun isAlreadyExist(email: String): User {
+    override fun isAlreadyExist(email: String): User? {
         return DataMapper.mapUserEntityToDomain(
-            userDataSource.isAlreadyExist(email) ?: UserEntity()
+            userDataSource.isAlreadyExist(email)
         )
     }
 
