@@ -1,7 +1,6 @@
 package com.example.goodfood.core.data.repository
 
 
-import android.util.Log
 import com.example.goodfood.core.data.source.local.IFoodDataSource
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.core.domain.repository.IFoodRepository
@@ -19,7 +18,6 @@ class FoodRepositoryImpl(private val foodDataSource: IFoodDataSource) : IFoodRep
 
     override suspend fun update(food: Food) {
         val foodEntity = DataMapper.mapFoodDomainToEntity(food)
-        Log.d("SET FAVORITE", foodEntity.isFavorite.toString())
         foodDataSource.update(foodEntity)
     }
 

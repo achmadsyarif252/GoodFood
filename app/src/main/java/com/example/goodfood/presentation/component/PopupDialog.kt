@@ -37,12 +37,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
-import com.example.goodfood.core.data.source.local.entity.FoodEntity
-import com.example.goodfood.core.data.source.local.entity.ReviewEntity
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.core.utils.DataMapper
-import com.example.goodfood.presentation.review.ReviewViewModel
+import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.presentation.FoodViewModelFactory
+import com.example.goodfood.presentation.review.ReviewViewModel
 
 
 @Composable
@@ -135,12 +133,12 @@ fun RatingDialog(
                     } else {
                         isError = false
                         reviewViewModel.insert(
-                            ReviewEntity(
+                            Review(
                                 name = "Achmad Syarif",
                                 photo = R.drawable.cita2,
                                 rating = rating.toInt(),
                                 review = textFieldState,
-                                foodEntity = DataMapper.mapFoodDomainToEntity(food)
+                                food = food
                             )
                         )
                         rating = 0f

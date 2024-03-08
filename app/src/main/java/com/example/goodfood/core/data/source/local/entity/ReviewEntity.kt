@@ -9,7 +9,7 @@ data class ReviewEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    @DrawableRes val photo: Int,
+    @DrawableRes val photo: Int? = null,
     val rating: Int,
     val review: String,
     val foodEntity: FoodEntity

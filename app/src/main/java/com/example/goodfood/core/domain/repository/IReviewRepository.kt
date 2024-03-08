@@ -1,14 +1,14 @@
 package com.example.goodfood.core.domain.repository
 
-import com.example.goodfood.core.data.source.local.entity.ReviewEntity
+import com.example.goodfood.core.domain.model.Review
 import kotlinx.coroutines.flow.Flow
 
 interface IReviewRepository {
-    fun getReviews(): Flow<List<ReviewEntity>>
+    fun getReviews(): Flow<List<Review?>>
 
-    suspend fun insert(reviewEntity: ReviewEntity)
+    suspend fun insert(review: Review)
 
-    suspend fun update(reviewEntity: ReviewEntity)
+    suspend fun update(review: Review)
 
-    suspend fun delete(reviewEntity: ReviewEntity)
+    suspend fun delete(review: Review)
 }

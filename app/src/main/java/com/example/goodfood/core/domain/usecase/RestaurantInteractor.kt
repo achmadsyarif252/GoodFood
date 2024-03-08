@@ -1,6 +1,6 @@
 package com.example.goodfood.core.domain.usecase
 
-import com.example.goodfood.core.data.source.local.entity.Restaurant
+import com.example.goodfood.core.domain.model.Restaurant
 import com.example.goodfood.core.domain.repository.IRestaurantRepository
 import kotlinx.coroutines.flow.Flow
 
@@ -15,8 +15,8 @@ class RestaurantInteractor(private val restaurantRepository: IRestaurantReposito
         return restaurantRepository.isListRestaurantEmpty()
     }
 
-    override suspend fun insertAllRestaurant(listRestaurant: List<Restaurant>) {
-        restaurantRepository.insertAllRestaurant(listRestaurant)
+    override suspend fun insertAllRestaurant() {
+        restaurantRepository.insertAllRestaurant()
     }
 
     override suspend fun insert(restaurant: Restaurant) {

@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CardFavoritePreview">
-        <State />
-      </entry>
       <entry key="LoginScreenPreview">
         <State>
           <targetSelectedWithDropDown>
@@ -20,6 +17,12 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2024-02-26T15:28:22.876269600Z" />
         </State>
+      </entry>
+      <entry key="PreviewPineTreeCanvas">
+        <State />
+      </entry>
+      <entry key="PreviewTreeCanvas">
+        <State />
       </entry>
       <entry key="RatingBarPreview">
         <State>

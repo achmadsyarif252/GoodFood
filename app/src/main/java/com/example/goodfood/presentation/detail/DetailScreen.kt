@@ -57,10 +57,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.goodfood.core.data.source.local.entity.ReviewEntity
 import com.example.goodfood.core.domain.model.Food
+import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.core.utils.DataMapper
 import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.cart.TransactionViewModel
@@ -86,20 +85,22 @@ fun DetailScreen(
     var isExpanded by remember {
         mutableStateOf(false)
     }
-    val foodEntity = food?.let {
-        DataMapper.mapFoodDomainToEntity(
-            it
-        )
-    }
 
-    val allReview by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
+
+    val allReview by reviewViewModel.allReview.observeAsState(initial = emptyList())
     var listReview by remember {
         mutableStateOf(allReview.filter {
-            it.foodEntity == foodEntity
+            it?.let {
+                it.food == food
+            } == true
         })
     }
     LaunchedEffect(key1 = allReview) {
-        listReview = allReview.filter { it.foodEntity == foodEntity }
+        listReview = allReview.filter {
+            it?.let {
+                it.food == food
+            } == true
+        }
     }
     val ctx = LocalContext.current
 
@@ -129,7 +130,7 @@ fun DetailScreen(
                 counter,
                 isExpanded,
                 isFavFood = isFavoriteFood,
-                listReviewEntity = listReview,
+                listReview = listReview,
                 updateCounter = {
                     counter = it
                 })
@@ -164,7 +165,7 @@ private fun Body(
     isExpanded: Boolean,
     isFavFood: Boolean,
     updateCounter: (Int) -> Unit,
-    listReviewEntity: List<ReviewEntity>
+    listReview: List<Review?>
 ) {
 
     var counter1 by remember {
@@ -243,8 +244,8 @@ private fun Body(
             })
         }
         LazyRow {
-            items(listReviewEntity.size) {
-                CardReview(reviewEntity = listReviewEntity[it])
+            items(listReview.size) {
+                listReview[it]?.let { it1 -> CardReview(review = it1) }
             }
         }
     }

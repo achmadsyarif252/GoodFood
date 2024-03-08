@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.example.goodfood.R
 
 @Entity("table_restaurant")
-data class Restaurant(
+data class RestaurantEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
@@ -20,6 +20,6 @@ data class Restaurant(
     val isFavorite: Boolean = false
 )
 
-val restaurants = listOf(
-    Restaurant(0, "Bakso Malang", "Jakarta", 1995, "4.5", R.drawable.resto1, isFavorite = false),
+val restaurantEntities = listOf(
+    RestaurantEntity(0, "Bakso Malang", "Jakarta", 1995, "4.5", R.drawable.resto1, isFavorite = false),
 )

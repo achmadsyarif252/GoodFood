@@ -4,7 +4,7 @@ import com.example.goodfood.core.data.source.local.entity.UserEntity
 
 
 interface IUserDataSource {
-    fun getUser(email: String, password: String): UserEntity
+    fun getUser(email: String, password: String): UserEntity?
 
     fun isAlreadyExist(email: String): UserEntity?
 

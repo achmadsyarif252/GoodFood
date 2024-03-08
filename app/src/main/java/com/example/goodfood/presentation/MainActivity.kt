@@ -74,7 +74,7 @@ fun MyApp(
     )
     var username by rememberSaveable { mutableStateOf("") }
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
-    val allReviews by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
+    val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
     // Membuat sebuah NavController
     val navController = rememberNavController()

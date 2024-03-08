@@ -1,28 +1,28 @@
 package com.example.goodfood.core.data.source.local
 
+import com.example.goodfood.core.data.source.local.entity.RestaurantEntity
 import com.example.goodfood.core.data.source.local.room.RestaurantDao
-import com.example.goodfood.core.data.source.local.entity.Restaurant
 import kotlinx.coroutines.flow.Flow
 
 class RestaurantDataSource(private val restaurantDao: RestaurantDao) : IRestaurantDataSource {
-    override fun getAllRestaurant(): Flow<List<Restaurant>> {
+    override fun getAllRestaurant(): Flow<List<RestaurantEntity>> {
         return restaurantDao.getAllRestaurant()
     }
 
-    override suspend fun insertAllRestaurant(list: List<Restaurant>) {
+    override suspend fun insertAllRestaurant(list: List<RestaurantEntity>) {
         restaurantDao.insertAllRestaurant(list)
     }
 
-    override suspend fun insert(restaurant: Restaurant) {
-        restaurantDao.insert(restaurant)
+    override suspend fun insert(restaurantEntity: RestaurantEntity) {
+        restaurantDao.insert(restaurantEntity)
     }
 
-    override suspend fun update(restaurant: Restaurant) {
-        restaurantDao.update(restaurant)
+    override suspend fun update(restaurantEntity: RestaurantEntity) {
+        restaurantDao.update(restaurantEntity)
     }
 
-    override suspend fun delete(restaurant: Restaurant) {
-        restaurantDao.delete(restaurant)
+    override suspend fun delete(restaurantEntity: RestaurantEntity) {
+        restaurantDao.delete(restaurantEntity)
     }
 
     override suspend fun isRestaurantEmpty(): Boolean {

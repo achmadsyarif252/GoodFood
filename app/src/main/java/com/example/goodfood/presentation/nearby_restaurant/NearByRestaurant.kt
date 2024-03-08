@@ -29,7 +29,7 @@ fun NearbyRestaurant(
             TopBarDefault(text = "NearBy Restaurant")
         }
     ) {
-        val allRestaurants by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
+        val allRestaurants by restaurantViewModel.allRestaurantEntity.observeAsState(initial = emptyList())
 
         val innerPadding = it
         LazyVerticalStaggeredGrid(

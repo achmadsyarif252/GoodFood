@@ -47,7 +47,7 @@ fun DetailResto(restaurantIndex: String) {
     val factory = FoodViewModelFactory.getInstance()
     val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
 
-    val allResto by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
+    val allResto by restaurantViewModel.allRestaurantEntity.observeAsState(initial = emptyList())
     val restaurant = allResto.getOrNull(restaurantIndex.toInt())
     val isFav = restaurant?.isFavorite ?: false
 

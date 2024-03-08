@@ -110,7 +110,7 @@ fun FavoriteScreenContent(
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val listFavFood = allFoods.filter { it.isFavorite }
 
-    val allRestaurant by restaurantViewModel.allRestaurant.observeAsState(initial = emptyList())
+    val allRestaurant by restaurantViewModel.allRestaurantEntity.observeAsState(initial = emptyList())
     val listFavResto = allRestaurant.filter { it.isFavorite }
 
     if (isFoodSelected && listFavFood.isNotEmpty())

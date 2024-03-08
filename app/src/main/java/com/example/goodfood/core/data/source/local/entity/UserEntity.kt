@@ -9,8 +9,8 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val email: String,
-    val password: String,
+    val email: String="",
+    val password: String="",
     val phoneNumber: String = "0895384252730",
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB) val image: ByteArray? = null
 

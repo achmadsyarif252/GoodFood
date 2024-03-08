@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
-import com.example.goodfood.core.data.source.local.entity.UserEntity
+import com.example.goodfood.core.domain.model.User
 import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
@@ -137,14 +137,14 @@ fun SignUpScreen(
                     } else {
                         confirmPasswordError = false
                     }
-                    if (isUserExist != null) {
+                    if (isUserExist?.password != "") {
                         usernameError = true
                     } else {
                         usernameError = false
                     }
                     if (!confirmPasswordError && !usernameError) {
                         registerViewModel.insert(
-                            UserEntity(
+                            User(
                                 id = 0,
                                 email = usernameTextField,
                                 password = passwordConfirmTextField

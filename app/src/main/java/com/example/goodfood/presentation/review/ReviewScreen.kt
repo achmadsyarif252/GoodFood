@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.data.SimpleDataDummy
-import com.example.goodfood.core.data.source.local.entity.ReviewEntity
+import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
@@ -67,7 +67,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
     val ctx = LocalContext.current
     val factory = FoodViewModelFactory.getInstance()
     val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
-    val reviews by reviewViewModel.allReviewEntity.observeAsState(initial = emptyList())
+    val reviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
     Scaffold(
         topBar = {
@@ -100,7 +100,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
                         val dismissState = rememberDismissState()
                         if (dismissState.isDismissed(direction = DismissDirection.EndToStart)) {
                             Toast.makeText(ctx, "Review Dihapus", Toast.LENGTH_SHORT).show()
-                            reviewViewModel.delete(reviews[it])
+                            reviews[it]?.let { it1 -> reviewViewModel.delete(it1) }
                         }
 
                         SwipeToDismiss(state = dismissState, background = {
@@ -132,7 +132,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
                             }
 
                         }, dismissContent = {
-                            CardReview(reviewEntity = reviews[it])
+                            reviews[it]?.let { it1 -> CardReview(review = it1) }
                         }, directions = setOf(DismissDirection.EndToStart))
 
                     }
@@ -161,7 +161,7 @@ fun ReviewScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
+fun CardReview(modifier: Modifier = Modifier, review: Review) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -193,7 +193,7 @@ fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
             ) {
                 Image(
                     contentScale = ContentScale.Crop,
-                    painter = painterResource(id = reviewEntity.photo),
+                    painter = painterResource(id = review.photo),
                     contentDescription = null,
                     modifier = Modifier
                         .clip(
@@ -209,10 +209,10 @@ fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
                         .height(30.dp)
 
                 )
-                Text(text = reviewEntity.name, fontSize = 18.sp, overflow = TextOverflow.Ellipsis)
+                Text(text = review.name, fontSize = 18.sp, overflow = TextOverflow.Ellipsis)
                 Spacer(modifier = Modifier.weight(1f))
                 Row {
-                    repeat(reviewEntity.rating) {
+                    repeat(review.rating) {
                         Icon(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Default.Star,
@@ -224,7 +224,7 @@ fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
             }
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 Image(
-                    painter = painterResource(id = reviewEntity.foodEntity.image),
+                    painter = painterResource(id = review.photo),
                     contentDescription = "Food Image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -237,7 +237,7 @@ fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
             }
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = reviewEntity.review,
+                text = review.review,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Light,
                 maxLines = 3,
@@ -252,6 +252,6 @@ fun CardReview(modifier: Modifier = Modifier, reviewEntity: ReviewEntity) {
 @Composable
 private fun CardReviewPreview() {
     FoodAppsTheme {
-        CardReview(reviewEntity = SimpleDataDummy.listReviewEntity[0])
+        CardReview(review = SimpleDataDummy.listReviewEntity[0])
     }
 }
