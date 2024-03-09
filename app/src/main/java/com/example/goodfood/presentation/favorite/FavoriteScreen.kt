@@ -44,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.domain.model.Food
@@ -104,7 +105,7 @@ fun FavoriteScreenContent(
     isFoodSelected: Boolean,
 ) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
     val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
@@ -198,7 +199,7 @@ fun CardFavorite(
     food: Food,
 ) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
 
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()
@@ -287,6 +288,6 @@ fun CardFavorite(
 @Composable
 private fun CardFavoritePreview() {
     FoodAppsTheme {
-        CardFavorite(food = Food(0,0,"", 1, "", 12.0, "", false))
+        CardFavorite(food = Food(0, 0, "", 1, "", 12.0, "", false))
     }
 }

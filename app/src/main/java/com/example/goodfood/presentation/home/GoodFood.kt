@@ -19,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.presentation.FoodViewModelFactory
@@ -83,7 +83,7 @@ fun HeaderSection(modifier: Modifier = Modifier) {
 @Composable
 fun FoodCarouselSection(modifier: Modifier = Modifier) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
     val allFoods by foodViewModel.allFood.observeAsState()
 
     LazyRow(
@@ -101,7 +101,7 @@ fun FoodCarouselSection(modifier: Modifier = Modifier) {
 
 @Composable
 fun BestDishes(
-    modifier: Modifier = Modifier, foodViewModel: FoodViewModel = viewModel()
+    modifier: Modifier = Modifier, foodViewModel: FoodViewModel = hiltViewModel()
 ) {
     val allFoods by foodViewModel.allFood.observeAsState()
 

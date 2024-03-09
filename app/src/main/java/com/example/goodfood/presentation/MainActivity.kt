@@ -43,9 +43,10 @@ import com.example.goodfood.presentation.review.ReviewScreen
 import com.example.goodfood.presentation.review.ReviewViewModel
 import com.example.goodfood.presentation.topupscreen.SavingAccountScreen
 import com.example.goodfood.ui.theme.FoodAppsTheme
+import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

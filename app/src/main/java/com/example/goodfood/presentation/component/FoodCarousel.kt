@@ -1,6 +1,5 @@
 package com.example.goodfood.presentation.component
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,10 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.home.FoodViewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,7 +38,7 @@ fun CardFoodCarousel(
     cardColor: Color,
 ) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
 
     val navController = LocalNavController.current
     val allFoods by foodViewModel.allFood.observeAsState()
@@ -47,7 +46,6 @@ fun CardFoodCarousel(
     Card(
         onClick = {
             navController.navigate("detail/${foodIndex}")
-            Log.d("COBLOS", "$foodIndex")
         },
         modifier = modifier
             .width(170.dp)

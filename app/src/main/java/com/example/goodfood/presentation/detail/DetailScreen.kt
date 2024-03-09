@@ -55,6 +55,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.goodfood.core.domain.model.Food
@@ -75,7 +76,7 @@ fun DetailScreen(
     foodIndex: String,
 ) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
     val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
@@ -254,7 +255,7 @@ private fun Body(
 @Composable
 private fun InfoDetail(food: Food, isFav: Boolean) {
     val factory = FoodViewModelFactory.getInstance()
-    val foodViewModel: FoodViewModel = viewModel(factory = factory)
+    val foodViewModel: FoodViewModel = hiltViewModel()
     val ctx = LocalContext.current
     val allFood by foodViewModel.allFood.observeAsState(initial = emptyList())
 

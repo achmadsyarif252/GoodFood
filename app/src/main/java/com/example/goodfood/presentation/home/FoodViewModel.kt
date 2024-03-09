@@ -6,9 +6,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.core.domain.usecase.FoodUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FoodViewModel(private val foodUseCase: FoodUseCase) : ViewModel() {
+@HiltViewModel
+class FoodViewModel @Inject constructor(private val foodUseCase: FoodUseCase) : ViewModel() {
     val allFood: LiveData<List<Food>> = foodUseCase.getListFood().asLiveData()
 
     init {
