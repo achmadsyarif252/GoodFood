@@ -11,7 +11,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -21,8 +21,7 @@ import com.example.goodfood.ui.theme.FoodAppsTheme
 fun NearbyRestaurant(
     modifier: Modifier = Modifier,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
-    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
+    val restaurantViewModel: RestaurantViewModel = hiltViewModel()
 
     Scaffold(
         topBar = {

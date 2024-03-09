@@ -6,9 +6,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.data.source.local.entity.MyWallet
 import com.example.goodfood.core.domain.usecase.WalletUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WalletViewModel(private val walletUseCase: WalletUseCase) : ViewModel() {
+@HiltViewModel
+class WalletViewModel @Inject constructor(private val walletUseCase: WalletUseCase) : ViewModel() {
     val allWallet: LiveData<List<MyWallet>> = walletUseCase.getAllWallet().asLiveData()
 
     init {

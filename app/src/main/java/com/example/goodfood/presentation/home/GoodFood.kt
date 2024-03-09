@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.bottombar.BottomNavigation
 import com.example.goodfood.presentation.component.CardBestDishes
 import com.example.goodfood.presentation.component.CardFoodCarousel
@@ -82,7 +81,6 @@ fun HeaderSection(modifier: Modifier = Modifier) {
 
 @Composable
 fun FoodCarouselSection(modifier: Modifier = Modifier) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
     val allFoods by foodViewModel.allFood.observeAsState()
 

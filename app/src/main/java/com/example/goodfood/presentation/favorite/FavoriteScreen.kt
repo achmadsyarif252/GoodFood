@@ -45,10 +45,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.domain.model.Food
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.CardRestaurant
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -104,9 +102,8 @@ fun FavoriteScreenContent(
     modifier: Modifier = Modifier,
     isFoodSelected: Boolean,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
-    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
+    val restaurantViewModel: RestaurantViewModel = hiltViewModel()
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val listFavFood = allFoods.filter { it.isFavorite }
@@ -198,7 +195,6 @@ fun CardFavorite(
     modifier: Modifier = Modifier,
     food: Food,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
 
     val navController = LocalNavController.current

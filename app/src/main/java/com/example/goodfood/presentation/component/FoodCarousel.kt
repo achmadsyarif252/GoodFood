@@ -26,7 +26,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.home.FoodViewModel
 
@@ -37,9 +36,7 @@ fun CardFoodCarousel(
     foodIndex: Int,
     cardColor: Color,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
-
     val navController = LocalNavController.current
     val allFoods by foodViewModel.allFood.observeAsState()
     val food = allFoods!![foodIndex]

@@ -56,12 +56,10 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.presentation.component.AddMinQty
@@ -75,9 +73,8 @@ fun DetailScreen(
     navController: NavController,
     foodIndex: String,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
-    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
 
     val allFoods by foodViewModel.allFood.observeAsState(initial = emptyList())
     val food = allFoods.getOrNull(foodIndex.toInt())
@@ -254,7 +251,6 @@ private fun Body(
 
 @Composable
 private fun InfoDetail(food: Food, isFav: Boolean) {
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
     val ctx = LocalContext.current
     val allFood by foodViewModel.allFood.observeAsState(initial = emptyList())
@@ -335,8 +331,7 @@ private fun TopAppBarDetail(navController: NavController, showDialog: () -> Unit
 
 @Composable
 private fun FloatingButton(food: Food, total: Int) {
-    val factory = FoodViewModelFactory.getInstance()
-    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
+    val transactionViewModel: TransactionViewModel = hiltViewModel()
     val transaction by transactionViewModel.allTransaction.observeAsState(initial = emptyList())
 
     val ctx = LocalContext.current

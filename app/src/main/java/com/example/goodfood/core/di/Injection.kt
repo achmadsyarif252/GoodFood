@@ -1,6 +1,12 @@
 package com.example.goodfood.core.di
 
-import android.content.Context
+import android.app.Application
+import com.example.goodfood.core.data.repository.FoodRepositoryImpl
+import com.example.goodfood.core.data.repository.RestaurantRepositoryImpl
+import com.example.goodfood.core.data.repository.ReviewRepositoryImpl
+import com.example.goodfood.core.data.repository.TransactionRepositoryImpl
+import com.example.goodfood.core.data.repository.UserRepositoryImpl
+import com.example.goodfood.core.data.repository.WalletRepositoryImpl
 import com.example.goodfood.core.data.source.local.FoodDataSource
 import com.example.goodfood.core.data.source.local.IFoodDataSource
 import com.example.goodfood.core.data.source.local.IRestaurantDataSource
@@ -13,19 +19,13 @@ import com.example.goodfood.core.data.source.local.ReviewDataSource
 import com.example.goodfood.core.data.source.local.TransactionDataSource
 import com.example.goodfood.core.data.source.local.UserDataSource
 import com.example.goodfood.core.data.source.local.WalletDataSource
-import com.example.goodfood.core.data.repository.FoodRepositoryImpl
-import com.example.goodfood.core.data.repository.RestaurantRepositoryImpl
-import com.example.goodfood.core.data.repository.ReviewRepositoryImpl
-import com.example.goodfood.core.data.repository.TransactionRepositoryImpl
-import com.example.goodfood.core.data.repository.UserRepositoryImpl
-import com.example.goodfood.core.data.repository.WalletRepositoryImpl
 import com.example.goodfood.core.data.source.local.room.FoodDao
+import com.example.goodfood.core.data.source.local.room.FoodDatabase
 import com.example.goodfood.core.data.source.local.room.RestaurantDao
 import com.example.goodfood.core.data.source.local.room.ReviewDao
 import com.example.goodfood.core.data.source.local.room.TransactionDao
 import com.example.goodfood.core.data.source.local.room.UserDao
 import com.example.goodfood.core.data.source.local.room.WalletDao
-import com.example.goodfood.core.data.source.local.room.FoodDatabase
 import com.example.goodfood.core.domain.repository.IFoodRepository
 import com.example.goodfood.core.domain.repository.IRestaurantRepository
 import com.example.goodfood.core.domain.repository.IReviewRepository
@@ -47,13 +47,13 @@ import com.example.goodfood.core.domain.usecase.WalletUseCase
 
 
 object Injection {
-    private lateinit var appContext: Context
+    private lateinit var appContext: Application
 
-    fun init(context: Context) {
-        this.appContext = context.applicationContext
+    fun init(application: Application) {
+        this.appContext = application
     }
 
-    fun provideContext(): Context {
+    fun provideContext(): Application {
         return appContext
     }
 

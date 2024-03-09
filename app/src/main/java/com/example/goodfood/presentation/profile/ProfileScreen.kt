@@ -48,12 +48,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.data.LoginInfo
-import com.example.goodfood.presentation.UserViewModelFactory
 import com.example.goodfood.core.data.source.local.entity.MyWallet
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.ExitDialog
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -68,9 +66,7 @@ fun ProfileScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val viewModel: LogoutViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
+    val viewModel: LogoutViewModel = hiltViewModel()
 
     val localNavController = LocalNavController.current
     var showDialog by remember {
@@ -159,11 +155,8 @@ fun Body(modifier: Modifier = Modifier, ineerPadding: PaddingValues) {
 @Composable
 fun Header(modifier: Modifier = Modifier) {
     val context = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
-    val userViewModel: RegisterViewModel = viewModel(factory = factory)
-    val viewModel: LoginViewModel = viewModel(
-        factory = factory
-    )
+    val userViewModel: RegisterViewModel = hiltViewModel()
+    val viewModel: LoginViewModel = hiltViewModel()
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
 
     val accountInfo by userViewModel.isAlreadyExist(
@@ -226,8 +219,7 @@ fun Header(modifier: Modifier = Modifier) {
 
 @Composable
 fun PointsSaldo(modifier: Modifier = Modifier) {
-    val factory = FoodViewModelFactory.getInstance()
-    val walletViewModel: WalletViewModel = viewModel(factory = factory)
+    val walletViewModel: WalletViewModel = hiltViewModel()
     val myWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(16.dp))

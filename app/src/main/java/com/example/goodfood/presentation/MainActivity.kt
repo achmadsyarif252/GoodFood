@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -67,12 +67,9 @@ fun MyApp(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
-    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
+    val viewModel: LoginViewModel = hiltViewModel()
 
-    val viewModel: LoginViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
     var username by rememberSaveable { mutableStateOf("") }
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
     val allReviews by reviewViewModel.allReview.observeAsState(initial = emptyList())

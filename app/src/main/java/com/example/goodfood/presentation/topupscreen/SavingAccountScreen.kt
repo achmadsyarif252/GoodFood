@@ -7,18 +7,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.goodfood.presentation.FoodViewModelFactory
-import com.example.goodfood.presentation.payment.WalletViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.presentation.component.SavingsAccountCard
 import com.example.goodfood.presentation.component.TopBarDefault
+import com.example.goodfood.presentation.payment.WalletViewModel
 
 @Composable
 fun SavingAccountScreen(
     modifier: Modifier = Modifier,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
-    val paymentMethodViewModel: WalletViewModel = viewModel(factory = factory)
+    val paymentMethodViewModel: WalletViewModel = hiltViewModel()
     val allPaymentMethod by paymentMethodViewModel.allWallet.observeAsState(initial = emptyList())
 
     Scaffold(

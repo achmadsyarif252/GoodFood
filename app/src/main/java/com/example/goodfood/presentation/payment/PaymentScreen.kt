@@ -53,10 +53,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.core.data.source.local.entity.MyWallet
 import com.example.goodfood.core.data.source.local.entity.PaymentMethod
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.Gold
@@ -155,8 +154,7 @@ fun PaymentScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun PaymentMethod(modifier: Modifier = Modifier) {
-    val factory = FoodViewModelFactory.getInstance()
-    val walletViewModel: WalletViewModel = viewModel(factory = factory)
+    val walletViewModel: WalletViewModel = hiltViewModel()
 
     val allWallet by walletViewModel.allWallet.observeAsState(initial = emptyList())
 
@@ -197,9 +195,8 @@ fun DetailPayment(
     modifier: Modifier = Modifier,
     myWallet: MyWallet,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
-    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
-    val walletViewModel: WalletViewModel = viewModel(factory = factory)
+    val transactionViewModel: TransactionViewModel = hiltViewModel()
+    val walletViewModel: WalletViewModel = hiltViewModel()
     val foodPrice by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)
     val shippingFee = if (foodPrice > 0.0) 1.2 else 0.0
     val total = foodPrice + shippingFee

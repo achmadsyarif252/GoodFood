@@ -29,9 +29,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.core.domain.model.Restaurant
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
 
@@ -41,8 +40,7 @@ fun CardRestaurant(
     restaurant: Restaurant,
     modifier: Modifier,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
-    val restaurantViewModel: RestaurantViewModel = viewModel(factory = factory)
+    val restaurantViewModel: RestaurantViewModel = hiltViewModel()
 
     val navController = LocalNavController.current
     val allRestaurant by restaurantViewModel.allRestaurantEntity.observeAsState(initial = emptyList())

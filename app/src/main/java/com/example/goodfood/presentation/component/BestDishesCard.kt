@@ -30,9 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.goodfood.core.domain.model.Transaction
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.cart.TransactionViewModel
 import com.example.goodfood.presentation.home.FoodDescription
@@ -45,9 +43,8 @@ fun CardBestDishes(
     foodIndex: Int,
 ) {
     val ctx = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
     val foodViewModel: FoodViewModel = hiltViewModel()
-    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
+    val transactionViewModel: TransactionViewModel = hiltViewModel()
 
     val navController = LocalNavController.current
     val allFood by foodViewModel.allFood.observeAsState()

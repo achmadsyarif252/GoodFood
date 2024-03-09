@@ -6,16 +6,19 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.Review
 import com.example.goodfood.core.domain.usecase.ReviewUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class ReviewScreenUIState(
     val review: List<Review> = emptyList()
 )
 
-class ReviewViewModel(private val reviewUseCase: ReviewUseCase) : ViewModel() {
+@HiltViewModel
+class ReviewViewModel @Inject constructor(private val reviewUseCase: ReviewUseCase) : ViewModel() {
     val allReview: LiveData<List<Review?>> = reviewUseCase.getReviews().asLiveData()
 
     private val _state = MutableStateFlow(ReviewScreenUIState())

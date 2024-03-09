@@ -1,6 +1,6 @@
 package com.example.goodfood.presentation
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.goodfood.core.di.Injection
@@ -10,21 +10,27 @@ import com.example.goodfood.core.domain.usecase.ReviewUseCase
 import com.example.goodfood.core.domain.usecase.TransactionUseCase
 import com.example.goodfood.core.domain.usecase.UserUseCase
 import com.example.goodfood.core.domain.usecase.WalletUseCase
-import com.example.goodfood.presentation.login.LoginViewModel
-import com.example.goodfood.presentation.register.RegisterViewModel
-import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
 import com.example.goodfood.presentation.cart.TransactionViewModel
-import com.example.goodfood.presentation.payment.WalletViewModel
 import com.example.goodfood.presentation.home.FoodViewModel
+import com.example.goodfood.presentation.login.LoginViewModel
+import com.example.goodfood.presentation.nearby_restaurant.RestaurantViewModel
+import com.example.goodfood.presentation.payment.WalletViewModel
+import com.example.goodfood.presentation.register.RegisterViewModel
 import com.example.goodfood.presentation.review.ReviewViewModel
 
+/**
+ * ViewModelFactory untuk inject konstruktor ke viewmodel
+ * cara pemakaian
+ * val factory = FoodViewModelFactory.getInstance()
+ * val foodViewModel:FoodViewModel = viewModel(factory=factory)
+ */
 class FoodViewModelFactory(
     private var foodUseCase: FoodUseCase,
     private var restaurantUseCase: RestaurantUseCase,
     private var reviewUseCase: ReviewUseCase,
     private var transactionUseCase: TransactionUseCase,
     private var userUseCase: UserUseCase,
-    private var context: Context,
+    private var application: Application,
     private var walletUseCase: WalletUseCase,
 
     ) : ViewModelProvider.NewInstanceFactory() {
@@ -39,7 +45,7 @@ class FoodViewModelFactory(
                 Injection.provideReviewUseCase(),
                 Injection.provideTransactionUseCase(),
                 Injection.provideUserUseCase(),
-                context = Injection.provideContext(),
+                application = Injection.provideContext(),
                 Injection.provideWalletUseCase()
             )
         }
@@ -64,11 +70,12 @@ class FoodViewModelFactory(
                 userUseCase
             ) as T
 
-            modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(context) as T
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> LoginViewModel(application = application) as T
 
             modelClass.isAssignableFrom(WalletViewModel::class.java) -> WalletViewModel(
                 walletUseCase
             ) as T
+
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }

@@ -6,10 +6,12 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.User
 import com.example.goodfood.core.domain.usecase.UserUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-class RegisterViewModel(private val userUseCase: UserUseCase) : ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class RegisterViewModel @Inject constructor(private val userUseCase: UserUseCase) : ViewModel() {
 
     fun getUser(email: String, password: String): LiveData<User> {
         return liveData(Dispatchers.IO) {

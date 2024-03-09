@@ -40,14 +40,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import com.example.goodfood.R
 import com.example.goodfood.core.data.LoginInfo
-import com.example.goodfood.presentation.UserViewModelFactory
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.login.LoginViewModel
 import com.example.goodfood.presentation.register.RegisterViewModel
 import com.example.goodfood.ui.theme.Gold
@@ -65,15 +63,12 @@ fun ProfileImage(
 
     ) {
     val context = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
-    val userViewModel: RegisterViewModel = viewModel(factory = factory)
+    val userViewModel: RegisterViewModel = hiltViewModel()
 
     var isUserPhotoEmpty by remember {
         mutableStateOf(imageUri == null)
     }
-    val viewModel: LoginViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
+    val viewModel: LoginViewModel = hiltViewModel()
     val loginInfo by viewModel.loginInfo.observeAsState(LoginInfo(false, ""))
 
     val accountInfo by userViewModel.isAlreadyExist(

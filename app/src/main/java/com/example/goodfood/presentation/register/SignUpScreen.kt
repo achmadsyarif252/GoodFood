@@ -33,10 +33,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.domain.model.User
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
@@ -48,8 +47,7 @@ fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
     val ctx = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
-    val registerViewModel: RegisterViewModel = viewModel(factory = factory)
+    val registerViewModel: RegisterViewModel = hiltViewModel()
 
     val localNavController = LocalNavController.current
 

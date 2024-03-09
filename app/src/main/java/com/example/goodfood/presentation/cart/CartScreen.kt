@@ -33,9 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.CartCard
 import com.example.goodfood.presentation.component.TopBarDefault
@@ -47,8 +46,7 @@ import com.example.goodfood.ui.theme.Gold
 fun CartScreen(
     modifier: Modifier = Modifier,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
-    val transactionViewModel: TransactionViewModel = viewModel(factory = factory)
+    val transactionViewModel: TransactionViewModel = hiltViewModel()
 
     val allTransaction by transactionViewModel.allTransaction.observeAsState()
     val subTotal by transactionViewModel.getSubTotal().collectAsState(initial = 0.0)

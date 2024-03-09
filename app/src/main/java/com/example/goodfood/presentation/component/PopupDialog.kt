@@ -35,11 +35,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.domain.model.Food
 import com.example.goodfood.core.domain.model.Review
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.review.ReviewViewModel
 
 
@@ -52,8 +51,7 @@ fun RatingDialog(
 ) {
     val ctx = LocalContext.current
     // state untuk menyimpan nilai rating
-    val factory = FoodViewModelFactory.getInstance()
-    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
 
     var rating by rememberSaveable { mutableStateOf(0f) }
     var isError by rememberSaveable { mutableStateOf(false) }

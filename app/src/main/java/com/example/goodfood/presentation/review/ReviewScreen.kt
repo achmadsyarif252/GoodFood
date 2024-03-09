@@ -52,11 +52,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
 import com.example.goodfood.core.data.SimpleDataDummy
 import com.example.goodfood.core.domain.model.Review
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.component.TopBarDefault
 import com.example.goodfood.ui.theme.FoodAppsTheme
 import com.example.goodfood.ui.theme.Gold
@@ -65,8 +64,7 @@ import com.example.goodfood.ui.theme.Gold
 @Composable
 fun ReviewScreen(modifier: Modifier = Modifier) {
     val ctx = LocalContext.current
-    val factory = FoodViewModelFactory.getInstance()
-    val reviewViewModel: ReviewViewModel = viewModel(factory = factory)
+    val reviewViewModel: ReviewViewModel = hiltViewModel()
     val reviews by reviewViewModel.allReview.observeAsState(initial = emptyList())
 
     Scaffold(

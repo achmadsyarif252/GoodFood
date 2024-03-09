@@ -32,10 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.goodfood.R
-import com.example.goodfood.presentation.UserViewModelFactory
-import com.example.goodfood.presentation.FoodViewModelFactory
 import com.example.goodfood.presentation.LocalNavController
 import com.example.goodfood.presentation.component.OutlineTextFieldPassword
 import com.example.goodfood.presentation.component.OutlineTextFieldUsername
@@ -46,12 +44,9 @@ import com.example.goodfood.ui.theme.OrangeColor
 fun LoginScreen(
     modifier: Modifier = Modifier,
 ) {
-    val factory = FoodViewModelFactory.getInstance()
     val context = LocalContext.current
-    val viewModel: LoginViewModel = viewModel(
-        factory = UserViewModelFactory(context)
-    )
-    val userViewModel: RegisterViewModel = viewModel(factory = factory)
+    val viewModel: LoginViewModel = hiltViewModel()
+    val userViewModel: RegisterViewModel = hiltViewModel()
 
     val localNavController = LocalNavController.current
 

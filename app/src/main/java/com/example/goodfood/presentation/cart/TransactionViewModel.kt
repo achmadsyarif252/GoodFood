@@ -6,10 +6,15 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.Transaction
 import com.example.goodfood.core.domain.usecase.TransactionUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TransactionViewModel(private val transactionUseCase: TransactionUseCase) : ViewModel() {
-    val allTransaction: LiveData<List<Transaction>> = transactionUseCase.getAllTransaction().asLiveData()
+@HiltViewModel
+class TransactionViewModel @Inject constructor(private val transactionUseCase: TransactionUseCase) :
+    ViewModel() {
+    val allTransaction: LiveData<List<Transaction>> =
+        transactionUseCase.getAllTransaction().asLiveData()
 
     fun getSubTotal() = transactionUseCase.getSubTotal()
 

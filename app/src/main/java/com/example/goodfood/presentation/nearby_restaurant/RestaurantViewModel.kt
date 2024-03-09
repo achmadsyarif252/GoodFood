@@ -6,10 +6,15 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.domain.model.Restaurant
 import com.example.goodfood.core.domain.usecase.RestaurantUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RestaurantViewModel(private val restaurantUseCase: RestaurantUseCase) : ViewModel() {
-    val allRestaurantEntity: LiveData<List<Restaurant>> = restaurantUseCase.getAllRestaurant().asLiveData()
+@HiltViewModel
+class RestaurantViewModel @Inject constructor(private val restaurantUseCase: RestaurantUseCase) :
+    ViewModel() {
+    val allRestaurantEntity: LiveData<List<Restaurant>> =
+        restaurantUseCase.getAllRestaurant().asLiveData()
 
     init {
         insertAllRestaurant()

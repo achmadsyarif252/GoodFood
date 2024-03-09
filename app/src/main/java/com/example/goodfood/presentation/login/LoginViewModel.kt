@@ -1,6 +1,6 @@
 package com.example.goodfood.presentation.login
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -8,14 +8,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.goodfood.core.data.LoginInfo
 import com.example.goodfood.core.data.UserPreferences
 import com.example.goodfood.core.data.UserPreferences.loginInfo
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val context: Context):ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val application: Application) : ViewModel() {
     // LiveData yang diobservasi oleh UI
-    val loginInfo: LiveData<LoginInfo> = context.loginInfo.asLiveData()
+    val loginInfo: LiveData<LoginInfo> = application.loginInfo.asLiveData()
     fun saveLoginInfo(username: String, isLoggedIn: Boolean) {
         viewModelScope.launch {
-            UserPreferences.saveUserLogin(context, username, isLoggedIn)
+            UserPreferences.saveUserLogin(application, username, isLoggedIn)
         }
     }
 }
